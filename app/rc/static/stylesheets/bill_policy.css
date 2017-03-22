@@ -1,0 +1,97 @@
+
+
+label {
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+
+
+.form_checkbox{
+    margin-left: 10px !important;
+    margin-top: 8px !important;
+    width: 15px;
+    height: 16px;
+}
+
+.tab-content .tab-pane
+{
+    background:rgba(0,0,0,0);
+}
+
+.title_container{
+    background:#edf0f5;
+    padding-top:5px;
+}
+
+.title_container li a {
+    padding-bottom:3px;
+    padding-top:3px;
+}
+
+.detail_div{
+    width: 500px !important;
+    height: 580px !important;
+}
+
+.price_button_div{
+    margin: 10px 0 10px 0;
+}
+
+.table_div{
+    margin: 0 10px 0 15px;
+}
+
+.price_input{
+    width: 30%;
+}
+
+.price_conf{
+    margin-left: 150px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.conf_input{
+    width: 30%;
+    margin-left: 10px;
+}
+.price_type{
+    float: left;
+    width: 20%;
+}
+.price_num{
+    float: left;
+    width: 80%;
+}
+
+.tds{
+    width:34%;
+}
+
+/*
+
+.machine-name{
+    border: 1px solid #ecf0f2;
+    border-radius: 4px;
+    height: 30px;
+    padding-left: 10px;
+	margin-left: 9px;
+    width: 55%;
+}
+
+.machine-name:hover, .machine-name:focus {
+    border: 1px solid #5fb2ef;
+}
+.Mirror_list_div {
+    color: #5b6775;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: -15px;
+    margin-top: 20px;
+}
+
+.Mirror_list_div > div {
+    margin-bottom: 15px;
+}
+*/

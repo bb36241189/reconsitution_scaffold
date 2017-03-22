@@ -1,0 +1,176 @@
+<link ng-href="//static_url('stylesheets/temp.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>配置</li>
+                    <li class="active">部门管理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" >
+        <div  class="col-md-12">
+            <div class="row">
+                <div  class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div id="toolbar_container">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-padding btn-status-blueLake"  name="refresh_department" id="refresh_department"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                                    <button name="add_department" id="add_department" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_department_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                                    <button name="edit_department" id="edit_department" class="table_button" data-toggle="modal" data-target="#edit_department_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                                    <button name="delete_department" id="delete_department" class="table_button" data-toggle="modal" data-target="#delete_department_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                                </div>
+                                <div class="search_div">
+                                    <input type="text" id="search_department_input" placeholder="搜索" class="table_search_input"/>
+                                    <img id="search_department_img" class="table_search_img" ng-src="//static_url('images/table_operate_button/search.png')//">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="col-md-12">
+                     <div class="table-responsive table_container">
+                        <table class="table" id="department_table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="tds">部门名称</th>
+                                    <th class="tds">描述</th>
+                                    <th class="tds">创建时间</th>
+                                    <th class="tds">更新时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="department_tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pagination_div">
+                    <div id="department_pagination" class="pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="header">
+
+    </div>
+</div>
+
+<!--create department modal-->
+<div id="create_department_modal" class="modal fade appmodal fadeIn" tabindex="-1" role="dialog" aria-labelledby="create_department_modalLabel" aria-hidden="true">
+   <div class="modal-dialog modal_dialog_style">
+       <div class="modal-content">
+         <div class="modal-header modal_header_style">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h4 class="modal-title modal_title_style">
+               <span class="glyphicon glyphicon-plus-sign"></span> 添加部门
+            </h4>
+         </div>
+           <div class="modal-body">
+               <form id="create_department_form">
+                   <div class="Mirror_list_div conf_style">
+                       <div id="create_name_div" class="control-group">
+                           <label for="create_department_name" class="control-label"><span class="red">*</span>名称:</label>
+                           <div class="controls">
+                               <input id="create_department_name" name="name" class="machine-name" type="text"  placeholder="长度3-60位字符">
+                               <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                               <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                               <div class="desc error_info hide"><span>名称不能为空</span></div>
+                           </div>
+                       </div>
+                       <div id="create_description_div" class="control-group textarea-group">
+                            <label for="create_description" class="description_lable control-label">描述:</label>
+                            <div class="controls">
+                                <textarea  class="form_textarea machine-name" name="description" id="create_description" placeholder="长度为0-1000个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1000字符</span></div>
+                            </div>
+                        </div>
+                   </div>
+               </form>
+           </div>
+           <div class="modal-footer modal_footer_edit_style">
+               <button class="table_button btn_default_style form_general_button" id="submit_create_department"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+               <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+           </div>
+       </div>
+   </div>
+</div>
+
+<!--edit department modal-->
+<div id="edit_department_modal" class="modal fade appmodal fadeIn" tabindex="-1" role="dialog" aria-labelledby="edit_department_modalLabel" aria-hidden="true">
+   <div class="modal-dialog modal_dialog_style">
+       <div class="modal-content">
+         <div class="modal-header modal_header_style">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+            </button>
+            <h4 class="modal-title modal_title_style">
+               <span class="glyphicon glyphicon-edit"></span> 修改部门信息
+            </h4>
+         </div>
+           <div class="modal-body">
+               <form id="edit_department_form">
+                   <div class="Mirror_list_div conf_style">
+                       <div id="edit_name_div" class="control-group">
+                           <label class="control-label" for="edit_department_name"><span class="red">*</span>名称:</label>
+                           <div class="controls">
+                               <input id="edit_department_name" name="name" class="machine-name" type="text"  placeholder="长度3-60位字符">
+                               <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                               <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                               <div class="desc error_info hide"><span>名称不能为空</span></div>
+                           </div>
+                       </div>
+                       <div id="edit_description_div" class="control-group textarea-group">
+                            <label for="edit_description" class="control-label">描述:</label>
+                            <div class="controls">
+                                <textarea  class="machine-name" name="description" id="edit_description" placeholder="长度为0-1000个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1000字符</span></div>
+                            </div>
+                        </div>
+                   </div>
+               </form>
+           </div>
+           <div class="modal-footer modal_footer_edit_style">
+               <button class="table_button btn_default_style form_general_button" id="submit_edit_department"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+               <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+           </div>
+       </div>
+   </div>
+</div>
+
+<!--delete user-->
+<div id="delete_department_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_department_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除该部门？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_department"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script ng-src="//static_url('javascripts/department.js')//" type="text/javascript"></script>

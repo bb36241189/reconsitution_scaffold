@@ -1,0 +1,78 @@
+<link ng-href="//static_url('stylesheets/login.css')//" rel="stylesheet"/>
+<div class="container">
+    <div class="page-home">
+
+        <div class="index_logo">
+
+        </div>
+
+        <div class="content-wrapper xinwen">
+            <div class="form-wrapper">
+                <form class="form login" id="login_form">
+                    <!--
+                    <h2>企业云综合管理平台门户</h2>
+                    -->
+                    <fieldset>
+                    <!--
+                        <div style="display:none">
+                            <input type="hidden" name="csrfmiddlewaretoken">
+                        </div>-->
+
+                        <div class="item user">
+                            <!--
+                            <span class="glyphicon glyphicon-user glyphicon_style"></span>
+                            -->
+                            <span class="glyphicon glyphicon_style"><img src="//static_url('images/navigation/icon/userlogin.png')//"/></span>
+                            <input type="text" placeholder="用户名" value="" name="user_name" id="user_name" class="required" />
+                            <span id="clear_user_name" class="glyphicon glyphicon_removes_signs_style" ><img src="//static_url('images/navigation/icon/deletelogin.png')//"/></span>
+                        </div>
+
+                        <div class="item password">
+                            <span class="glyphicon glyphicon_style"><img src="//static_url('images/navigation/icon/locklogin.png')//"/></span>
+                            <input type="password" placeholder="密码" value="" name="user_passwd" id="user_passwd" />
+                            <span id="clear_user_passwd" class="glyphicon glyphicon_removes_signs_style" ><img src="//static_url('images/navigation/icon/deletelogin.png')//"/></span>
+                        </div>
+
+                        <div class="item submit">
+                            <input class="btn btn-primary" id="login_button" type="button" value="登&nbsp;&nbsp;录" ng-click="exec('check')">
+                            <input class="btn btn-primary_style" id="login_button_style" type="button" value="正在登录......">
+                        </div>
+
+                    </fieldset>
+
+                    <div id="alert-user" class="alert alert-danger hidden" role="alert">
+                             <strong>错误：</strong>请输入您的用户名！
+                    </div>
+
+                    <div id="alert-pwd" class="alert alert-danger hidden" role="alert">
+                             <strong>错误：</strong>请输入您的密码！
+                    </div>
+
+                    <div id="alert-user_pwd" class="alert alert-danger hidden" role="alert">
+                             <strong>错误：</strong>请输入您的用户名和密码！
+                    </div>
+                    <div id="error_user_passwd" class="alert alert-danger hidden" role="alert">
+                             <strong>错误：</strong>输入的用户名或密码错误！
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div id="reference">
+        <div>
+            <a>首页</a>
+            |
+            <a>产品与服务</a>
+            |
+            <a>客户案例</a>
+            |
+            <a>关于我们</a>
+            |
+            <a>技术支持</a>
+        </div>
+        <span>Copyright © 2001-2016 PCloud 上海天玑科技股份有限公司</span>
+    </div>
+    -->
+</div>

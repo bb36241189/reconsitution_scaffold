@@ -1,0 +1,355 @@
+
+<link ng-href="//static_url('plugin/datetimepicker/css/bootstrap-datetimepicker.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/process.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" type="out_container">
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div style="float:right">
+                <button id="apply_create_server" ng-click="show_apply_server_modal('','',null,null,true);" class="btn btn-padding btn-status-blueLake">新的申请</button>
+            </div>
+            <div class="page-tab">
+                <ul id="title_tabs" class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">与我相关<span id="workingList_span" class="notification red">0</span></a></li>
+                </ul>
+            </div>
+            <div id="content_tabs" class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <div id="page_volume">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div  class="table-responsive table_container">
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th class="thead_checkbox"> </th>
+                                                <th class="tds">ID</th>
+                                                <th class="tds">主题</th>
+                                                <th class="tds">请求人</th>
+                                                <th class="tds">状态</th>
+                                                <th class="tds">创建日</th>
+
+
+                                                <th class="tds">优先级</th>
+                                                <th class="tds">描述</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="workinglist" class="trs">
+                                            <tr>
+                                                <td colspan="8">加载中...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pagination_div">
+                                <div id="workinglist_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="apply_server_modal" class="modal fade appmodal fadeIn" tabindex="-1" role="dialog"
+             aria-labelledby="apply_server_modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal_dialog_style" style="margin:79px auto">
+                <div class="modal-content">
+                    <div class="modal-header modal_header_style">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title modal_title_style">
+                            创建申请
+                        </h4>
+                    </div>
+                    <div class="modal-body ">
+                        <div class="Mirror_list_div">
+
+                            <div class="control-group">
+                                <div class="control-label">请求类型</div>
+                                <div clss="controls">
+                                    <label class="radio-inline">
+                                      <input type="radio" name="requestType" id="inlineRadioa2" value="tab_type2"> 服务请求
+                                    </label>
+                                    <label class="radio-inline">
+                                      <input type="radio" name="requestType" id="inlineRadioa3" value="tab_type3"> 故障报告
+                                    </label>
+                                    <div class="clear_both"></div>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label"><span class="red">*</span>优先级: </div>
+                                <div class="controls">
+                                    <select class="machine-name" id="apply_priority" name="priority" required>
+                                        <option value="Normal">普通</option>
+                                        <option value="High">高</option>
+                                        <option value="Medium">中</option>
+                                        <option value="Low">低</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label">主题</div>
+                                <div class="controls">
+                                    <input type="text" id="apply_subject" name="subject" test="test" class="machine-name"
+                                       data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                       required minlength="2" maxlength="30" placeholder="长度2-30字符"/>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <div class="control-label">描述</div>
+                                <div class="controls">
+                                    <textarea class="machine-name" id="apply_description" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                    <div class="help-block" id="apply_description_div">
+                                        <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                         <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                         <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="user.role=='super_admin'">
+                                <div class="control-group">
+                                    <div class="control-label"><span class="red">*</span>申请者:</div>
+                                    <div class="controls">
+                                        <select class="machine-name" id="apply_requster" name="requester"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="tab_type2" class="Mirror_list_div">
+                                <div class="control-group">
+                                    <div class="control-label">资源类型</div>
+                                    <div clss="controls">
+                                        <label class="radio-inline">
+                                          <input type="radio" name="resourceType" id="inlineRadiob0" value="resource_type0"> 不请求资源
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="resourceType" id="inlineRadiob1" value="resource_type1"> 虚拟机
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="resourceType" id="inlineRadiob2" value="resource_type2"> 云盘
+                                        </label>
+                                        <div class="clear_both"></div>
+                                    </div>
+                                </div>
+
+                                <div id="resource_type1" class="Mirror_list_div">
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>虚拟机名称:</div>
+                                        <div class="controls">
+                                            <input type="text" id="apply_server_name" test="test" class="machine-name" name="name"
+                                               data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                               required minlength="2" maxlength="30" placeholder="长度2-30字符"/>
+                                            <div class="help-block"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>镜像:</div>
+                                        <div class="controls">
+                                            <select class="machine-name" id="apply_server_image" name="source_id" required></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>配置: </div>
+                                        <div class="controls flavor">
+                                            <select id="apply_flavor_select_container" class="select in_put hide" name="">
+                                            </select>
+                                            <div id="apply_cpu_container" class="cpu cartype">
+                                            </div>
+                                            <div id="apply_ram_container" class="ram">
+                                            </div>
+                                            <span type="create_server_navigator" class="hide" id="apply_show_vcpus"></span>
+                                            <span type="create_server_navigator" class="hide" id="apply_show_ram"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>磁盘:</div>
+                                        <div class="controls">
+                                            <div id="apply_server_disk_container">
+                                                <input id="apply_server_volume_size" data-slider-id='server_volume_sizeSlider' type="text" data-slider-min="20" data-slider-max="1024" data-slider-step="1" data-slider-value="20"/>
+                                                <span class="slider_style">
+                                                    <input id="apply_volume_size" type="text" disabled="disabled" class="size_slider" value="20"/>GB
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="clear_both"></div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>网络:</div>
+                                        <div class="controls">
+                                            <select required id="apply_network_select_container" class="machine-name" name="">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>数量:</div>
+                                        <div class="controls">
+                                            <div class="number-controller">
+                                                <input id="apply_server_number" type="number" value="1" min="1" max="10"
+                                                       class="machine-name" name="a7">
+
+                                                <div class="controller">
+                                                    <div class="arrow-wrapper">
+                                                        <span class="up"></span>
+                                                    </div>
+                                                    <div class="arrow-wrapper">
+                                                        <span class="down"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group textarea-group">
+                                        <div class="control-label">虚拟机描述</div>
+                                        <div class="controls">
+                                            <textarea class="machine-name" id="apply_server_description" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                            <div class="help-block" id="apply_description_div">
+                                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                 <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                 <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="resource_type2" class="Mirror_list_div">
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>云盘名称: </div>
+                                        <div class="controls">
+                                            <input id="create_volume_name" name="name" class="machine-name" type="text" placeholder="--请输入云盘名称(1-60个字符)--">
+                                                <div class="help-block">
+                                                    <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                    <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                    <div class="desc error_info hide"><span>云盘名称不能为空</span></div>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group textarea-group">
+                                        <div class="control-label"><span class="red"></span>云盘描述: </div>
+                                        <div class="controls">
+                                            <textarea class="machine-name" id="create_volume_description" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                            <div class="help-block" id="create_volume_description_div">
+                                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                 <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                 <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="control-label"><span class="red">*</span>容量:</div>
+                                        <div class="controls">
+                                            <div id="apply_volume_disk_container">
+                                                <input id="create_volume_slider" data-slider-id='create_volume_sliderSlider'  data-slider-min="1" data-slider-max="2000" data-slider-step="1" data-slider-value="1"/>
+                                                <span class="slider_style">
+                                                    <input type="number" name="size" max="2000" min="1" class="size_slider" value="1" id="create_volume_size" title="1-2000" data-toggle="tooltip"/>&nbsp;GB
+                                                </span>
+                                                <div class="help-block" id="create_volume_description_div">
+                                                    <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                    <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                    <div class="desc error_info hide"><span>不能小于当前容量</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab_type3" class="Mirror_list_div">
+                                <div class="control-group">
+                                    <div class="control-label">分类</div>
+                                    <div class="controls">
+                                        <select class="machine-name" id="create_problem_category"></select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <div class="control-label">子分类</div>
+                                    <div class="controls">
+                                        <select class="machine-name" id="create_problem_subcategory"></select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <div class="control-label">条目</div>
+                                    <div class="controls">
+                                        <select class="machine-name" id="create_problem_item"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="clear_both"></div>
+                    </div>
+                    <div class="modal-footer modal_footer_edit_style">
+                        <button id="edit_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true">取消</button>
+                        <button id="action_submit" type="button" class="apply_action_btn table_button  form_general_button">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view_apply_modal" class="modal fade appmodal fadeIn" tabindex="-1" role="dialog"
+             aria-labelledby="apply_server_modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal_dialog_style" style="margin:79px auto">
+                <div class="modal-content">
+                    <div class="modal-header modal_header_style">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title modal_title_style" id="view_title">
+                            查看申请
+                        </h4>
+                    </div>
+                    <div class="modal-body ">
+                        <div class="Configuration">
+                            <span class="Configuration_details">描述</span>
+                        </div>
+                        <div class="apply-detail">
+                            <p id="view_description"></p>
+                        </div>
+                        <div class="Configuration">
+                            <span class="Configuration_details">请求明细</span>
+                        </div>
+                        <table class="showTable showTable-2col" id="view_table1">
+
+                        </table>
+                        <table class="showTable showTable-2col" id="view_table2">
+
+                        </table>
+                    </div>
+                    <div class="modal-footer modal_footer_edit_style">
+                        <button id="edit_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+
+    </div>
+
+</div>
+
+
+

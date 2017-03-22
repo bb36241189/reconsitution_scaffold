@@ -1,0 +1,536 @@
+<link ng-href="//static_url('plugin/datetimepicker/css/bootstrap-datetimepicker.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/process.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" type="out_container">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>管理</li>
+                    <li class="active">流程</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div style="float:right">
+                <div ng-if="user.role!='super_admin'">
+                    <button id="apply_create_server" ng-click="show_apply_server_modal('','',null,null,true);" class="btn btn-padding btn-status-blueLake"><span class="glyphicon glyphicon-plus-sign"></span> 新的申请</button>
+                </div>
+        </div>
+            <div class="page-tab">
+            <ul id="title_tabs" class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">待办任务<span id="workingList_span" class="notification red">0</span></a></li>
+                <li><a href="#tab2" data-toggle="tab">与我相关<span id="doneList_span" class="notification green">0</span></a></li>
+            </ul>
+        </div>
+            <div id="content_tabs" class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <div id="page_volume">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div  class="table-responsive table_container">
+                                <table class="table ">
+                                    <thead>
+                                        <tr>
+                                            <th class="thead_checkbox"> </th>
+                                            <th class="tds">申请时间</th>
+                                            <th class="tds">类型</th>
+                                            <th class="tds">申请人</th>
+                                            <th class="tds">部门</th>
+                                            <th class="tds">状态</th>
+                                            <th class="tds">流程</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="workinglist" class="trs">
+                                        <tr>
+                                            <td colspan="7">加载中...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="pagination_div">
+                            <div id="workinglist_pagination" class="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <div id="page_server"  >
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div  class="table-responsive table_container">
+                                <table class="table ">
+                                    <thead>
+                                        <tr>
+                                            <th class="thead_checkbox"> </th>
+                                            <th class="tds">申请时间</th>
+                                            <th class="tds">类型</th>
+                                            <th class="tds">申请人</th>
+                                            <th class="tds">部门</th>
+                                            <th class="tds">状态</th>
+                                            <th class="tds">流程</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="doneList" class="trs">
+                                        <tr>
+                                            <td colspan="7">加载中...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="pagination_div">
+                            <div id="donelist_pagination" class="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+        <div id="apply_server_modal" class="modal fade appmodal fadeIn" tabindex="-1" role="dialog"
+             aria-labelledby="apply_server_modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal_dialog_style" style="margin:79px auto">
+                <div class="modal-content">
+                    <div class="modal-header modal_header_style">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title modal_title_style">
+                            <span class="glyphicon glyphicon-file"></span> 申请资源
+                        </h4>
+                    </div>
+                    <div class="modal-body ">
+                        <div class="body_apply_left">
+                        <div class="modal-body modal_body_style">
+                            <div>
+                                <div class="title_container">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#apply_image_tab" class="active_tab" data-toggle="tab">虚拟机</a></li>
+                                        <li><a href="#apply_flavor_tab" class="active_tab" data-toggle="tab">云盘</a></li>
+                                    </ul>
+                                </div>
+                                <div  class="tab-content">
+                                    <div class="tab-pane fade in active" id="apply_image_tab">
+                                        <div class="Mirror_list_div">
+                                            <div class="control-group">
+                                                <div class="control-label">申请</div>
+                                                <div class="controls">
+                                                    <input style="height:30px;" type="checkbox" id="apply_server_enable"/>
+                                                </div>
+                                            </div>
+                                            <div class="clear_both"></div>
+                                            <div class="control-group">
+                                                <div class="control-label"><span class="red">*</span>名称</div>
+                                                <div class="controls">
+                                                    <input type="text" id="apply_server_name" test="test" class="machine-name"
+                                                       data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                                       required minlength="2" maxlength="30" placeholder="长度2-30字符"/>
+                                                    <div class="help-block"></div>
+                                                </div>
+                                            </div>
+                                            <div class="control-group hide">
+                                                <div class="control-label">时效</div>
+                                                <div class="controls">
+                                                    <input data-date-format="yyyy-mm-dd" data-date-format="yyyy-mm-dd" type="text" id="search_start_time" name="start" readonly class="machine-name"/>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <div class="control-label"><span class="red">*</span>镜像</div>
+                                                <div class="controls">
+                                                    <select class="machine-name" id="apply_server_image" required></select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <div class="control-label"><span class="red">*</span>配置</div>
+                                                <div class="controls">
+                                                    <div class="carname flavor car">
+                                                        <select id="apply_flavor_select_container" class="machine-name hide" name="">
+                                                        </select>
+                                                        <div id="apply_cpu_container" class="cpu cartype">
+                                                        </div>
+                                                        <div id="apply_ram_container" class="ram">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear_both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <div class="control-label"><span class="red">*</span>磁盘</div>
+                                                <div class="controls">
+                                                    <div id="apply_server_disk_container">
+                                                        <input id="apply_server_volume_size" data-slider-id='server_volume_sizeSlider' type="text" data-slider-min="20" data-slider-max="1024" data-slider-step="1" data-slider-value="20"/>
+                                                        <span class="slider_style">
+                                                            <input id="apply_volume_size" type="number" min="20" max="1024"  class="size_slider" value="20" title="20-1024" data-toggle="tooltip"/>GB
+                                                        </span>
+                                                    </div>
+                                                    <div class="clear_both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <div class="control-label"><span class="red">*</span>网络</div>
+                                                <div class="controls">
+                                                    <select required id="apply_network_select_container" class="machine-name" name="">
+                                                        <option value="69">dd(192.168.0.0/24)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <div class="control-label"><span class="red">*</span>数量</div>
+                                                <div class="controls">
+                                                    <div class="number-controller">
+                                                        <input id="apply_server_number" type="number" value="1" min="1" max="10"
+                                                               class="machine-name" name="a7">
+
+                                                        <div class="controller">
+                                                            <div class="arrow-wrapper">
+                                                                <span class="up"></span>
+                                                            </div>
+                                                            <div class="arrow-wrapper">
+                                                                <span class="down"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="apply_flavor_tab">
+                                        <form id="create_volume_form">
+                                            <div class="Mirror_list_div">
+                                                <div class="control-group">
+                                                    <div class="control-label">申请</div>
+                                                    <div class="controls">
+                                                        <input style="height:30px;" type="checkbox" value="apply" id="apply_volume_enable"/>
+                                                    </div>
+                                                    <div class="clear_both"></div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <div class="control-label"><span class="red">*</span>名称</div>
+                                                    <div class="controls">
+                                                        <input id="create_volume_name" name="name" class="machine-name" type="text" placeholder="--请输入云盘名称(1-60个字符)--">
+                                                        <div class="help-block">
+                                                            <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                            <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                            <div class="desc error_info hide"><span>云盘名称不能为空</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group textarea-group">
+                                                    <div class="control-label">描述</div>
+                                                    <div class="controls">
+                                                        <textarea class="machine-name" id="create_description" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                                        <div class="help-block" id="create_volume_description_div">
+                                                            <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                             <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                             <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group textarea-group">
+                                                    <div class="control-label"><span class="red">*</span>容量</div>
+                                                    <div class="controls">
+                                                        <div id="apply_volume_disk_container">
+                                                            <input id="create_volume_slider" data-slider-id='create_volume_sliderSlider'  data-slider-min="1" data-slider-max="2000" data-slider-step="1" data-slider-value="1"/>
+                                                            <span class="slider_style">
+                                                                <input type="number" name="size" max="2000" min="1" class="size_slider" value="1" id="create_size" title="1-2000" data-toggle="tooltip"/>&nbsp;GB
+                                                            </span>
+                                                            <div class="help-block" id="create_volume_description_div">
+                                                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                                                <div class="desc error_info hide"><span>不能小于当前容量</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="body_apply_right">
+                            <table class="process-margin-bottom">
+                                <tr>
+                                    <td class="process-left-header">
+                                        申请详情
+                                    </td>
+                                    <td >
+                                        <div class="process-trangle">
+                                            <div class="process-trangle-bg"></div>
+                                            <div class="process-trangle-wd">未完成</div>
+                                        </div>
+
+
+                                        <div class="process-margin">
+                                            <p><b>编号：<span id="apply_detail_id"></span></b></p>
+                                            <p>状态：<span id="apply_detail_status"></span></p>
+                                            <p>流程历史：<span id="apply_detail_process"></span></p>
+                                        </div>
+                                        <div id="process-blocks">
+
+
+                                            <!--
+                                            <div class="process-margin">
+                                                <div class="process-body-green">
+                                                    <div class="process-circle-green">2</div>
+                                                    <div class="process-body-text">
+                                                        <p><b>部门：系统管理</b></p>
+                                                        <p>申请人：admin</p>
+                                                        <p>操作：通过</p>
+                                                        <p>时间：2016-04-29 19:07:18</p>
+                                                    </div>
+                                                </div><div class="process-tail-green">
+                                                </div><div class="process-head-red">
+                                                </div><div class="process-body-red">
+                                                    <div class="process-circle-red">2</div>
+                                                    <div class="process-body-text">
+                                                        <p><b>部门：系统管理</b></p>
+                                                        <p>申请人：admin</p>
+                                                        <p>操作：通过</p>
+                                                        <p>时间：2016-04-29 19:07:18</p>
+                                                    </div>
+                                                </div><div class="process-tail-red">
+                                                </div><div class="process-head-green">
+                                                </div><div class="process-body-green">
+                                                    <div class="process-circle-green process-margin-right">3</div>
+                                                    <div class="process-body-text">
+                                                        <p><b>部门：系统管理</b></p>
+                                                        <p>申请人：admin</p>
+                                                        <p>操作：通过</p>
+                                                        <p>时间：2016-04-29 19:07:18</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="process-margin">
+                                                <div class="process-body-green">
+                                                    <div class="process-circle-green">2</div>
+                                                    <div class="process-body-text">
+                                                        <p><b>部门：系统管理</b></p>
+                                                        <p>申请人：admin</p>
+                                                        <p>操作：通过</p>
+                                                        <p>时间：2016-04-29 19:07:18</p>
+                                                    </div>
+                                                </div><div class="process-tail-green">
+                                                </div><div class="process-head-red">
+                                                </div><div class="process-body-red">
+                                                    <div class="process-circle-red">2</div>
+                                                    <div class="process-body-text">
+                                                        <p><b>部门：系统管理</b></p>
+                                                        <p>申请人：admin</p>
+                                                        <p>操作：通过</p>
+                                                        <p>时间：2016-04-29 19:07:18</p>
+                                                    </div>
+                                                </div><div class="process-tail-red">
+                                                </div><div class="process-head-green">
+                                                </div><div class="process-body-green">
+                                                    <div class="process-circle-green process-margin-right">3</div>
+                                                    <div class="process-body-text">
+                                                        <p><b>部门：系统管理</b></p>
+                                                        <p>申请人：admin</p>
+                                                        <p>操作：通过</p>
+                                                        <p>时间：2016-04-29 19:07:18</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            -->
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="show_server process-margin-bottom">
+                                <tr>
+                                    <td class="process-left-header">
+                                        虚拟机详情
+                                    </td>
+                                    <td >
+                                        <table class="showTable" style="margin:10px;width:695px;">
+                                            <tr>
+                                                <th>名称：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_server_name"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>数量：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_server_number"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>映像：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_image_name"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>网络：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_network"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>CPU：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_vcpus"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>内存：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_ram"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th>硬盘：</th>
+                                                <td><span type="create_server_navigator" id="apply_show_disk"></span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                            <table class="show_volume process-margin-bottom">
+                                <tr>
+                                    <td class="process-left-header">
+                                        云盘详情
+                                    </td>
+                                    <td >
+                                        <div>
+                                            <table class="showTable" style="margin:10px;width:695px;">
+                                                <tr>
+                                                    <th>名称：</th>
+                                                    <td><span type="create_server_navigator" id="apply_show_volume_name"></span></td>
+                                                </tr>
+                                                <tr style="display:none;">
+                                                    <th>描述：</th>
+                                                    <td><span type="create_server_navigator" id="apply_show_volume_description"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>容量：</th>
+                                                    <td><span type="create_server_navigator" id="apply_show_volume_size"></span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+
+                        <!--
+                        <div class="Configuration">
+                            <span class="Configuration_details">申请详情</span>
+                        </div>
+                        <div class="apply-detail">
+                            <table id="request_log" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>时间</th>
+                                        <th>部门</th>
+                                        <th>申请人</th>
+                                        <th>操作</th>
+                                        <th>附言</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="request_log_tbody"></tbody>
+                            </table>
+                        </div>
+                        -->
+
+                        <!--
+                        <div class="Configuration show_server">
+                            <span class="Configuration_details">虚拟机详情</span>
+                        </div>
+                        <div class="apply-detail show_server">
+                            <table class="showTable">
+                                <tr>
+                                    <th>名称：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_server_name"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>数量：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_server_number"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>映像：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_image_name"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>网络：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_network"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>CPU：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_vcpus"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>内存：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_ram"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>硬盘：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_disk"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="Configuration show_volume">
+                            <span class="Configuration_details">云盘详情</span>
+                        </div>
+                        <div class="apply-detail show_volume">
+                            <table class="showTable">
+                                <tr>
+                                    <th>名称：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_volume_name"></span></td>
+                                </tr>
+                                <tr style="display:none;">
+                                    <th>描述：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_volume_description"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>容量：</th>
+                                    <td><span type="create_server_navigator" id="apply_show_volume_size"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        -->
+                    </div>
+                        <div class="clear_both"></div>
+                    </div>
+                    <div class="modal-footer modal_footer_edit_style">
+                        <div id="btn_description" style="display:inline;">
+                            <label>附言:</label>
+                            <input type="text" class="machine-name" id="apply_description"/>
+                        </div>
+
+                        <button id="btn_next" ng-click="nextStep()" class="btn btn-primary table_button btn_default_style form_general_button">下一步</button>
+                        <button id="btn_previous" ng-click="previousStep()" class="btn btn-primary table_button btn_default_style form_general_button">上一步</button>
+                        <button id="action_approve" type="button" class="apply_action_btn table_button  form_general_button">
+                            <span class="glyphicon glyphicon-ok"></span> 批准
+                        </button>
+                        <button id="action_cancel" type="button" class="apply_action_btn table_button  form_general_button">
+                            <span class="glyphicon glyphicon-remove"></span> 作废
+                        </button>
+                        <button id="action_submit" type="button" class="apply_action_btn table_button  form_general_button">
+                            <span class="glyphicon glyphicon-ok"></span> 提交
+                        </button>
+                        <button id="action_reject" type="button" class="apply_action_btn table_button  form_general_button">
+                            <span class="glyphicon glyphicon-remove"></span> 拒绝
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+
+    </div>
+
+</div>
+
+
+

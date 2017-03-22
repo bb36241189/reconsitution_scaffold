@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>天玑云数据中心管理平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../../../plugin/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../plugin/jquery/jquery.metadata.js"></script>
+    <script type="text/javascript" src="../../../plugin/bootstrap/js/bootstrap.min.js"></script>
+    <link href="../../../plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../stylesheets/navigator.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../plugin/widget/css/common.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="server_details">
+    <div class="title_container">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#hardware_info" data-toggle="tab">硬件信息</a></li>
+            <li><a href="#sys_info" data-toggle="tab">系统信息</a></li>
+            <li><a href="#vm_list" data-toggle="tab">虚拟列表</a></li>
+        </ul>
+    </div>
+
+    <div id="TabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="hardware_info">
+            <dl type="dl">
+                <dt>服务器型号: IBM System x3650</dt>
+                <dt>管理IP地址: 192.168.170.44</dt>
+                <dt>IPMI地址: 10.10.10.22</dt>
+                <dt>是否支持虚拟化: 是</dt>
+                <dt>CPU类型: Xeon</dt>
+                <dt>CPU主频(MHz): 2000</dt>
+                <dt>支持CPU个数: 2</dt>
+                <dt>内存类型: ECC DDRII</dt>
+                <dt>内存大小(GB): 32</dt>
+                <dt>最大内存容量(GB): 48</dt>
+                <dt>硬盘大小(GB): 146</dt>
+                <dt>硬盘类型/描述: SAS</dt>
+                <dt>最大硬盘容量: 1.8TB</dt>
+                <dt>内部硬盘架数: 6</dt>
+                <dt>最大热插拔硬盘数: 6</dt>
+            </dl>
+        </div>
+        <div class="tab-pane fade" id="sys_info">
+            <dl>
+                <dt>服务器型号: IBM System x3650</dt>
+                <dt>管理IP地址: 192.168.170.44</dt>
+                <dt>IPMI地址: 10.10.10.22</dt>
+                <dt>CPU类型: Xeon</dt>
+                <dt>CPU主频(MHz): 2000</dt>
+                <dt>支持CPU个数: 2</dt>
+                <dt>内存大小(GB): 32</dt>
+                <dt>最大内存容量(GB): 48</dt>
+                <dt>硬盘大小(GB): 146</dt>
+                <dt>硬盘类型/描述: SAS</dt>
+                <dt>最大硬盘容量: 1.8TB</dt>
+                <dt>最大热插拔硬盘数: 6</dt>
+            </dl>
+        </div>
+        <div class="tab-pane fade" id="vm_list">
+            <dl>
+                <dt>服务器型号: IBM System x3650</dt>
+                <dt>管理IP地址: 192.168.170.44</dt>
+                <dt>CPU主频(MHz): 2000</dt>
+                <dt>支持CPU个数: 2</dt>
+                <dt>内存大小(GB): 32</dt>
+                <dt>最大内存容量(GB): 48</dt>
+                <dt>最大硬盘容量: 1.8TB</dt>
+                <dt>内部硬盘架数: 6</dt>
+                <dt>最大热插拔硬盘数: 6</dt>
+            </dl>
+        </div>
+    </div>
+</div>
+</body>

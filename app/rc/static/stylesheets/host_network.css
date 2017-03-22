@@ -1,0 +1,323 @@
+.ip_input{
+    width:10% !important;
+}
+
+.modal-dialog {
+    width: 800px;
+}
+
+.network_detail{
+	color: #8c8d90;
+    height: 353px;
+    padding-left: 20px;
+    padding-top: 10px;
+    width: 89%;
+}
+
+
+
+
+
+
+
+
+/*
+
+
+div[type="out_container"] {
+    position: absolute;
+    min-height: 560px;
+}
+
+.location {
+    padding: 12px 0 0 30px;
+}
+
+
+.operation {
+	background-color: #fff;
+    border: 1px solid #fff;
+	border-radius: 10px;
+    margin: 60px 20px 0;
+	width: 100%;
+    height: 490px;
+}
+
+.operation_img {
+    width: 100%;
+}
+
+
+.operation_1 {
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    float: right;
+    height: 180px;
+    margin: -180px 23px 0 0;
+    width: 35%;
+    left: 10px;
+}
+
+
+.operation_2 {
+
+}
+
+
+.operation_c {
+    border-style: outset none none;
+    border-width: 1px 0 0;
+    color: #969dac;
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 72%;
+}
+
+
+.operation_d {
+    border-style: none none solid;
+    border-width: 0;
+    font-size: 14px;
+    margin-bottom: 0;
+    width: 28%;
+    margin-left: 6px;
+}
+
+
+
+
+.dropdown-toggle {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.125) inset !important;
+}
+
+
+.more {
+    color: #5fb1ef;
+    cursor: pointer;
+    float: right;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+
+.operation_a {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 20px 0 10px 10px;
+    text-align: center;
+    width: 95%;
+}
+
+
+
+#server_details {
+    width: 100%;
+}
+
+
+.network_detail{
+	color: #8c8d90;
+    height: 353px;
+    padding-left: 20px;
+    padding-top: 10px;
+    width: 89%;
+}
+
+.operation_d_1{
+    margin: 25px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 85%;
+}
+
+.operation_e{
+	border: 0 none;
+    margin: 10px 20px;
+    padding: 10px 30px 10px 10px;
+    width: 98.3%;
+}
+
+.network_form_left{
+}
+
+.network_form_left select{
+    border: 1px solid #ecf0f2;
+   margin: 5px 0 0 5px;
+}
+.network_form_left select:hover,.network_form_left select:focus{
+    border: 1px solid #5fb2ef;
+}
+
+.network_form_right{
+}
+
+.network_form_right textarea{
+   margin-bottom: 23px;
+}
+
+.network_form{
+    overflow: hidden;
+}
+
+.network_detail dl dt span{
+    color: #7a7c7f;
+}
+
+
+.Mirror_list_div .control-group>label{
+    text-align: center;
+}
+
+
+
+label {
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.textarea-group textarea{
+    min-width:61% !important;
+    max-width:61% !important;
+}
+
+.checkbox_f {
+    margin-bottom: 15px;
+    margin-left: 100px;
+    margin-top: 15px;
+}
+
+
+
+
+
+.operation_d_2 {
+    border: 1px solid #ddd;
+    height: 90px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 85%;
+}
+
+.operation_e_2 {
+    border: 0 none;
+    height: 80px;
+    padding: 10px 30px 10px 10px;
+    width: 104.8%;
+}
+
+.right_s {
+    float: right;
+    height: 375px;
+    margin-top: -377px;
+    width: 46%;
+}
+
+.configure_style {
+    margin-bottom: 11px;
+}
+
+
+
+.sb {
+    margin-top: -16px;
+    padding: 0;
+}
+.configure_style_s {
+    margin-bottom: 68px;
+    margin-top: 20px;
+}
+
+
+.btn_primary_style {
+    background-color: #5fb2ef;
+    border-color: #5fb2ef;
+    color: #fff;
+}
+
+.modal-dialog {
+    width: 800px;
+}
+
+.modal_delete_dialog{
+    width: 600px;
+}
+
+.checkbox_f label {
+    margin-left: -5px;
+    margin-right: 5px;
+}
+
+.right_s_s {
+    float: right;
+    height: 375px;
+    margin-top: -328px;
+    width: 46%;
+}
+
+.form-select {
+    border: 1px solid #ecf0f2;
+    height: 30px;
+    width: 141px;
+    margin-left: 9px;
+}
+
+.form-select:hover,.form-select:focus {
+    border: 1px solid #5fb2ef;
+
+}
+
+body
+  {
+    width:100%;
+  }
+
+
+
+.tab-content .tab-pane
+{
+    background:rgba(0,0,0,0);
+}
+
+.title_container{
+    background:#edf0f5;
+    padding-top:5px;
+}
+
+.title_container li a {
+    padding-bottom:3px;
+    padding-top:3px;
+    width:76%;
+}
+
+#network_details .label{
+    color:white;
+}
+
+.ip_input{
+    width:10% !important;
+}
+
+.label-del-pool{
+    cursor:pointer;
+    margin-left:10px;
+}
+
+.pool-list>li{
+    padding:8px;
+}
+
+.pool-list{
+    min-height: 50px;
+    width:61%;
+    border: 1px solid #ecf0f2;
+    margin-left: 9px;
+    padding-left: 10px;
+}
+
+#btn_add_pool{
+    margin-left:25px;
+    margin-top:-25px;
+}
+
+*/

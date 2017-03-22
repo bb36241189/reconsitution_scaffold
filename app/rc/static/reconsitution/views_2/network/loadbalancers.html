@@ -1,0 +1,1205 @@
+
+<link ng-href="//static_url('plugin/bootstrap/css/bootstrap-slider.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('plugin/datetimepicker/css/bootstrap-datetimepicker.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/loadbalancers.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content">
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div class="page_tab">
+                <ul id="title_tabs" class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">资源池</a></li>
+                    <li><a href="#tab2" data-toggle="tab">成员</a></li>
+                    <li><a href="#tab3" data-toggle="tab">监控</a></li>
+                </ul>
+                <div id="content_tabs" class="tab-content row">
+                    <div class="tab-pane active" id="tab1"  ng-controller="pool">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="toolbar_container">
+                                        <input id="flag_pools_change" type="text" ng-model="pools_change" class="hide"/>
+                                        <button id="tool_create_pool" class="btn btn-padding btn-status-blueLake" ng-click="create_pool_click()"><span class="glyphicon glyphicon-plus-sign"></span> 创建资源池</button>
+                                        <button id="tool_delete_pool" class="table_button danger_button" ng-click="delete_pool_click()"><span class="glyphicon glyphicon-trash"></span> 删除资源池</button>
+                                        <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            更多<img class="more_img" ng-src="//static_url('images/navigation/pullblue.gif')//"/>
+                                        </button>
+                                        <ul class="dropdown-menu more-dropdown-menu">
+                                            <div ng-if="user.role=='super_admin'">
+                                                <li><a id="tool_floating_ip" ng-click="start_floatingip_flow" data-toggle="modal" data-target="#floating_ip_modal"><span class="glyphicon glyphicon-wrench"></span> 外部IP管理</a></li>
+                                            </div>
+                                            <li><a id="tool_edit_pool" class="dropmenu_li" ng-click="edit_pool_click()"><span class="glyphicon glyphicon-edit"></span> 编辑资源池</a></li>
+                                            <li><a id="tool_add_vip" class="dropmenu_li" ng-click="create_vip_click()"><span class="glyphicon glyphicon-plus-sign"></span> 添加VIP</a></li>
+                                            <li><a id="tool_edit_vip" class="dropmenu_li" ng-click="edit_vip_click()"><span class="glyphicon glyphicon-edit"></span> 编辑VIP</a></li>
+                                            <li><a id="tool_link_health" class="dropmenu_li" ng-click="link_monitor_click()"><span class="glyphicon glyphicon-link"></span> 关联</a></li>
+                                            <li><a id="tool_delete_vip" class="danger_li" ng-click="delete_vip_click()"><span class="glyphicon glyphicon-trash"></span> 删除VIP</a></li>
+                                            <li><a id="tool_unlink_health" class="danger_li" ng-click="unlink_monitor_click()"><span class="glyphicon glyphicon-trash"></span> 解除关联</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="image_table" class="table-responsive table_container">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="thead_checkbox"> </th>
+                                                    <th class="tds">名称</th>
+                                                    <th class="tds">描述</th>
+                                                    <th class="tds">提供者</th>
+                                                    <th class="tds">网络</th>
+                                                    <th class="tds">协议</th>
+                                                    <th class="tds">状态</th>
+                                                    <th class="tds">vip</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="pools_list" class="trs">
+                                                <tr ng-repeat="x in pools" ng-show="bool_pools" ng-click="row_click($event)" id="//x.id//" pool_name="//x.name//" description="//x.description//" lb_method="//x.lb_method//"
+                                                        admin_state_up="//x.admin_state_up//" vip_id="//x.vip_id//" health_monitors="//x.health_monitors//" vip_floating_ip="//x.vip_floating_ip//"  tenant_id="//x.tenant_id//">
+                                                    <td><input type="checkbox"/></td>
+                                                    <td><a class="animate_name" ng-bind="x.name" ng-click="title_click($event)"></a></td>
+                                                    <td ng-bind="x.description"></td>
+                                                    <td ng-bind="x.provider"></td>
+                                                    <td ng-bind="x.subnet_cidr"></td>
+                                                    <td ng-bind="x.protocol"></td>
+                                                    <td><span class="label label-//x.pool_style//" ng-bind="x.status_cn"></span></td>
+                                                    <td>//x.vip_fixed_ip//<span ng-if="x.vip_floating_ip!=''">></span>//x.vip_floating_ip//</td>
+                                                </tr>
+                                                <tr ng-hide="bool_pools">
+                                                    <td colspan="8" ng-bind="loading_pool">正在加载...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pagination_div">
+                                    <div id="pools_pagination" class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <di class="tab-pane" id="tab2" ng-controller="member">
+                        <div id="" class="col-md-12" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="toolbar_container">
+                                        <button id="tool_add_member" class="btn btn-padding btn-status-blueLake" ng-click="clickCreateMember()"><span class="glyphicon glyphicon-plus-sign"></span> 新增成员</button>
+                                        <button id="tool_edit_member" class="btn btn-padding btn-status-blueLake" ng-click="clickEditMember()"><span class="glyphicon glyphicon-edit"></span> 编辑成员</button>
+                                        <button id="tool_delete_member" class="table_button danger_button" ng-click="clickDeleteMember()"><span class="glyphicon glyphicon-trash"></span> 删除成员</button>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div id="image_table" class="table-responsive table_container">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="thead_checkbox"></th>
+                                                    <th class="tds">IP地址</th>
+                                                    <th class="tds">协议端口</th>
+                                                    <th class="tds">权重</th>
+                                                    <th class="tds">资源池</th>
+                                                    <th class="tds">状态</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="members_list" class="trs">
+                                                <tr ng-repeat="x in members" ng-click="clickMemberTableTr($event)" ng-show="hasMembers"
+                                                        id="//x.id//" pool_id="//x.pool_id//" weight="//x.weight//">
+                                                    <td><input type="checkbox"/></td>
+                                                    <td ng-bind="x.address"></td>
+                                                    <td ng-bind="x.protocol_port"></td>
+                                                    <td ng-bind="x.weight"></td>
+                                                    <td ng-bind="x.pool_name"></td>
+                                                    <td><span class="label label-//x.member_style//">//x.member_status//</span></td>
+                                                </tr>
+                                                <tr ng-hide="hasMembers">
+                                                    <td colspan="7" ng-bind="loading_member">加载中...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pagination_div">
+                                    <div id="members_pagination" class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </di>
+                    <div class="tab-pane" id="tab3" ng-controller="monitor1">
+                        <div id="page_server" class="col-md-12" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="toolbar_container">
+                                        <button id="tool_add_health" class="btn btn-padding btn-status-blueLake" ng-click="clickCreateMonitor()"><span class="glyphicon glyphicon-plus-sign"></span> 增加监控</button>
+                                        <button id="tool_edit_health" class="btn btn-padding btn-status-blueLake" ng-click="clickEditMonitor()"><span class="glyphicon glyphicon-edit"></span> 编辑监控</button>
+                                        <button id="tool_delete_health" class="table_button danger_button" ng-click="clickDeleteMonitor()"><span class="glyphicon glyphicon-trash"></span> 删除监控</button>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-12">
+                                    <div id="image_table" class="table-responsive table_container">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="thead_checkbox"></th>
+                                                    <th class="tds">监控类型</th>
+                                                    <th class="tds">延迟</th>
+                                                    <th class="tds">超时</th>
+                                                    <th class="tds">最大尝试次数</th>
+                                                    <th class="tds">详情</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="monitors_list" class="trs">
+                                                <tr ng-repeat="x in monitors" ng-show="has_monitors" ng-click="clickMonitorsTableTr($event)"
+                                                    id="//x.id//" delay="//x.delay//" timeout="//x.timeout//" max_retries="//x.max_retries//"
+                                                    http_method="//x.http_method//" url_path="//x.url_path//" expected_codes="//x.expected_codes//"
+                                                    admin_state_up="//x.admin_state_up//">
+                                                    <td><input type="checkbox"/></td>
+                                                    <td ng-bind="x.type"></td>
+                                                    <td ng-bind="x.delay"></td>
+                                                    <td ng-bind="x.timeout"></td>
+                                                    <td ng-bind="x.max_retries"></td>
+                                                    <td ng-bind="x.detail"></td>
+                                                </tr>
+                                                <tr ng-hide="has_monitors">
+                                                    <td colspan="7" ng-bind="loading_monitor">加载中...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pagination_div">
+                                    <div id="monitors_pagination" class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+        <div class="operation_2 animate-block" ng-controller="pool_detail">
+            <div id="server_details">
+                <div class="tabbable title_container">
+                    <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail" ng-click="clear_pool_datail_data()">
+                        ×
+                    </button>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#telemetry" data-toggle="tab">详细信息</a></li>
+                        <li><a href="#t2" data-toggle="tab">成员信息</a></li>
+                        <li><a href="#t3" data-toggle="tab">健康监控</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="telemetry">
+                        <div class="pool_detail_content">
+                            <table class="showTable">
+                                <tr><th>ID</th><td name="id" ng-bind="id"></td></tr>
+                                <tr><th>名称</th><td name="name" ng-bind="name"></td></tr>
+                                <tr><th>描述</th><td name="description" ng-bind="description"></td></tr>
+                                <tr><th>网络</th><td name="subnet" ng-bind="subnet"></td></tr>
+                                <tr><th>协议</th><td name="protocol" ng-bind="protocol"></td></tr>
+                                <tr><th>负载均衡方式</th><td name="lb_method" ng-bind="lb_method"></td></tr>
+                                <tr><th>状态</th><td name="status" ng-bind="status"></td></tr>
+
+                                <tr ng-show="has_vip"><th>vip名称</th><td name="vip_name" ng-bind="vip_name"></td></tr>
+                                <tr ng-show="has_vip"><th>vip地址</th><td name="vip_address" ng-bind="vip_address"></td></tr>
+                                <tr ng-show="has_vip"><th>vip状态</th><td name="vip_status" ng-bind="vip_status"></td></tr>
+                                <tr ng-show="has_vip"><th>vip协议</th><td name="vip_protocol" ng-bind="vip_protocol"></td></tr>
+                                <tr ng-show="has_vip"><th>vip端口</th><td name="vip_protocol_port" ng-bind="vip_protocol_port"></td></tr>
+                                <tr ng-show="has_vip"><th>vip描述</th><td name="vip_description" ng-bind="vip_description"></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in" id="t2">
+                        <div class="member_interface">
+                            <table class="table" id="member_interface_table">
+                                <tbody id="member_interface_tbody">
+                                    <tr ng-repeat="x in members" ng-show="has_members">
+                                        <td ng-bind="x.member_address"></td>
+                                    </tr>
+                                    <tr ng-hide="has_members">
+                                        <td ng-bind="loading_member">正在加载...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="member_interface_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in" id="t3">
+                        <div class="health_interface">
+                            <table class="table" id="health_interface_table">
+                                <tbody id="health_interface_tbody">
+                                    <tr ng-repeat="x in monitors" ng-show="has_monitors">
+                                        <td ng-bind="x.desc"></td>
+                                    </tr>
+                                    <tr ng-hide="has_monitors">
+                                        <td ng-bind="loading_monitor"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="health_interface_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="create_pool_modal" id="modal_create_pool" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 新增资源池</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_pool">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input name="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea name="description" type="text" class="machine-name"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="control-group hide">
+                                <label class="control-label">提供者</label>
+                                <div class="controls">
+                                    <select class="machine-name"></select>
+                                </div>
+                            </div>
+                            -->
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>网络</label>
+                                <div class="controls">
+                                    <select id="create_pool_subnet_id" name="subnet_id" class="machine-name" required></select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>协议</label>
+                                <div class="controls">
+                                    <select name="protocol" class="machine-name" required>
+                                        <option>TCP</option>
+                                        <option>HTTP</option>
+                                        <option>HTTPS</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>负载均衡方式</label>
+                                <div class="controls">
+                                    <select name="lb_method" class="machine-name" required>
+                                        <option>ROUND_ROBIN</option>
+                                        <option>LEAST_CONNECTIONS</option>
+                                        <option>SOURCE_IP</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>管理员状态</label>
+                                <div class="controls">
+                                    <select class="machine-name"></select>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_pool" ng-click="clickSubmitCreatePool()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="edit_vip" id="modal_edit_vip" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑VIP</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_edit_vip">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input name="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea name="description" type="text" class="machine-name"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>资源池</label>
+                                <div class="controls">
+                                    <select id="edit_vip_pool_id" name="pool_id" class="machine-name"></select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">会话持久化</label>
+                                <div class="controls">
+                                    <select name="session_persistence" class="machine-name">
+                                        <option>SOURCE_IP</option>
+                                        <option>HTTP_COOKIE</option>
+                                        <option>APP_COOKIE</option>
+                                        <span class="help-block"></span>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="control-group" >
+                                <label class="control-label">连接限制</label>
+                                <div class="controls">
+                                    <input name="connection_limit" type="number" class="machine-name"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group" >
+                                <label class="control-label">APP COOKIE</label>
+                                <div class="controls">
+                                    <input name="cookie_name" type="text" class="machine-name"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group" >
+                                <label class="control-label"><span class="red">*</span>管理员状态</label>
+                                <div class="controls">
+                                    <select name="admin_state_up" type="text" class="machine-name">
+                                        <option value="true">UP</option>
+                                        <option value="false">DOWN</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_edit_vip" ng-click="clickSubmitEditVip()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="edit_pool" id="modal_edit_pool" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑资源池</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_edit_pool">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input type="text" class="machine-name" name="name" id="edit_pool_name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea name="description" type="text" class="machine-name" id="edit_pool_description"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>负载均衡方式</label>
+                                <div class="controls">
+                                    <select name="lb_method" class="machine-name" id="edit_pool_lb_method" required>
+                                        <option>ROUND_ROBIN</option>
+                                        <option>LEAST_CONNECTIONS</option>
+                                        <option>SOURCE_IP</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>管理员状态</label>
+                                <div class="controls">
+                                    <select name="admin_state_up" id="edit_pool_admin_state_up" class="machine-name" required>
+                                        <option value="true">UP</option>
+                                        <option value="false">DOWN</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_edit_pool" ng-click="clickSubmitEditPool()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="delete_pool" class="modal fade" id="delete_pool_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除资源池</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" id="delete_pool_id"/>
+                您确定要进行删除资源池的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitDeletePool()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div ng-controller="create_member" id="modal_create_member" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 新增成员</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_member">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>资源池</label>
+                                <div class="controls">
+                                    <select id="create_member_pool_id" class="machine-name" name="pool_id" required></select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <!--
+                            <div class="control-group">
+                                <label class="control-label">成员来源</label>
+                                <div class="controls">
+                                    <select class="machine-name">
+                                        <option>从可用实例选择</option>
+                                        <option>指定成员的IP地址</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">成员</label>
+                                <div class="controls">
+                                    <select class="machine-name" required></select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            -->
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>成员地址</label>
+                                <div class="controls">
+                                    <input name="address" type="text" class="machine-name"
+                                            data-validation-regex-regex="((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" data-validation-regex-message="不符合ip格式"
+                                             required  placeholder="--请输入成员地址--"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>权重</label>
+                                <div class="controls">
+                                    <input name="weight" type="number" min="1" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>端口协议</label>
+                                <div class="controls">
+                                    <input name="protocol_port" min="1" type="number" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>管理员状态</label>
+                                <div class="controls">
+                                    <select name="admin_state_up" class="machine-name" required>
+                                        <option value="True">UP</option>
+                                        <option value="False">DOWN</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_member" ng-click="clickSubmitCreateMember()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-plus-sign"></span> 新增</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="edit_member" id="modal_edit_member" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑成员</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_edit_member">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label">资源池</label>
+                                <div class="controls">
+                                    <select id="edit_member_pool" name="pool_id" class="machine-name"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label">权重</label>
+                                <div class="controls">
+                                    <input id="edit_member_weight" name="weight" min="1" type="number" class="machine-name"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_edit_member" ng-click="clickSubmitEditMember()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="delete_member" class="modal fade" id="delete_member_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除成员</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" id="delete_member_id"/>
+                您确定要进行删除成员的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitDeleteMember()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button  class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div ng-controller="create_monitor" id="modal_create_monitor" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 新增监控</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_monitor">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>类型</label>
+                                <div class="controls">
+                                    <select name="type" id="monitor_create_type" class="machine-name" required>
+                                        <option>PING</option>
+                                        <option>TCP</option>
+                                        <option>HTTP</option>
+                                        <option>HTTPS</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>延迟</label>
+                                <div class="controls">
+                                    <input type="number" min="1" name="delay" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>超时</label>
+                                <div class="controls">
+                                    <input type="number" min="1" name="timeout" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>最大重试次数(1~10)</label>
+                                <div class="controls">
+                                    <input type="number" min="1" name="max_retries" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group http-extend">
+                                <label class="control-label"><span class="red">*</span>http方式</label>
+                                <div class="controls">
+                                    <select name="http_method" class="machine-name" required>
+                                        <option>GET</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group http-extend">
+                                <label class="control-label"><span class="red">*</span>url</label>
+                                <div class="controls">
+                                    <input id="monitor_create_url" type="text" name="url_path" value="/" class="machine-name"
+                                            required maxlength="50" minlength="1"
+                                           class="input-xlarge machine-name" placeholder="长度3-50字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group http-extend">
+                                <label class="control-label"><span class="red">*</span>期望http状态代码</label>
+                                <div class="controls">
+                                    <input id="monitor_create_codes" type="text" name="expected_codes" value="200" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                           class="input-xlarge machine-name" placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">管理员状态</label>
+                                <div class="controls">
+                                    <select name="admin_state_up" class="machine-name">
+                                        <option value="true">UP</option>
+                                        <option value="false">DOWN</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_monitor" ng-click="clickSubmitCreateMonitor()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 新增</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="edit_monitor" id="modal_edit_monitor" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑监控</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_edit_monitor">
+                        <div class="Mirror_list_div">
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>延迟</label>
+                                <div class="controls">
+                                    <input id="edit_monitor_delay" type="number" min="1" name="delay" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>超时</label>
+                                <div class="controls">
+                                    <input id="edit_monitor_timeout" type="number" min="1" name="timeout" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>最大重试次数(1~10)</label>
+                                <div class="controls">
+                                    <input id="edit_monitor_max_retries" type="number" min="1" name="max_retries" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <!--
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>http方式</label>
+                                <div class="controls">
+                                    <select id="edit_monitor_http_method" name="http_method" class="machine-name" required>
+                                        <option>GET</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>url</label>
+                                <div class="controls">
+                                    <input id="edit_monitor_url_path" type="text" name="url_path" value="/" class="machine-name"
+                                            required maxlength="50" minlength="1"
+                                           class="input-xlarge machine-name" placeholder="长度3-50字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>期望http状态代码</label>
+                                <div class="controls">
+                                    <input id="edit_monitor_expected_codes" type="text" name="expected_codes" value="200" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                           class="input-xlarge machine-name" placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            -->
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>管理员状态</label>
+                                <div class="controls">
+                                    <select id="edit_monitor_admin_state_up" name="admin_state_up" type="text" class="machine-name">
+                                        <option value="true">UP</option>
+                                        <option value="false">DOWN</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_edit_monitor" ng-click="clickSubmitEditMonitor()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="delete_monitor" class="modal fade" id="delete_monitor_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除监控</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" id="delete_monitor_id"/>
+                您确定要进行删除监控的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click = "clickSubmitDeleteMonitor()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button  class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div ng-controller="create_vip" id="modal_create_vip" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 添加VIP</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_vip">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input name="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea name="description" type="text" class="machine-name"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">VIP网络</label>
+                                <div class="controls">
+                                    <select id="create_vip_subnet_id" name="subnet_id" class="machine-name"></select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <!--
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>指定一个IP地址</label>
+                                <div class="controls">
+                                    <input name="protocol" type="text" class="machine-name"
+                                            data-validation-regex-regex="((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" data-validation-regex-message="不符合ip格式"
+                                               placeholder="--请输入网关IP--"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            -->
+
+                            <div class="control-group hide">
+                                <label class="control-label"><span class="red">*</span>资源池ID</label>
+                                <div class="controls">
+                                    <input id="create_vip_pool_id" name="pool_id" type="text" class="machine-name">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>协议端口</label>
+                                <div class="controls">
+                                    <input name="protocol_port" type="number" class="machine-name" required/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>协议</label>
+                                <div class="controls">
+                                    <select name="protocol" class="machine-name" required>
+                                        <option>TCP</option>
+                                        <option>HTTP</option>
+                                        <option>HTTPS</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                <label class="control-label">会话持久化</label>
+                                <div class="controls">
+                                    <select id="create_vip_session_persistence" name="session_persistence" class="machine-name">
+                                        <option>SOURCE_IP</option>
+                                        <option>HTTP_COOKIE</option>
+                                        <option>APP_COOKIE</option>
+                                        <span class="help-block"></span>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="control-group" >
+                                <label class="control-label">连接限制</label>
+                                <div class="controls">
+                                    <input name="connection_limit" type="number" class="machine-name"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group cookie-extend" >
+                                <label class="control-label">APP COOKIE</label>
+                                <div class="controls">
+                                    <input name="cookie_name" type="text" class="machine-name"/>
+                                </div>
+                            </div>
+
+                            <!--
+                            <div class="control-group hide" >
+                                <label class="control-label"><span class="red">*</span>管理员状态</label>
+                                <div class="controls">
+                                    <select type="text" class="machine-name">
+                                        <option>DOWN</option>
+                                        <option>UP</option>
+                                    </select>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_vip" ng-click="clickSubmitCreateVip()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="delete_vip" class="modal fade" id="modal_delete_vip" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除vip</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" id="delete_vip_id"/>
+                您确定要进行删除vip的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitDeleteVip()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button  class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div ng-controller="link_control" id="modal_link_control" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-link"></span> 关联监控</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_link_monitor">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>监控模板</label>
+                                <div class="controls">
+                                    <select id="link_monitor_id" name="health_monitor_id" class="machine-name" required></select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_link_monitor" ng-click="clickSubmitLinkMonitor()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 关联</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="unlink_control" class="modal fade" id="modal_unlink_control" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 解除监控</h4>
+             </div>
+             <div class="modal-body">
+                 <div class="control-group">
+                     <div class="control-label">要解除的监控：</div>
+                     <div class="controls">
+                         <select id="unlink_control_id" class="machine-name"></select>
+                     </div>
+                 </div>
+                 <input type="hidden" id="unlink_pool_id"/>
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitUnlinkMonitor()">
+                   <span class="glyphicon glyphicon-ok"></span> 解除
+                </button>
+                <button  class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!--Bind floating ip -->
+    <div ng-controller="floating_ip" id="floating_ip_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="floating_ip_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style" style="margin:170px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style" id="floating_ip_modalLabel">
+                        <span class="glyphicon glyphicon-wrench"></span> 外部IP管理
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="floating_ip_form">
+                        <div style="position: relative">
+                            <div id="already_bind_container">
+
+                            </div>
+
+                            <div class="list_item">
+                                <div class="row_title"><label for="bind_type">外部IP来源 :</label>
+                                </div>
+                                <div class="row_content">
+                                    <div>
+                                        <select id="bind_type" name="bind_type" class="on_line machine-name">
+                                            <option value="directly_bind" selected="selected">空闲外部IP</option>
+                                            <option value="create_and_bind">新建外部IP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list_item">
+                                <div class="row_title"><label for="server_interface_list">VIP端口 :</label>
+                                </div>
+                                <div class="row_content">
+                                    <div>
+                                        <select id="server_interface_list" name="server_interface" class="on_line machine-name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="ip_list_container" class="list_item">
+                                <div class="row_title"><label for="floating_ip_list">可用外部IP :</label>
+                                </div>
+                                <div class="row_content">
+                                    <div>
+                                        <select id="floating_ip_list" name="floating_ip" class="on_line machine-name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="external_network_container" class="list_item">
+                                <div class="row_title"><label for="external_network_list">外部网络:</label>
+                                </div>
+                                <div class="row_content">
+                                    <div>
+                                        <select id="external_network_list" name="external_network" class="on_line machine-name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="warnning_container" class="list_item warnning_container">
+                                <div class="row_title">
+                                </div>
+                                <div class="row_content">
+                                    <div class="alert alert-danger" role="alert">
+                                        <span id="floatingip_warnning"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_config_style">
+                    <button id="bind_floatingip_submit" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 绑定</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

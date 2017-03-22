@@ -1,0 +1,257 @@
+<link href="plugin/widget/css/common.css" rel="stylesheet">
+<link href="stylesheets/temp.css" rel="stylesheet">
+<link href="stylesheets/admin_room_cabinet.css" rel="stylesheet">
+
+<div class="container-fluid" type="out_container">
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button id="btn_room_create" type="button" class="table_button general_button" data-target="#create_room_modal" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button id="btn_room_edit" type="button" class="table_button" disabled="disabled" ng-click="exec('get_room_info')"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button id="btn_room_delete" type="button" class="table_button" data-target="#delete_room_modal" data-toggle="modal" disabled="disabled"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="map_tool_bar">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row content_height">
+        <div id="mapChart" class="col-md-12 col-lg-12">
+
+        </div>
+    </div>
+    <!--<div style="clear:both;"> &nbsp;</div>-->
+</div>
+
+<!--create room modal-->
+<div id="create_room_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_room_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-plus-sign"></span> 添加机房
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="create_room_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group">
+                            <div class="control-label"><span class="red">*</span>机房名称:</div>
+                            <div class="controls">
+                                <input type="text" maxlength="20" minlength="2"  required
+                                   data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                   check-name-exist='{"url":"/infrastructure/rooms","attr":"name"}' name="name" id="create_name" class="machine-name" placeholder="长度2-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+						<div class="control-group">
+                            <div class="control-label"><span class="red">*</span>所在省份:</div>
+                            <div class="controls">
+                                <select required name="province" id="create_province" class="machine-name"></select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+						<div class="control-group">
+                            <div class="control-label"><span class="red">*</span>所在城市:</div>
+                            <div class="controls">
+                                <select required name="position" id="create_position" class="machine-name">
+                                    <option value=""></option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+						</div>
+						<!--<div class="Length_Width" style="display:none;">
+							<label for="create_length">长(m) : </label>
+							<input name="length" id="create_length" class="small_input width_style" type="number" max="50" min="1" value="1" placeholder="-必填-">
+							<label for="create_width">宽(m) : </label>
+							<input name="width" id="create_width" class="small_input" type="number" max="50" min="1" value="1 placeholder="-必填-">
+						</div>
+                        <div class="Height_Person" style="display:none;">
+							<label for="create_height">高(m) : </label>
+							<input name="height" id="create_height" class="small_input height_style" type="number" max="50" min="1" value="1 placeholder="-必填-">
+							<label for="create_manager">负责人 : </label>
+							<select name="manager" class="select" id="create_manager">
+                                <option value="admin">admin</option>
+							</select>
+						</div>-->
+                        <div class="control-group textarea-group">
+                            <div class="control-label">描述</div>
+                            <div class="controls">
+                                <textarea maxlength="100" class="machine-name" name="description" id="create_description" placeholder="长度0-100字符"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <!--
+						<div class="to_configure"><label for="create_description">描 &nbsp; &nbsp; &nbsp; 述 : </label></div>
+                        <div class="describe_style">
+							<div class="operation_d_1">
+								<textarea class="operation_e" name="description" id="create_description" cols ="20" rows = "7"></textarea>
+							</div>
+						</div>
+						-->
+					</div>
+                    <!--
+                    <label for="name">机房名称</label><br>
+                    <input type="text" name="name" class="input-xlarge"><br>
+                    <label for="position">机房地址</label><br>
+                    <input type="text" name="position" class="input-xlarge"><br>
+                    <label for="length">长</label><br>
+                    <input type="text" name="length" class="input-xlarge"><br>
+                    <label for="width">宽</label><br>
+                    <input type="text" name="width" class="input-xlarge"><br>
+                    <label for="height">高</label><br>
+                    <input type="text" name="height" class="input-xlarge"><br>
+                    <label for="manager">负责人</label><br>
+                    <select class="selectpicker" name="manager">
+                        <option value="0">小李</option>
+                        <option value="1">小王</option>
+                    </select><br>
+                    <label for="description">备注</label><br>
+                    <textarea name="description"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_create_room"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit room modal-->
+<div id="edit_room_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_room_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style" >
+				   <span class="glyphicon glyphicon-edit"></span> 修改机房信息
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_room_form">
+                    <div class="Mirror_list_div conf_style">
+						<div class="control-group">
+                            <div class="control-label"><span class="red">*</span>机房名称</div>
+                            <div class="controls">
+                                <input name="name" maxlength="20" minlength="2"  required
+                                   data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                   check-name-exist='{"url":"/infrastructure/rooms","attr":"name"}'
+                                   id="edit_name" class="machine-name" type="text" placeholder="长度2-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+						<div class="control-group">
+                            <div class="control-label"><span class="red">*</span>所在省份</div>
+                            <div class="controls">
+                                <select required id="edit_province" class="machine-name"></select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+						<div class="control-group">
+                            <div class="control-label"><span class="red">*</span>所在城市</div>
+                            <div class="controls">
+                                <select required name="position" id="edit_position" class="machine-name">
+                                    <option value=""></option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+						<!--<div class="Length_Width" style="display:none;">
+							<label for="edit_length">长(m) : </label>
+							<input name="length" id="edit_length" class="small_input width_style" type="number" max="50" min="1" placeholder="-必填-">
+							<label for="create_width">宽(m) : </label>
+							<input name="width" id="edit_width" class="small_input" type="number" max="50" min="1" placeholder="-必填-">
+						</div>
+                        <div class="Height_Person" style="display:none;">
+							<label for="create_height">高(m) : </label>
+							<input name="height" id="edit_height" class="small_input height_style" type="number" max="50" min="1" placeholder="-必填-">
+                            <label for="edit_manager">负责人 : </label>
+							<select name="manager" class="select" id="edit_manager">
+							</select>
+						</div>-->
+                        <div class="control-group textarea-group">
+                            <div class="control-label">描述</div>
+                            <div class="controls">
+                                <textarea maxlength="100" class="machine-name" name="description" id="edit_description" cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+					</div>
+                 <!--
+                 <label for="name">机房名称</label><br>
+                 <input type="text" name="name" class="input-xlarge" ><br>
+                 <label for="position">机房地址</label><br>
+                 <input type="text" name="position" class="input-xlarge" ><br>
+                 <label for="length">长</label><br>
+                 <input type="text" name="length" class="input-xlarge" ><br>
+                 <label for="width">宽</label><br>
+                 <input type="text" name="width" class="input-xlarge" ><br>
+                 <label for="height">高</label><br>
+                 <input type="text" name="height" class="input-xlarge" ><br>
+                 <label for="manager">负责人</label><br>
+                 <select class="selectpicker" name="manager" >
+                   <option value="0">小李</option>
+                   <option value="1">小王</option>
+                 </select><br>
+                 <label for="description">备注</label><br>
+                 <textarea name="description" ></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_room"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete room modal-->
+<div id="delete_room_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_room_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除该机房？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_room"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<script src="javascripts/build/dist/echarts.js"></script>
+-->
+<!--<script src="plugin/echarts3/echarts.min.js"></script>-->
+<!--<script src="plugin/echarts3/china.js"></script>-->
+<!--<script src="javascripts/index.js" type="text/javascript"></script>-->
+<!--<script src="plugin/bootstrap/js/jqBootstrapValidation.js" type="text/javascript"></script>-->
+<!--
+<script src="javascripts/build/dist/echarts-2.2.7/extension/BMap/src/main.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=cHOY9Wh4SgGnewP2cAkZhwB6"></script>
+<script src=""javascripts/build/dist/echarts-2.2.7/doc/example/www/js/echarts.js"></script>
+-->
+
+

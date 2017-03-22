@@ -1,0 +1,342 @@
+<div class="pg pg-dm">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="sim-fictiNave f-cb">
+                <div class="col-md-7 col-xs-12">
+                    <button ng-click="action.refresh()" type="button" class="btn btn-padding btn-status-blue">刷新</button>&nbsp;&nbsp;
+                </div>
+                <div class="col-md-5 col-xs-12 tar">
+                    <form class="form-inline">
+                        <button ng-click="action.create()" type="button" class="btn btn-padding btn-status-blueLake" id="openAddHost">添加</button>&nbsp;
+                        <button type="button" class="btn btn-padding btn-status-blueLake">更多</button>&nbsp;
+                        <div class="form-group form-search f-cb">
+                            <input type="text" ng-model="data.search_department_name" class="form-control fl" placeholder="搜索">
+                            <button type="submit" class="btn btn-submit fl" ng-click="action.refresh()"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div style="padding-bottom: 60px;" class="table-responsive scroll-x">
+                    <table class="table table-striped table-hover" ng-table="data.dmTable" show-filter="false">
+                        <thead>
+                        <tr>
+                            <th>部门名称</th>
+                            <th>描述</th>
+                            <th>创建时间</th>
+                            <th>更新时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="dm in $data">
+                            <!--<td title="'ID'" filter="{id : 'text'}" sortable="'id'">//dm.id//</td>-->
+                            <td title="'部门名称'" filter="{name : 'text'}" sortable="'name'">//dm.name//</td>
+                            <td title="'描述'" filter="{description : 'text'}" sortable="'description'">//dm.description//</td>
+                            <td title="'更新时间'" filter="{create_time : 'text'}" sortable="'create_time'">//dm.create_time//</td>
+                            <td title="'更新时间'" filter="{update_time : 'text'}" sortable="'update_time'">//dm.update_time//</td>
+                            <td title="'操作'" class="text-center">
+                                <ul class="icons-list">
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li ng-if="!dm.is_system_admin"><a ng-click="action.edit(dm,'lg');"><i class="icon-pencil7"></i>编辑</a></li>
+                                            <li><a ng-click="action.showQuota(dm);"><i class="icon-pencil7"></i>修改部门资源配额</a></li>
+                                            <li ng-if="!dm.is_system_admin"><a ng-click="action.del(dm)"><i class=" icon-trash"></i> 删除</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            <div class="col-xs-12 tac">
+                <nav>
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" class="Previous">
+                                <span class="caret"></span>
+                                上一页
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" class="Next">
+                                下一页
+                                <span class="caret"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="createDepartmennt.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;创建部门</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form ng-submit="action.save(myForm)" id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>部门名称:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="输入部门名称" name="name"
+                                   ng-model="data.name"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.name.$dirty && myForm.name.$invalid">请输入正确的部门名称</span>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>部门描述:</label>
+                            <textarea placeholder="请输入部门描述" class="form-control" name="description" ng-model="data.description"
+                                    required
+                                    ng-minlength="1"></textarea>
+                            <span class="help-block c-red" ng-show="myForm.description.$dirty && myForm.description.$invalid">请输入正确的部门描述</span>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-if="myForm.$valid" class="btn btn-success" ng-click="action.save(myForm)"><i class="icon-check"></i>保存</button>
+        <button ng-if="myForm.$invalid" class="btn btn-success" ng-click="action.save(myForm)" disabled="disabled"><i class="icon-check"></i>保存</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="editDepartmennt.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;编辑部门</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form ng-submit="action.save(myForm)" id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>部门名称:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="输入部门名称" name="name"
+                                   ng-model="data.name"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.name.$dirty && myForm.name.$invalid">请输入正确的部门名称</span>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>部门描述:</label>
+                            <textarea placeholder="请输入部门描述" class="form-control" name="description" ng-model="data.description"
+                                      required
+                                      ng-minlength="1"></textarea>
+                            <span class="help-block c-red" ng-show="myForm.description.$dirty && myForm.description.$invalid">请输入正确的部门描述</span>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-if="myForm.$valid" class="btn btn-success" ng-click="action.save(myForm)"><i class="icon-check"></i>保存</button>
+        <button ng-if="myForm.$invalid" class="btn btn-success" ng-click="action.save(myForm)" disabled="disabled"><i class="icon-check"></i>保存</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="departmentQuota.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;部门资源配额</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>元数据条目:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="元数据条目" name="metadata_items"
+                                   ng-model="data.quota.metadata_items"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.metadata_items.$dirty && myForm.metadata_items.$invalid">请输入正确的元数据条目</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>VCPU数量:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="VCPU数量" name="cores"
+                                   ng-model="data.quota.cores"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.cores.$dirty && myForm.cores.$invalid">请输入正确的VCPU数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>云主机:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="云主机" name="instances"
+                                   ng-model="data.quota.instances"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.instances.$dirty && myForm.instances.$invalid">请输入正确的云主机数目</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>注入的文件:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="注入的文件" name="injected_files"
+                                   ng-model="data.quota.injected_files"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.injected_files.$dirty && myForm.injected_files.$invalid">请输入正确的注入的文件数目</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>已注入文件内容(Bytes):<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="已注入文件内容(Bytes)" name="injected_file_content_bytes"
+                                   ng-model="data.quota.injected_file_content_bytes"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.injected_file_content_bytes.$dirty && myForm.injected_file_content_bytes.$invalid">请输入正确的已注入文件内容长度</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>内存:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="内存" name="ram"
+                                   ng-model="data.quota.ram"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.ram.$dirty && myForm.ram.$invalid">请输入正确的内存大小</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>卷:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="卷" name="volumes"
+                                   ng-model="data.quota.volumes"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.volumes.$dirty && myForm.volumes.$invalid">请输入正确的卷数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>卷快照:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="卷快照" name="snapshots"
+                                   ng-model="data.quota.snapshots"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.snapshots.$dirty && myForm.snapshots.$invalid">请输入正确的卷快照数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>卷及快照总大小:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="卷及快照总大小" name="gigabytes"
+                                   ng-model="data.quota.gigabytes"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.gigabytes.$dirty && myForm.gigabytes.$invalid">请输入正确的卷及快照总大小</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>安全组:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="安全组" name="security_group"
+                                   ng-model="data.quota.security_group"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.security_group.$dirty && myForm.security_group.$invalid">请输入正确的安全组数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>安全组规则:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="安全组规则" name="security_group_rule"
+                                   ng-model="data.quota.security_group_rule"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.security_group_rule.$dirty && myForm.security_group_rule.$invalid">请输入正确的安全组规则数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>浮动IP:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="浮动IP" name="floatingip"
+                                   ng-model="data.quota.floatingip"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.floatingip.$dirty && myForm.floatingip.$invalid">请输入正确的浮动IP数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>网络:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="网络" name="network"
+                                   ng-model="data.quota.network"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.network.$dirty && myForm.network.$invalid">请输入正确的网络数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>端口:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="端口" name="port"
+                                   ng-model="data.quota.port"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.port.$dirty && myForm.port.$invalid">请输入正确的端口数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>路由:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="路由" name="router"
+                                   ng-model="data.quota.router"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.router.$dirty && myForm.router.$invalid">请输入正确的路由数</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>子网:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="子网" name="subnet"
+                                   ng-model="data.quota.subnet"
+                                   required
+                                   ng-minlength="1">
+                            <span class="help-block c-red" ng-show="myForm.subnet.$dirty && myForm.subnet.$invalid">请输入正确的子网数</span>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-if="myForm.$valid" class="btn btn-success" ng-click="action.save(myForm)"><i class="icon-check"></i>保存</button>
+        <button ng-if="myForm.$invalid" class="btn btn-success" ng-click="action.save(myForm)" disabled="disabled"><i class="icon-check"></i>保存</button>
+    </div>
+</script>

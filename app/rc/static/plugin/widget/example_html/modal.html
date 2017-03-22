@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>天玑云数据中心管理平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../../../plugin/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../plugin/jquery/jquery.metadata.js"></script>
+    <script type="text/javascript" src="../../../plugin/bootstrap/js/bootstrap.min.js"></script>
+    <link href="../../../plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../stylesheets/navigator.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../plugin/widget/css/common.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<h2>模态框（Modal）插件事件</h2>
+
+<p>原文链接：http://www.runoob.com/bootstrap/bootstrap-modal-plugin.html</p>
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    开始演示模态框
+</button>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                点击关闭按钮检查事件功能。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary"
+                        data-dismiss="modal">
+                    提交更改
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script>
+    $(function () {
+        $('#myModal').modal('hide')
+    });
+</script>
+<script>
+    $(function () {
+        $('#myModal').on('hide.bs.modal', function () {
+            alert('嘿，我听说您喜欢模态框...');
+        })
+    });
+</script>
+
+</body>

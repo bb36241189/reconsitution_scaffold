@@ -1,0 +1,215 @@
+
+<link ng-href="//static_url('stylesheets/topo.css')//" rel="stylesheet"/>
+<div class="container-fluid"  type="out_container">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>网络资源</li>
+                    <li class="active">网络拓扑</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row" >
+        <!--
+        <input type="button" class="btn btn-primary" onclick="scaleOn()" value="自适应比例"/>
+        <input type="button" class="btn btn-primary" onclick="scaleOff()" value="普通比例"/>
+        <input type="button" class="btn btn-primary" onclick="redrawTopo()" value="刷新"/>
+        -->
+        <div ng-if="user.role=='super_admin'">
+            部门: <select id="select_department" class="machine-name" style="margin:15px;width:200px;"></select>
+        </div>
+
+        <div id="topologyCanvasContainer">
+          <div class="nodata"></div>
+                <svg id="svg_container" width="400" height="400">
+                  <defs>
+                    <pattern id="device_normal_bg" patternUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <g>
+                        <rect width="20" height="20" class="base_bg_normal"></rect>
+                      </g>
+                    </pattern>
+                    <pattern id="device_normal_bg_loading" patternUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <g>
+                        <rect width="20" height="20" class="loading_bg_normal"></rect>
+                        <path d='M0 20L20 0ZM22 18L18 22ZM-2 2L2 -2Z' stroke-linecap="square" stroke='rgba(0, 0, 0, 0.3)' stroke-width="7"></path>
+                      </g>
+                      <animate attributeName="x" attributeType="XML" begin="0s" dur="0.5s" from="0" to="-20" repeatCount="indefinite"></animate>
+                    </pattern>
+                    <pattern id="device_small_bg" patternUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                      <g>
+                        <rect width="20" height="20" class="base_bg_small"></rect>
+                      </g>
+                    </pattern>
+                    <pattern id="device_small_bg_loading" patternUnits="userSpaceOnUse" x="0" y="0" width="5" height="5">
+                      <g>
+                        <rect width="5" height="5" class="loading_bg_small"></rect>
+                        <path d='M0 5L5 0ZM6 4L4 6ZM-1 1L1 -1Z' stroke-linecap="square" stroke='rgba(0, 0, 0, 0.4)' stroke-width="1.5"></path>
+                      </g>
+                      <animate attributeName="x" attributeType="XML" begin="0s" dur="0.5s" from="0" to="-5" repeatCount="indefinite"></animate>
+                    </pattern>
+                  </defs>
+                    <g id="svg_scale">
+                        <g id="topology_canvas"></g>
+                    </g>
+                </svg>
+                <svg id="topology_template" display="none">
+                    <g class="public_cloud">
+                        <path stroke="none" class="public_cloud_path" stroke-width="1.5" d="M142.00418090820312,97.12734985351562 C142.18084716796875,95.5748291015625 142.25732421875,94.02578735351562 142.25732421875,92.42597961425781 C142.25732421875,65.02018737792969 118.89614868164062,42.80271911621094 90.07843017578125,42.80271911621094 C67.71005249023438,42.80271911621094 48.703125,56.22528076171875 41.261505126953125,75.02772521972656 C36.344329833984375,69.91610717773438 29.33953857421875,66.62019348144531 21.466598510742188,66.62019348144531 C6.612060546875,66.62019348144531 -5.4116668701171875,78.08123779296875 -5.4116668701171875,92.18345642089844 C-5.4116668701171875,93.85536193847656 -5.207550048828125,95.4791259765625 -4.87982177734375,97.05335998535156 C-24.700241088867188,100.1534423828125 -39.833984375,116.38912963867188 -39.833984375,136.11361694335938 C-39.833984375,158.04202270507812 -21.159988403320312,175.80270385742188 1.8991546630859375,175.80270385742188 L134.43753051757812,175.80270385742188 C157.49249267578125,175.80270385742188 176.169921875,158.04202270507812 176.169921875,136.11361694335938 C176.19610595703125,116.63264465332031 161.44384765625,100.51762390136719 142.00418090820312,97.12734985351562 z" id="svg_1" stroke-dasharray="none" fill-opacity="1" stroke-opacity="1" opacity="1" transform="rotate(-90, 68, 109)"></path>
+                        <text transform="rotate(-90 135 40)" class="public_cloud_text">Public Network</text>
+                    </g>
+
+                  <g class="router_small device_body">
+                    <g class="ports" pointer-events="none"></g>
+                    <rect rx="3" ry="3" width="60" height="20" class="frame"></rect>
+                    <g transform="translate(3.5,3)" class="icon">
+                        <circle class="router_status" r="5" cx="40" cy="80" fill="black"></circle>
+                        <text transform="translate(44,70) rotate(-90 0 0)"></text>
+                        <!--
+                        <image xlink:href="//static_url('images/topology/router_icon.png')//" height="50px" width="50px" transform="rotate(-90 -30 -30)"/>
+                        -->
+                        <g transform="scale(2) translate(3 16)">
+                            <polygon points="12.51,4.23 12.51,0.49 8.77,0.49 9.68,1.4 6.92,4.16 8.84,6.08 11.6,3.32  "></polygon>
+                            <polygon points="0.49,8.77 0.49,12.51 4.23,12.51 3.32,11.6 6.08,8.83 4.17,6.92 1.4,9.68  "></polygon>
+                            <polygon points="1.85,5.59 5.59,5.59 5.59,1.85 4.68,2.76 1.92,0 0,1.92 2.76,4.68   "></polygon>
+                            <polygon points="11.15,7.41 7.41,7.41 7.41,11.15 8.32,10.24 11.08,13 13,11.08 10.24,8.32   "></polygon>
+                        </g>
+                    </g>
+                  </g>
+                  <g class="instance_small device_body">
+                    <g class="ports" pointer-events="none"></g>
+                    <rect rx="3" ry="3" width="60" height="20" class="frame"></rect>
+                    <g transform="translate(5,3)" class="icon">
+                        <circle class="instance_status" r="5" cx="40" cy="80" fill="black"></circle>
+                        <text transform="translate(44,70) rotate(-90 0 0)"></text>
+                        <g transform="scale(2) rotate(-90 16 13)">
+                              <rect class="instance_bg" width="10" height="13"></rect>
+                              <rect x="2" y="1" fill="#FFFFFF" width="6" height="2"></rect>
+                              <rect x="2" y="4" fill="#FFFFFF" width="6" height="2"></rect>
+                              <circle class="active" cx="3" cy="10" r="1.3"></circle>
+                        </g>
+                    </g>
+                  </g>
+                  <g class="network_container_small">
+                    <rect rx="7" ry="7" width="15" height="200" style="fill: #8541B5;" class="network-rect"></rect>
+                    <text x="250" y="-11" class="network-name" transform="rotate(-90 0 0)" pointer-events="none">Network</text>
+                    <text x="0" y="28" class="network-cidr" transform="rotate(-90 0 0)">0.0.0.0</text>
+                  </g>
+                  <g class="router_normal device_body">
+                    <g class="ports" pointer-events="none"></g>
+                    <rect class="frame" x="0" y="0" rx="6" ry="6" width="90" height="50"></rect>
+                    <g class="texts" pointer-events="none">
+                      <rect class="texts_bg" x="1.5" y="32" width="87" height="17"></rect>
+                      <text x="45" y="46" class="type"></text>
+                      <text x="45" y="22" class="name">router</text>
+                    </g>
+                    <g class="icon" transform="translate(6,6)" pointer-events="none">
+                      <circle class="icon_bg" cx="0" cy="0" r="12"></circle>
+                      <g transform="translate(-6.5,-6.5)">
+                        <polygon points="12.51,4.23 12.51,0.49 8.77,0.49 9.68,1.4 6.92,4.16 8.84,6.08 11.6,3.32  "></polygon>
+                        <polygon points="0.49,8.77 0.49,12.51 4.23,12.51 3.32,11.6 6.08,8.83 4.17,6.92 1.4,9.68  "></polygon>
+                        <polygon points="1.85,5.59 5.59,5.59 5.59,1.85 4.68,2.76 1.92,0 0,1.92 2.76,4.68   "></polygon>
+                        <polygon points="11.15,7.41 7.41,7.41 7.41,11.15 8.32,10.24 11.08,13 13,11.08 10.24,8.32  "></polygon>
+                      </g>
+                    </g>
+                  </g>
+                  <g class="instance_normal device_body">
+                    <g class="ports" pointer-events="none"></g>
+                    <rect class="frame" x="0" y="0" rx="6" ry="6" width="90" height="50"></rect>
+                    <g class="texts">
+                      <rect class="texts_bg" x="1.5" y="32" width="87" height="17"></rect>
+                      <text x="45" y="46" class="type"></text>
+                      <text x="45" y="22" class="name">instance</text>
+                    </g>
+                    <g class="icon" transform="translate(6,6)">
+                      <circle class="icon_bg" cx="0" cy="0" r="12"></circle>
+                      <g transform="translate(-5,-6.5)">
+                        <rect class="instance_bg" width="10" height="13"></rect>
+                        <rect x="2" y="1" fill="#FFFFFF" width="6" height="2"></rect>
+                        <rect x="2" y="4" fill="#FFFFFF" width="6" height="2"></rect>
+                        <circle class="active" cx="3" cy="10" r="1.3"></circle>
+                      </g>
+                    </g>
+                  </g>
+                  <g class="network_container_normal">
+                    <rect rx="9" ry="9" width="17" height="500" style="fill: #8541B5;" class="network-rect"></rect>
+                    <text x="250" y="-4" class="network-name" transform="rotate(90 0 0)" pointer-events="none">Network</text>
+                    <text x="490" y="-20" class="network-cidr" transform="rotate(90 0 0)">0.0.0.0</text>
+                  </g>
+                </svg>
+        </div>
+        <span data-networktopology="" id="networktopology"></span>
+    </div>
+    <div id="header">
+
+    </div>
+    <!--add interface-->
+    <div id="create_interface_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_interface_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title modal_title_style">
+                       添加接口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="create_interface_form">
+                        <div class="Mirror_list_div conf_style">
+                            <div class="control-group" id="subnets_div">
+                                <label class="control-label"><span class="red">*</span>子网: </label>
+                                <div class="controls">
+                                    <select  class="interface_form_select machine-name"  name="subnet_id" id="subnet_id">
+                                    </select>
+                                </div>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>请选择一个子网</span></div>
+                            </div>
+                            <div class="hide">
+                                <input type="text" id="create_interface_router_id"/>
+                            </div>
+                        </div>
+                        <!--
+                         <label for="subnet_id">网络：</label>
+                        <select class="selectpicker" name="subnet_id" id="subnet_id">
+                        </select><br>-->
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button class="table_button btn_default_style form_general_button" id="submit_create_interface">添加</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--delete interface modal-->
+    <div id="delete_interface_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_interface_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin:230px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_danger_header_style">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title modal_title_style">删除</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="font_family">确定要删除接口？</p>
+                    <div class="hide">
+                        <input type="text" id="delete_subnet_id"/>
+                        <input type="text" id="delete_router_id"/>
+                        <input type="text" id="delete_interface_type"/>
+                    </div>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button class="table_button btn_default_style form_danger_button" id="submit_delete_interface">删除</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

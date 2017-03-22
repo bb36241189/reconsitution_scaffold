@@ -1,0 +1,84 @@
+<link href="//static_url('plugin/datetimepicker/css/bootstrap-datetimepicker.min.css')//" rel="stylesheet">
+<link href="//static_url('stylesheets/bill_overview.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" >
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>消费管理</li>
+                    <li class="active">消费总览</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div class="overview_select_div row">
+            <div class="col-md-9">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <div ng-if="user.role=='super_admin'">
+                                <select id="department_select" class="table_select">
+                                </select>
+                            </div>
+
+                            <div ng-if="user.role=='dept_admin'">
+                                <select id="user_select" class="table_select">
+                                </select>
+                            </div>
+
+                            <div class="date_select">
+                                <span>从</span>
+                                <input type="text" readonly placeholder="起始日期" id="search_start_time" class="form_datetime">
+                                <span>到</span>
+                                <input type="text" readonly placeholder="终止日期" id="search_end_time" class="form_datetime">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+            <div class="overview_pie_div row">
+            <div class="col-md-5">
+                <div id="overview_pie"></div>
+            </div>
+            <div class="col-md-7 ">
+                <div class="overview">
+                    <div class="trend_info ">
+                        <div class="col-md-4">
+                            <span class="overview_font">近期消费走势</span>
+                        </div>
+                        <div class="col-md-8">
+                            <button type="button " class="trend_button trend_active" id="one_week">近一周</button>
+                            <button type="button" class="trend_button" id="one_month">近一月</button>
+                            <button type="button" class="trend_button" id="one_year">近一年</button>
+                        </div>
+
+                    </div>
+                    <div id="overview_trend"></div>
+                </div>
+            </div>
+        </div>
+            <div class="overview_table_div row">
+            <div class="col-md-12">
+                <table class="table" id="overview_table">
+                            <thead>
+                                <tr>
+                                    <th class="tds">计费产品</th>
+                                    <th class="tds">数量</th>
+                                    <th class="tds">消费金额(元)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overview_tbody" class="trs">
+                            </tbody>
+                        </table>
+            </div>
+        </div>
+        </div>
+
+    </div>
+</div>
+

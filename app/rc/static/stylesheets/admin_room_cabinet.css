@@ -1,0 +1,210 @@
+#mapChart {
+    padding: 15px 35px;
+    position: relative;
+    min-height: 523px;
+    color: #2b2b2b;
+}
+
+.container-fluid{
+    padding-top:73px;
+    padding-left:100px;
+}
+
+
+
+/*
+
+div[type="out_container"] {
+    position: relative;
+    min-height: 560px;
+}
+
+body{
+    overflow: auto;
+}
+
+.room_body{
+    overflow: hidden;
+}
+
+.font_family{
+	font-family: "微软雅黑";
+}
+
+.body_left {
+    float: left;
+    margin: 60px 0 0;
+    width: 35%;
+}
+
+.room_pic > img {
+    height: 200px;
+    width: 100%;
+}
+
+.room_pic{
+	margin: 2px 2px;
+}
+
+.detail_info {
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    margin: 20px 0 0;
+    height: 340px;
+}
+
+.detail_info_title{
+	margin: 10px 10px;
+}
+
+.detail_info_content{
+	margin: 20px 10px;
+    word-break: break-all;
+}
+
+.bottom_table_title {
+	margin: 10px 10px;
+	overflow: hidden;
+}
+
+
+.bottom_table_title .title_content{
+	font-weight: bold;
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.bottom_table_title .title_decorate{
+	margin-left: 120px;
+}
+
+hr{
+	border-top: 1px solid #ebebeb !important;
+}
+
+.bottom_table_content{
+	margin: 10px 10px;
+}
+
+
+.body_right {
+    float: left;
+    margin: 60px 0 0 20px;
+    width: 62%;
+}
+
+.top_table_area{
+	background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    height: 284px;
+    margin-bottom: 20px;
+}
+
+.bottom_table_area{
+	background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    margin: 20px 0;
+    height: 260px;
+}
+
+.top_table_div{
+    margin: 10px 10px;
+
+}
+
+
+label {
+    font-weight: 500;
+}
+
+
+.small_input,select{
+    margin-left: 10px;
+    border: 1px solid #ecf0f2;
+    height: 30px;
+    width: 13%;
+}
+
+.small_input:hover,select:hover,.small_input:focus,select:focus{
+    border: 1px solid #5fb2ef;
+}
+
+
+.large_select{
+     width: 39% !important;
+}
+
+.to_configure {
+    margin-left: 20%;
+    width: 19%;
+}
+
+.describe_style {
+    margin-left: 216px;
+    margin-top: -50px;
+    width: 46%;
+}
+
+
+.operation_d_1 {
+    border: 1px solid #ddd;
+    height: 70px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 85%;
+	margin-top: 30px;
+}
+
+
+.operation_e {
+    border: 0 none;
+    height: 63px;
+    padding: 10px 30px 10px 10px;
+    width: 106.6%;
+}
+
+.tds{
+    width: 17%;
+}
+.pagination_div{
+    margin: 15px 0 0 0;
+    text-align: center;
+    cursor:pointer;
+}
+
+.detail_info_content span {
+    color: #7a7c7f;
+}
+
+.Length_Width {
+    padding-left: 18px;
+}
+
+.Height_Person {
+    padding-left: 19px;
+}
+
+.small_input.width_style {
+    margin-right: 18px;
+}
+
+.small_input.height_style {
+    margin-right: 15px;
+}
+
+
+.small_input.height_styles,.select.select_styles {
+    width: 39%;
+}
+
+.unit_style {
+    margin-top: 5px;
+    position: fixed;
+    right: 175px;
+}
+
+*/

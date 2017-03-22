@@ -1,0 +1,80 @@
+<div class="logo-background"></div>
+<div class="navbar-inner">
+    <div class="navbar-words">
+        您的云数据中心管理专家
+    </div>
+    <div class="dropdown-toggle">
+        <ul class="extended">
+
+            <li>
+                <a class="btn" href="/rc/static/index.html#/app/process"><span class="hover-underline">待处理流程</span><span
+                        id="mainpage_workingList_span" class="notification-inline red">0</span></a>
+            </li>
+
+            <li>
+                <a class="btn" href="/rc/app/operation"><span class="hover-underline">操作日志</span></a>
+            </li>
+            <li>
+                <div class="btn-group-vertical">
+                    <a class="btn" href="#" data-toggle="dropdown"><img
+                            src="/rc/static/images/navigation/icon/user1.png"/> <span
+                            id="login_user"></span><span class="caret"></span></a>
+                    <ul id="user_dropdown" class="dropdown-menu">
+                        <li><a href="/rc/app/account/overview"><img class="title-icon"
+                                                                    src="/rc/static/images/navigation/icon/user2.png"/>
+                            个人信息</a></li>
+                        <li><a href="javascript:void(0)" id="logout_id"><img class="title-icon"
+                                                                             src="/rc/static/images/navigation/icon/logout.png"/>
+                            退出系统</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="alert alert-error message-div" id="alert_message" style="display:none">
+        <div>
+            <a class="close alert_close" data-dismiss="alert">×</a>
+        </div>
+        <div>
+            <span id="alert_message_text"></span>
+        </div>
+    </div>
+</div>
+
+
+<div id="demo" class="page-sidebar" type="page-sidebar">
+
+    <a href="/rc/static/index.html#/app/overview">
+        <div class="Href_index">
+            <img src="/rc/static/images/navigation/icon/logo.png"/>
+            <br>
+            <span>天玑云</span>
+        </div>
+    </a>
+
+    <ul id="demo1" class="page-sidebar-menu">
+
+        <li class="active" ng-repeat="node in data.permission" ng-hide="node.name == 'super_permission'" id="//node.name//">
+            <a href="javascript:;" sub-menu-open>
+                <img src="/rc/static/images/navigation/icon/infrastructure.png"
+                     id="img2"/>
+                <br/>
+                <span class="title" ng-bind="node.description"></span>
+
+                <div class="triangle-arrow"></div>
+            </a>
+            <ul class="sub-menu">
+                <li ng-repeat="node_l2 in node.child">
+                    <a ng-href="//data.menuHref[node_l2.name]//" class="load_content" ng-bind="node_l2.description"></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div id="demo2"></div>
+</div>
+<div id="load_content" ui-view></div>
+<!--<script src="/rc/static/javascripts/app.js" type="text/javascript"></script>
+<script src="/rc/static/javascripts/static.js" type="text/javascript"></script>
+<script src="/rc/static/javascripts/index-extend.js" type="text/javascript"></script>-->
+<script data-pace-options='{ "ajax": true,"restartOnRequestAfter":false }' src="/rc/static/plugin/pace/pace.js"></script>
+<link href="/rc/static/plugin/pace/pace-theme-flash.css" rel="stylesheet"/>

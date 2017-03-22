@@ -1,0 +1,1092 @@
+
+<link href="//static_url('plugin/jstree/themes/default/style.css')//" rel="stylesheet"/>
+<link href="//static_url('plugin/font-awesome/css/font-awesome.css')//" rel="stylesheet">
+<link href="//static_url('plugin/is-loading/style.css')//" rel="stylesheet">
+<link href="//static_url('stylesheets/server.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>计算资源</li>
+                    <li class="active">虚拟机管理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <!--
+                <div class="col-md-5">
+                    <div>
+                        <p>虚拟机管理</p>
+                    </div>
+                </div>
+                -->
+                <div class="col-md-9">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-padding btn-status-blueLake"  name="refresh_web" id="refresh_web" action-type="web_action" action="refresh"><span class="glyphicon glyphicon-refresh"></span> 刷新
+                            </button>
+                            <button id="startup_server" class="table_button" data-toggle="modal" data-target="#startup_server_modal"><span class="glyphicon glyphicon-off"></span> 启动</button>
+                            <a id="vnc_console_display">
+                                <button id="console_server" class="table_button" data-toggle="modal" data-target="#console_server_modal" action-type="server_action" action="console"><span class="glyphicon glyphicon-eye-open"></span> 控制台</button>
+                            </a>
+                            <a ng-if="role == 'super_admin'" id="export_record" class="table_button general_button"><span class="glyphicon glyphicon-cloud-download"></span> 导出记录</a>
+                            {%if handler.approval=="closed" or handler.approval=="testAll" or role=="super_admin" %}
+                            <button id="create_server" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_server_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            {%end%}
+                            <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      更多<img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </button>
+                            <ul class="dropdown-menu more-dropdown-menu">
+                                <li><a name="tag_server" id="tag_server" data-toggle="modal" data-target="#tag_server_modal"><span class="glyphicon glyphicon-tags"></span> 绑定标签</a></li>
+                                <li><a name="edit_server" id="edit_server" data-toggle="modal" data-target="#edit_server_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</a></li>
+                                <li ng-if="user.role=='super_admin'"><a name="migrate_server" id="migrate_server" data-toggle="modal" data-target="#migrate_server_modal"><span class="glyphicon glyphicon-transfer"></span> 迁移</a></li>
+                                {%if handler.approval=="closed" or handler.approval=="testAll" or role=="super_admin" %}
+                                <li><a name="config_server" id="config_server" data-toggle="modal" data-target="#config_server_modal"><span class="glyphicon glyphicon-cog"></span> 修改配置</a></li>
+                                {%end%}
+                                <li><a name="server_interface" id="server_interface" data-toggle="modal" data-target="#server_interface_modal"><span class="glyphicon glyphicon-globe"></span> 网卡管理</a></li>
+                                <li ng-if="user.role=='super_admin'"><a name="floating_ip" id="floating_ip" data-toggle="modal" data-target="#floating_ip_modal"><span class="glyphicon glyphicon-wrench"></span> 外部IP管理</a></li>
+                                <li><a name="snapshot" id="snapshot" data-toggle="modal" data-target="#snapshot_modal"><span class="glyphicon glyphicon-picture"></span> 快照管理</a></li>
+                                <!--<li><a name="backup" id="backup" data-toggle="modal" data-target="#backup_server_modal"><span class="glyphicon glyphicon-picture"></span> 创建备份</a></li>-->
+                                {%if handler.approval=="closed" or handler.approval=="testAll" or role=="super_admin" %}
+                                <li><a name="clone" id="clone" data-toggle="modal" data-target="#clone_modal"><span class="glyphicon glyphicon-book"></span> 克隆</a></li>
+                                {%end%}
+                                <li><a name="suspend_server" id="suspend_server" data-toggle="modal" data-target="#suspend_server_modal"><span class="glyphicon glyphicon-download"></span> 挂起</a></li>
+                                <li><a name="resume_server" id="resume_server" data-toggle="modal" data-target="#resume_server_modal"><span class="glyphicon glyphicon-upload"></span> 恢复</a></li>
+                                <li><a name="stop_server" id="stop_server" data-toggle="modal" data-target="#stop_server_modal"><span class="glyphicon glyphicon-stop"></span> 关机</a></li>
+                                <li><a name="restart_server" id="restart_server" data-toggle="modal" data-target="#restart_server_modal"><span class="glyphicon glyphicon-repeat"></span> 重启</a></li>
+                                <!--<li><a name="restart_host" id="restart_host" data-toggle="modal" data-target="#restart_host_modal">重启</a></li>-->
+                                <li><a name="delete_server" id="delete_server" data-toggle="modal" data-target="#delete_server_modal"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
+                            </ul>
+                        </div>
+                        <div class="search_div">
+                            <input type="text" id="search_server_input" placeholder="搜索" class="table_search_input"/>
+                            <img id="search_server_img" class="table_search_img" src="//static_url('images/table_operate_button/search.png')//">
+                        </div>
+                        <div class="btn-group-vertical">
+                            <a class="table_button general_button" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="true">
+                            <span>标签</span>
+                            <img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </a>
+                            <ul id="tag_dropdown" class="dropdown-menu">
+                            </ul>
+                        </div>
+                        <div id="tags_now"></div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="table_container" class="table-responsive server_list_container">
+                        <table id="server_table" class="table">
+                            <thead>
+                            <tr>
+                                <th class="thead_checkbox"></th>
+                                <th class="tds">名称</th>
+                                <th class="tds">CPU核数</th>
+                                <th class="tds">内存</th>
+                                <th class="tds">IP地址</th>
+                                <th class="tds">镜像名称</th>
+                                <th class="tds">所在主机</th>
+                                <th class="tds">虚拟化类型</th>
+                                <th class="tds">所属部门</th>
+                                <th class="tds">状态</th>
+                            </tr>
+                            </thead>
+                            <tbody id="server_list" class="trs">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="Pagination" class="pagination"></div>
+                    </div>
+                    {#<p id="table_num">当前页<span id="current_num"></span>条记录/共<span id="total_num"></span>条记录</p>#}
+                </div>
+            </div>
+        </div>
+
+        <div id="demo">
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--start server modal -->
+<div class="modal fade" id="startup_server_modal" tabindex="-1" role="dialog" aria-labelledby="startServerLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="startServerLabel">
+               <span class="glyphicon glyphicon-off"></span> 开启虚拟机
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行开机动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button button_type="close_button" type="button" class="table_button btn_default_style form_general_button" data-dismiss="modal" action-type="server_action" action="start"><span class="glyphicon glyphicon-ok"></span> 确定</button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--suspend server modal -->
+<div class="modal fade" id="suspend_server_modal" tabindex="-1" role="dialog" aria-labelledby="suspendServerLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="stopServerLabel">
+               <span class="glyphicon glyphicon-stop"></span> 挂起虚拟机
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行挂起虚拟机吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button button_type="close_button" type="button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="server_action" action="suspend">
+               <span class="glyphicon glyphicon-ok"></span> 挂起
+            </button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--resume server modal -->
+<div class="modal fade" id="resume_server_modal" tabindex="-1" role="dialog" aria-labelledby="resumeServerLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="stopServerLabel">
+               <span class="glyphicon glyphicon-stop"></span> 恢复虚拟机
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行恢复虚拟机吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button button_type="close_button" type="button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="server_action" action="resume">
+               <span class="glyphicon glyphicon-ok"></span> 恢复
+            </button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--stop server modal -->
+<div class="modal fade" id="stop_server_modal" tabindex="-1" role="dialog" aria-labelledby="stopServerLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="stopServerLabel">
+               <span class="glyphicon glyphicon-stop"></span> 关闭虚拟机
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行关机动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button button_type="close_button" type="button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="server_action" action="stop">
+               <span class="glyphicon glyphicon-ok"></span> 关闭
+            </button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--restart server modal -->
+<div class="modal fade" id="restart_server_modal" tabindex="-1" role="dialog" aria-labelledby="restartServerLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="restartServerLabel">
+               <span class="glyphicon glyphicon-repeat"></span> 重启虚拟机
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行重启动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button button_type="close_button" type="button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="server_action" action="hard_reboot" reboot_type="hard">
+               <span class="glyphicon glyphicon-ok"></span> 重启
+            </button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--delete server modal -->
+<div class="modal fade" id="delete_server_modal" tabindex="-1" role="dialog" aria-labelledby="deleteServerLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="deleteServerLabel">
+               <span class="glyphicon glyphicon-trash"></span> 删除虚拟机
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行删除虚拟的机动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button button_type="close_button" type="button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="server_life_circle" action="delete">
+               <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--create server modal-->
+<div id="create_server_modal" class="modal fade appmodal fadeIn" tabindex="-1" role="dialog"
+     aria-labelledby="create_server_modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:79px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="myModalLabel">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 创建虚拟机
+                </h4>
+            </div>
+            <div class="body_footer_left">
+                <div class="modal-body modal_body_style">
+                    <div>
+                        <div class="title_container">
+                            <ul id="myTab_style" class="nav nav-tabs">
+                                <li class="active" id="select_image_li"><a class="active_tab" data-toggle="tab">①选择映像</a></li>
+                                <li id="select_conf_li"><a data-toggle="tab">②配置选择</a></li>
+                            </ul>
+                        </div>
+                        <div id="TabContent_style" class="tab-content">
+                            <div class="tab-pane fade in active" id="image_tab">
+                                <div class="row_list">
+                                    <div class="Mirror_list_div">
+                                        <div class="control-group">
+                                            <label for="server_name">名称: </label>
+                                            <input type="text" id="server_name" test="test" class="machine-name machine-7"
+                                                   data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                                   required maxlength="30" placeholder="长度2-30字符"/>
+                                            <div class="help-block"></div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label style="vertical-align: top;">镜像列表: </label>
+                                            <div class="image-list clearfix" type="image_list_container">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer modal_footer_style">
+                                    <a id="next_step" class="next_page_a" data-toggle="tab" href="#flavor_tab">
+                                        <button type="button" class="table_button btn_default_style form_general_button" id="next_page">
+                                            下一步
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="flavor_tab">
+                                <div class="panel">
+                                    <div class="flavor_row flavor car">
+                                        <div><label>配置: </label></div>
+                                        <div class="carname">
+                                            <select id="flavor_select_container" class="select in_put" name="">
+                                            </select>
+                                            <div id="cpu_container" class="cpu cartype">
+                                            </div>
+                                            <div id="ram_container" class="ram">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flavor_row subnet">
+                                        <div><label>磁盘: </label></div>
+                                        <div>
+                                            <input id="server_volume_size" data-slider-id='server_volume_sizeSlider' type="text" data-slider-min="20" data-slider-max="1024" data-slider-step="1" data-slider-value="20"/>
+                                            <span class="slider_style">
+                                                <input id="volume_size" type="number" min="20" max="1024" class="size_slider" value="20" title="20-1024" data-toggle="tooltip"/>GB
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flavor_row subnet">
+                                        <div><label>网络: </label></div>
+                                        <div>
+                                            <select id="network_select_container" class="select in_put" name="">
+                                                <option value="69">dd(192.168.0.0/24)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flavor_row number">
+                                        <div><label>数量: </label></div>
+                                        <div>
+                                            <div class="number-controller">
+                                                <input id="server_number" type="number" value="1" min="1" max="10"
+                                                       class="instance-number" name="a7">
+
+                                                <div class="controller">
+                                                    <div class="arrow-wrapper">
+                                                        <span class="up"></span>
+                                                    </div>
+                                                    <div class="arrow-wrapper">
+                                                        <span class="down"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flavor_row">
+                                        <div><label>认证:</label></div>
+                                        <div>
+                                            <select id="create_server_authority" class="select in_put">
+                                                <option>密钥</option>
+                                                <option>用户名密码</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flavor_row authority_1">
+                                        <div><label>密钥: </label></div>
+                                        <div>
+                                            <select id="create_server_keypair" class="select in_put"></select>
+                                        </div>
+                                    </div>
+                                    <div class="flavor_row authority_2">
+                                        <label>名称: &nbsp;</label>
+                                        <input type="text" id="create_server_username" class="in_put" style="width:30%;">
+                                        <label>密码: &nbsp;</label>
+                                        <input type="password" id="create_server_passwd" class="in_put" style="width:30%;">
+                                    </div>
+
+                                    <div class="flavor_row">
+                                        <div><label>AZ域:</label></div>
+                                        <div>
+                                            <select id="create_server_availability_zone" class="select in_put">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer modal_footer_style">
+
+                                    <a id="previous_step" href="#image_tab" data-toggle="tab">
+                                        <button type="button" class="table_button cancel_button " id="last_page">
+                                            上一步
+                                        </button>
+                                    </a>
+                                    <button id="create_server_action" type="button" class="table_button  form_general_button">
+                                        <span class="glyphicon glyphicon-ok"></span> 添加
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="body_footer_right">
+                <div id="slider-panel-server-detail" class="slider-panel-container margin-10">
+                    <div class="slider-panel-trangle-bg"></div>
+                    <div class="slider-panel-trangle-wd">
+                        云主机
+                    </div>
+                    <div>
+                        <table class="slider-panel-table withHead">
+                            <tr>
+                                <th>
+                                    <div class="blue-tick"></div>
+                                </th>
+                                <td>配置详情</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="slider-panel-table tableHead">
+                            <tbody>
+                                <tr>
+                                    <th>名称：</th>
+                                    <td><span type="create_server_navigator" id="show_server_name"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>数量：</th>
+                                    <td><span type="create_server_navigator" id="show_server_number"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>映像：</th>
+                                    <td><span type="create_server_navigator" id="show_image_name"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>网络：</th>
+                                    <td><span type="create_server_navigator" id="show_network"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>CPU：</th>
+                                    <td><span type="create_server_navigator" id="show_vcpus"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>内存：</th>
+                                    <td><span type="create_server_navigator" id="show_ram"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>CPU内存计费：</th>
+                                    <td><span type="create_server_flavor_bill" id="show_flavor_bill"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>硬盘：</th>
+                                    <td><span type="create_server_navigator" id="show_disk"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>硬盘计费：</th>
+                                    <td><span type="create_server_disk_bill" id="show_disk_bill"></span></td>
+                                </tr>
+                                <tr>
+                                    <th style="border-top:1px solid #eeeeee !important;">费用合计：</th>
+                                    <td style="border-top:1px solid #eeeeee !important;"><span type="create_server_sum_bill" id="show_sum_bill"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--
+                <div class="content_detail">
+                    <p>名称：<span type="create_server_navigator" id="show_server_name"></span></p>
+                    <p>数量：<span type="create_server_navigator" id="show_server_number"></span></p>
+                    <p>映像：<span type="create_server_navigator" id="show_image_name"></span></p>
+                    <p>网络：<span type="create_server_navigator" id="show_network"></span></p>
+                    <p>CPU：<span type="create_server_navigator" id="show_vcpus"></span></p>
+                    <p>内存：<span type="create_server_navigator" id="show_ram"></span></p>
+                    <p>硬盘：<span type="create_server_navigator" id="show_disk"></span></p>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit tag modal-->
+<div id="tag_server_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:79px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="edit_server_modalLabel">
+                    <span class="glyphicon glyphicon-tags"></span> 绑定标签
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_room_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group" style="display:none;">
+                            <label class="control-label">资源</label>
+                            <div class="controls">
+                                <input disabled="disabled" id="tag_resource_id" type="text" class="machine-name"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">标签</label>
+                            <div class="controls">
+                                <div class="machine-table">
+                                    <table class="table">
+                                        <tbody id="tag_tbody">
+                                            <tr>
+                                                <td>加载中...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_tag"><span class="glyphicon glyphicon-ok"></span> 完成</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit server modal-->
+<div id="edit_server_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_server_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:79px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="edit_server_modalLabel">
+                    <span class="glyphicon glyphicon-edit"></span> 编辑虚拟机
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_server_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group">
+                            <label class="control-label">名称: </label>
+                            <input id="machine_name" class="machine-name" type="text"
+                                   data-validation-regex-regex="^[^\s]*" data-validation-regex-message="不能包含空白字符"
+                                   required minlength="2" maxlength="30" placeholder="长度2-30字符">
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="control-group textarea-group">
+                            <label class="control-label">描述: </label>
+                            <textarea id="server_description" class="machine-name" name="yoursuggest" cols="20" rows="7"
+                                     maxlength="100" placeholder="长度0-100字符"></textarea>
+                            <div class="help-block"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_user"><span class="glyphicon glyphicon-ok"></span> 完成</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--migrate server modal-->
+<div id="migrate_server_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="migrate_server_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:170px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="migrate_server_modalLabel">
+                    <span class="glyphicon glyphicon-transfer"></span> 迁移虚拟机
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="migrate_server_form">
+                    <div style="position: relative">
+                        <div class="list_item">
+                            <div class="row_title"><label for="migration_type">迁移类型 :</label></div>
+                            <div class="row_content">
+                                <select id="migration_type" name="migration_type">
+                                    <option value="live_migrate" selected="selected">热迁移</option>
+                                    <option value="offline_migrate">冷迁移</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="on_line_migration_block" class="hide_block">
+                            <div class="list_item">
+                                <div class="row_title"><label>当前主机 :</label></div>
+                                <div class="row_content">
+                                    <input id="current_host" type="text" disabled="disabled" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="list_item">
+                                <div class="row_title"><label for="id_destination_host">目标主机 :</label></div>
+                                <div class="row_content">
+                                    <select id="id_destination_host" class="on_line" name="host">
+                                    </select>
+                                </div>
+                            </div>
+                            <div content_type="checkbox" class="list_item">
+                                <div class="row_content">
+                                    <span>
+                                        <input class="on_line" type="checkbox" disabled="disabled" name="disk_over_commit" id="id_over_quota">
+                                        <label for="id_over_quota">允许磁盘超量</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div content_type="checkbox" class="list_item">
+                                <div class="row_content">
+                                    <span>
+                                        <input class="on_line" type="checkbox" disabled="disabled" name="block_migration" id="id_block_migration">
+                                        <label for="id_block_migration">块迁移</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_migrate_style">
+                <button id="submit_migrate_server" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 完成</button>
+                <button id="cancel_migration" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--adjust server configuration-->
+<div id="config_server_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="config_server_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:170px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="config_server_modalLabel">
+                    <span class="glyphicon glyphicon-cog"></span> 修改虚拟机配置
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="config_server_form">
+                    <div style="position: relative">
+                        <div class="list_item">
+                            <div class="row_title"><label>当前配置 :</label></div>
+                            <div id="current_config" class="row_content">
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title"><label for="cpu_config_container">CPU核数 :</label></div>
+                            <div id="cpu_config_container" class="row_content">
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title"><label>内存大小 :</label></div>
+                            <div id="memory_config_container" class="row_content">
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div id="config_warnning_tip" class="row_content warnning_tip">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_config_style">
+                <button id="submit_config_server" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 完成</button>
+                <button id="cancel_config" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Server's Network interface -->
+<div id="server_interface_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="server_interface_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:170px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="server_interface_modalLabel">
+                    <span class="glyphicon glyphicon-globe"></span> 管理虚拟机网卡
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="server_interface_form">
+                    <div style="position: relative">
+                        <div id="interface_list">
+
+                        </div>
+
+                        <br>
+
+                        <div class="list_item">
+                            <div class="row_title"><label>添加网卡 :</label>
+                            </div>
+                            <div class="row_content">
+                                <span>请为对应网络添加网卡</span>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title"><label>网络 :</label>
+                            </div>
+                            <div class="row_content">
+                                <div>
+                                <select id="network_list_of_interface" class="on_line" name="host">
+                                </select>
+                                    <span>
+                                      <button id="add_interface" class="btn btn-default btn-delete input_button" type="button">
+                                         添加
+                                      </button>
+                                   </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div id="interface_warnning_tip" class="row_content warnning_tip">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_config_style">
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Bind floating ip -->
+<div id="floating_ip_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="floating_ip_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:170px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="floating_ip_modalLabel">
+                    <span class="glyphicon glyphicon-wrench"></span> 外部IP管理
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="floating_ip_form">
+                    <div style="position: relative">
+                        <div id="already_bind_container">
+
+                        </div>
+
+                        <div class="list_item">
+                            <div class="row_title"><label for="bind_type">外部IP来源 :</label>
+                            </div>
+                            <div class="row_content">
+                                <div>
+                                    <select id="bind_type" name="bind_type" class="on_line">
+                                        <option value="directly_bind" selected="selected">空闲外部IP</option>
+                                        <option value="create_and_bind">新建外部IP</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list_item">
+                            <div class="row_title"><label for="server_interface_list">虚拟机网卡 :</label>
+                            </div>
+                            <div class="row_content">
+                                <div>
+                                    <select id="server_interface_list" name="server_interface" class="on_line">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ip_list_container" class="list_item">
+                            <div class="row_title"><label for="floating_ip_list">可用外部IP :</label>
+                            </div>
+                            <div class="row_content">
+                                <div>
+                                    <select id="floating_ip_list" name="floating_ip" class="on_line">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="external_network_container" class="list_item">
+                            <div class="row_title"><label for="external_network_list">外部网络:</label>
+                            </div>
+                            <div class="row_content">
+                                <div>
+                                    <select id="external_network_list" name="external_network" class="on_line">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="warnning_container" class="list_item warnning_container">
+                            <div class="row_title">
+                            </div>
+                            <div class="row_content">
+                                <div class="alert alert-danger" role="alert">
+                                    <span id="floatingip_warnning"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_config_style">
+                <button id="bind_floatingip_submit" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 绑定</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Snapshot management modal -->
+<div id="snapshot_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="snapshot_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:70px auto 0 auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" id="snapshot_modalLabel">
+                    <span class="glyphicon glyphicon-picture"></span> 快照管理
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="snapshot_form">
+                    <div style="position: relative">
+                        <div id="snapshot_display_container">
+
+                        </div>
+
+                        <div class="list_item">
+                            <div class="row_title"><label for="bind_type">快照列表 :</label>
+                            </div>
+                            <div id="snapshot_toolbar" class="row_content">
+                                <button id="delete_snapshot" type="button" class="btn btn-danger btn-sm">删除</button>
+                                <button id="rollback_snapshot" type="button" class="btn btn-warning btn-sm">恢复</button>
+                            </div>
+                        </div>
+
+                        <div id="snapshot_tree_container" class="list_item">
+                            <div id="snapshot_tree" class="tree_container">
+
+                            </div>
+                        </div>
+
+                        <div class="list_item">
+                            <div class="row_title"><label id="action_type_label">创建快照 :</label>
+                            </div>
+                            <div class="row_content">
+                            </div>
+                        </div>
+
+                        <div class="list_item">
+                            <div class="row_title"><label for="bind_type">快照名称 :</label>
+                            </div>
+                            <div class="row_content">
+                                <input id="snapshot_name" type="text">
+                            </div>
+                        </div>
+
+                        <div id="ss_description_container" class="list_item">
+                            <div class="row_title"><label for="server_interface_list">快照描述 :</label>
+                            </div>
+                            <div class="row_content">
+                                <textarea id="snapshot_description" cols="20" rows="7"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="snapshot_warnning_container" class="list_item warnning_container">
+                            <div class="row_title">
+                            </div>
+                            <div class="row_content">
+                                <div class="alert alert-danger" role="alert">
+                                    <span id="snapshot_warnning"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_config_style">
+                <button id="edit_snapshot_submit" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 编辑</button>
+                <button id="create_snapshot_submit" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--backup server modal-->
+<div id="backup_server_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="snapshot_modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:70px auto 0 auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" >
+                    <span class="glyphicon glyphicon-book"></span> 备份
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="backup_server_form">
+                    <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls">
+                                <input id="backup_name" name="name" class="machine-name clone_input" type="text"
+                                       required maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>选择快照</label>
+                            <div class="controls">
+                                <select id="server_snapshot" class="machine-name clone_input" required>
+
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                    <div class="control-group" >
+                                <label class="control-label"><span class="red">*</span>备份格式</label>
+                                <div class="controls">
+                                    <select id="format_raw_to_qcow2" type="text" class="machine-name">
+                                        <option value="true">qcow2</option>
+                                        <option value="false">raw</option>
+                                    </select>
+                                </div>
+                            </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_config_style">
+                <button id="submit_backup" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Clone -->
+<div id="clone_modal" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="snapshot_modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:70px auto 0 auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style" >
+                    <span class="glyphicon glyphicon-book"></span> 克隆
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="clone_form">
+                    <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls">
+                                <input id="clone_name" name="name" class="machine-name clone_input" type="text"
+                                       required maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>网络</label>
+                            <div class="controls">
+                                <select id="server_network" class="machine-name clone_input" required>
+
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    <div class="control-group">
+                        <label class="control-label">配置</label>
+                        <div class="controls">
+                            <select id="server_flavor" class="machine-name clone_input" >
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">认证</label>
+                        <div class="controls">
+                            <select id="server_authority" class="machine-name clone_input">
+                                <option>密钥</option>
+                                <option>用户名密码</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group cl_au_1">
+                        <label class="control-label">密钥名称</label>
+                        <div class="controls">
+                            <select id="server_keypair" class="machine-name clone_input">
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="control-group cl_au_2">
+                        <label class="control-label">用户名</label>
+                        <div class="controls">
+                            <input type="text" id="server_username" class="machine-name clone_input">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="control-group cl_au_2">
+                        <label class="control-label">密码</label>
+                        <div class="controls">
+                            <input type="password" id="server_password" class="machine-name clone_input">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">AZ域</label>
+                        <div class="controls">
+                            <select id="clone_server_availability_zone" class="machine-name clone_input">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_config_style">
+                <button id="submit_clone" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 克隆</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//static_url('plugin/jstree/jstree.min.js')//" type="text/javascript"></script>
+<script src="//static_url('plugin/is-loading/jquery.isloading.min.js')//" type="text/javascript"></script>
+<script src="//static_url('plugin/bootstrap/js/jqBootstrapValidation.js')//" type="text/javascript"></script>
+<script src="//static_url('javascripts/server.js')//" type="text/javascript"></script>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <title>天玑云数据中心管理平台</title>
+    <link href="/rc/static/images/single/logo_ico.ico" rel="shortcut icon"/>
+
+    <meta http-equiv="content-language" content="zh-CN" />
+    <meta name="viewport" content="width=width,initial-scale=1.0,user-scalable=yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!--必须要的-->
+    <link href="/rc/static/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/rc/static/plugin/bootstrap/css/bootstrap-slider.min.css"  rel="stylesheet" type="text/css"/>
+    <link href="/rc/static/plugin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!--旧版RC按钮等组件的样式-->
+    <!--<link href="/rc/static/plugin/widget/css/common.css" rel="stylesheet"  type="text/css"/>-->
+    <link href="/rc/static/plugin/ng-table/ng-table.css" rel="stylesheet"/>
+    <link href="/rc/static/plugin/customScroll/jquery.mCustomScrollbar.css" rel="stylesheet">
+    <link href="/rc/static/plugin/pace/pace-theme-flash.css" rel="stylesheet"/>
+    <link href="/rc/static/plugin/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="/rc/static/plugin/sweet-alert/sweetalert.css" type="text/css">
+
+    <!--旧版RC的样式-->
+    <!--<link href="/rc/static/stylesheets/html_location_navigator.css" rel="stylesheet"  type="text/css"/>
+    <link href="/rc/static/stylesheets/navigator.css" rel="stylesheet"  type="text/css"/>
+    <link href="/rc/static/stylesheets/pagination.css" rel="stylesheet" type="text/css"/>-->
+
+    <!--做用户角色部分功能是暂时用到的(来自gcloud)-->
+    <link href="/rc/static/reconsitution/styles/component.css" rel="stylesheet"  type="text/css"/>
+
+
+    <!-- JQuery 相关插件 -->
+    <script type="text/javascript" src="/rc/static/plugin/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/jquery/jquery.metadata.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/jquery/jquery.pagination.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/jquery/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/is-loading/jquery.isloading.min.js" ></script>
+
+    <!-- angular相关的插件 -->
+    <script type="text/javascript" src="/rc/static/plugin/angularjs/angular.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/angular-cookies/angular-cookies.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/angularjs/angular-cookie.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/oclazyload/dist/ocLazyLoad.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/angular-breadcrumb/angular-breadcrumb.min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/ng-table/ng-table.js"></script>
+
+    <!-- bootstrap相关的插件 -->
+    <script type="text/javascript" src="/rc/static/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/bootstrap/js/bootstrap-slider.min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/bootstrap-ui/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/bootstrap/js/jqBootstrapValidation.js"></script>
+
+    <!-- 其他插件 -->
+    <script type="text/javascript" src="/rc/static/plugin/customScroll/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/is-check/is.min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/underscore/underscore.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/jtopo/jtopo-0.4.8-min.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/jtopo/toolbar.js"></script>
+    <script type="text/javascript" src="/rc/static/plugin/jstree/jstree.min.js"></script>
+    <script type="text/javascript" src="/rc/static/bocweb/script/draggabilly.pkgd.min.js"></script>
+    <script type="text/javascript" src="/rc/static/bocweb/script/packery.pkgd.min.js"></script>
+    <script data-pace-options='{ "ajax": true,"restartOnRequestAfter":false }' src="/rc/static/plugin/pace/pace.js"></script>
+
+</head>
+
+<!--来自博彩的样式-->
+<link rel="stylesheet" href="/rc/static/bocweb/style/reset.css">
+<link rel="stylesheet" href="/rc/static/bocweb/style/animate.css">
+<link rel="stylesheet" href="/rc/static/bocweb/style/style.css">
+<link rel="stylesheet" href="/rc/static/bocweb/style/media.css">
+<link rel="stylesheet" href="/rc/static/bocweb/style/sub.css">
+<link rel="stylesheet" href="/rc/static/bocweb/style/element.css">
+<link rel="stylesheet" href="/rc/static/bocweb/style/element_btn.css">
+<!--自定义样式-->
+<link rel="stylesheet" href="/rc/static/reconsitution/styles/common.css">
+
+<script type="text/javascript" src="/rc/static/bocweb/script/object.js"></script>
+<script type="text/javascript" src="/rc/static/config.url.js"></script>
+<script type="text/javascript" src="/rc/static/config.app.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/business/profile/role/roles.other.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/business/profile/user/user.service.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/business/permissionVerify.service.js"></script>
+<script type="text/javascript" src="/rc/static/config.route.js"></script>
+<script type="text/javascript" src="/rc/static/config.service.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/selfPlugIn/bocModal.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/globalService/SAlert.js"></script>
+
+<script type="text/javascript" src="/rc/static/reconsitution/globalService/originApp.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/globalService/utilService.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/interceptor/httpInterceptor.js"></script>
+<script type="text/javascript" src="/rc/static/reconsitution/interceptor/sessionInterceptor.js"></script>
+
+<!--Tree-->
+<script type="text/javascript" src="/rc/static/plugin/jquery-ui/core.min.js"></script>
+<script type="text/javascript" src="/rc/static/plugin/jquery-ui/effects.min.js"></script>
+<script type="text/javascript" src="/rc/static/plugin/jquery-ui/interactions.min.js"></script>
+<script type="text/javascript" src="/rc/static/plugin/fancytrees/fancytree_all.min.js"></script>
+<script type="text/javascript" src="/rc/static/plugin/fancytrees/fancytree_childcounter.js"></script>
+
+<!-- sweetAlert-->
+<script type="text/javascript" src="/rc/static/plugin/sweet-alert/sweetalert.min.js"></script>
+
+
+<body class="scroll-xy" ng-app="ResourceCenter" ui-view>
+</body>
+</html>

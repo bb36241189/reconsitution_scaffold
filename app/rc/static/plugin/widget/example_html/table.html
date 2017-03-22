@@ -1,0 +1,165 @@
+<html>
+<head>
+    <title>天玑云数据中心管理平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../../../plugin/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../plugin/jquery/jquery.metadata.js"></script>
+    <script type="text/javascript" src="../../../plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../plugin/widget/js/table.js"></script>
+    <link href="../../../plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../stylesheets/navigator.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../plugin/widget/css/common.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div>
+        <div class="table_operate_div">
+            <div class="table_title_div">
+                <span>机房管理</span>
+            </div>
+			      <div class="table_button_div">
+                <input type="image" src="../../../images/table_operate_button/add.png" name="add_room" id="add_room" data-placement="bottom" title="添加" data-toggle="modal" data-target="#create_room_modal" >
+                <input type="image" src="../../../images/table_operate_button/delete.png" name="delete_room" id="delete_room" data-placement="bottom" title="删除" data-toggle="modal" data-target="#delete_room_modal">
+                <input type="image" src="../../../images/table_operate_button/edit.png" name="edit_room" id="edit_room" data-placement="bottom" title="编辑" data-toggle="modal" data-target="#edit_room_modal">
+                <input type="image" src="../../../images/table_operate_button/refresh.png" name="refresh_room" id="refresh_room" data-placement="bottom" title="刷新">
+			      </div>
+        </div>
+    	  <div >
+            <table class="table table-bordered" id="room_table" >
+                <thead>
+                    <tr >
+                        <th class="thead_checkbox" >
+                        </th>
+                        <th >机房名称</th>
+                        <th>机房地址</th>
+                        <th>机房面积（㎡）</th>
+                        <th>机柜数量（台）</th>
+                        <th>负责人</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody id="room_tbody" >
+                    <tr>
+                        <td ><input type="checkbox" style="display: none"/></td>
+                        <td>天玑科技C1</td>
+                        <td>上海市徐汇区电信机房</td>
+                        <td>200</td>
+                        <td>5</td>
+                        <td>小王</td>
+                        <td>暂无</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" style="display: none"/></td>
+                        <td>天玑科技C2机房</td>
+                        <td>北京市昌平区联通机房</td>
+                        <td>500</td>
+                        <td>20</td>
+                        <td>小张</td>
+                        <td>暂无</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" style="display: none"/></td>
+                        <td>天玑科技C1机房</td>
+                        <td>上海市静安区移动机房</td>
+                        <td>600</td>
+                        <td>77</td>
+                        <td>小李</td>
+                        <td>暂无</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!--create room modal-->
+<div id="create_room_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_room_modalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <p class="font_family">添加机房信息</p>
+  </div>
+  <div class="modal-body">
+  <form id="create_room_form">
+     <label for="name">机房名称</label><br>
+     <input type="text" name="name" class="input-xlarge"><br>
+     <label for="position">机房地址</label><br>
+     <input type="text" name="position" class="input-xlarge"><br>
+     <label for="length">长</label><br>
+     <input type="text" name="length" class="input-xlarge"><br>
+     <label for="width">宽</label><br>
+     <input type="text" name="width" class="input-xlarge"><br>
+     <label for="height">高</label><br>
+     <input type="text" name="height" class="input-xlarge"><br>
+     <label for="manager">负责人</label><br>
+     <select class="selectpicker" name="manager">
+       <option value="0">小李</option>
+       <option value="1">小王</option>
+     </select><br>
+     <label for="description">备注</label><br>
+     <textarea name="description"></textarea><br>
+  </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+    <button class="btn btn-primary" id="submit_create_user">添加</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!--edit room modal-->
+<div id="edit_room_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_room_modalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <p class="font_family">修改机房信息</p>
+  </div>
+  <div class="modal-body">
+    <form id="edit_room_form">
+     <label for="name">机房名称</label><br>
+     <input type="text" name="name" class="input-xlarge"><br>
+     <label for="position">机房地址</label><br>
+     <input type="text" name="position" class="input-xlarge"><br>
+     <label for="length">长</label><br>
+     <input type="text" name="length" class="input-xlarge"><br>
+     <label for="width">宽</label><br>
+     <input type="text" name="width" class="input-xlarge"><br>
+     <label for="height">高</label><br>
+     <input type="text" name="height" class="input-xlarge"><br>
+     <label for="manager">负责人</label><br>
+     <select class="selectpicker" name="manager">
+       <option value="0">小李</option>
+       <option value="1">小王</option>
+     </select><br>
+     <label for="description">备注</label><br>
+     <textarea name="description"></textarea><br>
+  </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+    <button class="btn btn-primary" id="submit_edit_user">更新</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!--delete room modal-->
+<div id="delete_room_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_room_modalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+
+  </div>
+  <div class="modal-body">
+      <p class="font_family">确定要删除该机房？</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+    <button class="btn btn-danger" id="submit_delete_user">删除</button>
+  </div>
+</div>
+</div>
+</div>
+</body>

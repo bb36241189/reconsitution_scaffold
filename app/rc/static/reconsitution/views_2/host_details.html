@@ -1,0 +1,317 @@
+<link href="//static_url('stylesheets/host_details.css')//" rel="stylesheet" type="text/css"/>
+
+<div class="container-fluid page-content" type="out_container">
+
+    <div class="row" style="display:none;">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>计算资源</li>
+                    <li><a class="load_content" href="{{handler.deploy_name}}/app/host">物理服务器</a></li>
+                    <li id="host_li" class="active" host_id="{{ host_id }}">{{ host_name }}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div id="content-container" class="row">
+        <div class="col-md-12">
+            <div class="host-page-container">
+                <div id="host_details">
+                    <div class="tabbable title_container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#telemetry" data-toggle="tab">监控</a></li>
+                            <!--<li><a href="#operation_log" data-toggle="tab">操作日志</a></li>-->
+                            <!--<li><a href="#vm_log" data-toggle="tab">云主机日志</a></li>-->
+                        </ul>
+                    </div>
+
+                    <div id="TabContent" class="tab-content">
+                        <div class="tab-pane fade in active" id="telemetry">
+                            <div>
+                                <div class="row">
+                                    <div id="duration_select" class="chart-toolbar chart-item">
+                                        <div class="btn-group" role="toolbar">
+                                            <button type="button" class="btn btn-default active" value="six_hours" interval="5">6小时
+                                            </button>
+                                            <button type="button" class="btn btn-default" value="one_day" interval="10">1天</button>
+                                            <button type="button" class="btn btn-default" value="one_week" interval="60">1周</button>
+                                            <button type="button" class="btn btn-default" value="one_month" interval="360">1月</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--CPU 内存监控-->
+                                <div class="row">
+                                    <div class="col-md-6 chart-item">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div class="chart-header">
+                                                    <p>CPU相关监控项：</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!--CPU监控-->
+                                    <div class="col-md-6 chart-item">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div id="cpu_telemetry_container" class="chart-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--内存监控-->
+                                    <div class="col-md-6 chart-item">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div id="mem_telemetry_container" class="chart-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               <!--磁盘监控-->
+                                <div class="row">
+                                    <div class="col-md-6 chart-item">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div class="chart-header">
+                                                    <p>系统盘相关监控项：</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 chart-item">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div id="disk_rate_container" class="chart-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 chart-item">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div id="disk_iops_container" class="chart-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="row">-->
+                                    <!--<div class="col-md-6 chart-item">-->
+                                        <!--<div class="row">-->
+                                            <!--<div class="col-md-11">-->
+                                                <!--<div class="chart-header">-->
+                                                    <!--<p>网络相关监控项：</p>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <div id="network_row">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="operation_log">
+                            <div>
+                                <p>操作日志如下……</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="vm_log">
+                            <div>
+                                <p>云主机运行日志如下……</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table"></table>
+        <!--
+        <div class="col-md-3">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">物理机基本信息</h3>
+                    </div>
+                    <table id="host_table" class="table">
+                        <tr>
+                            <td class="host-title">主机名</td>
+                            <td id="host_name" class="host-body"></td>
+                        </tr>
+                        <tr>
+                            <td class="host-title">电源状态</td>
+                            <td id="host_power_status" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">集群成员状态</td>
+                            <td id="member_enabled" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">集群服务状态</td>
+                            <td id="service_state" class="host-body"></td>
+                        </tr>
+                        <tr>
+                            <td class="host-title">系统</td>
+                            <td id="host_system" class="host-body"></td>
+                        </tr>
+                        <tr>
+                            <td class="host-title">管理IP</td>
+                            <td id="host_manage_ip" class="host-body"></td>
+                        </tr>
+                        <tr>
+                            <td class="host-title">IPMI IP</td>
+                            <td id="ipmi_ip" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">CPU厂商</td>
+                            <td id="cpu_vender" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">CPU架构</td>
+                            <td id="cpu_arch" class="host-body"></td>
+                        </tr>
+                        <tr>
+                            <td class="host-title">CPU总个数</td>
+                            <td id="cpu_total_number" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">CPU已使用</td>
+                            <td id="cpu_used_number" class="host-body"></td>
+                        </tr>
+                        <tr>
+                            <td class="host-title">内存总量</td>
+                            <td id="mem_total_number" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">内存已使用</td>
+                            <td id="mem_user_number" class="host-body"></td>
+                        </tr>
+                        <tr class="hide-tr-item" tr-type="openstack">
+                            <td class="host-title">虚拟机数量</td>
+                            <td id="running_vm_number" class="host-body"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+    <div class="slider-panel-group">
+        <div class="slider-panel">
+            <div class="slider-panel-title-container">
+                <div class="slider-panel-title">
+                    <div class="slider-panel-caret"></div>
+                    <div class="slider-panel-title-text">基本信息</div>
+                </div>
+            </div>
+            <div class="slider-panel-container">
+                <div class="slider-panel-trangle-bg"></div>
+                <div class="slider-panel-trangle-wd">
+                    物理机
+                </div>
+                <div>
+                    <table class="slider-panel-table withHead">
+                        <tr>
+                            <th>
+                                <div class="blue-tick"></div>
+                            </th>
+                            <td>基本信息</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                主机名
+                            </th>
+                            <td id="host_name"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                电源状态
+                            </th>
+                            <td id="host_power_status"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                集群成员状态
+                            </th>
+                            <td id="member_enabled"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                集群服务状态
+                            </th>
+                            <td id="service_state"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                系统
+                            </th>
+                            <td id="host_system"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                管理IP
+                            </th>
+                            <td id="host_manage_ip"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                IPMI IP
+                            </th>
+                            <td id="ipmi_ip"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                CPU厂商
+                            </th>
+                            <td id="cpu_vender"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                CPU架构
+                            </th>
+                            <td id="cpu_arch"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                CPU总个数
+                            </th>
+                            <td id="cpu_total_number"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                CPU已使用
+                            </th>
+                            <td id="cpu_used_number"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                内存总量
+                            </th>
+                            <td id="mem_total_number"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                内存已使用
+                            </th>
+                            <td id="mem_user_number"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                虚拟机数量
+                            </th>
+                            <td id="running_vm_number"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//static_url('plugin/echarts3/echarts.min.js')//" type="text/javascript"></script>
+<script src="//static_url('javascripts/host_details.js')//" type="text/javascript"></script>

@@ -1,0 +1,138 @@
+@media (max-width: 1660px) {
+  .mNave li {
+    margin: 0 24px;
+  }
+  .mState li {
+    padding: 0 20px;
+  }
+}
+@media (max-width: 1440px) {
+  .mNave {
+    margin-left: 4%;
+  }
+  .mNave li {
+    margin: 0 14px;
+  }
+}
+@media (max-width: 1399px) {
+  .mWelMasonry .item {
+    width: 16.6666%;
+  }
+  .mWelMasonry .item.n2 {
+    width: 33.3333%;
+  }
+}
+@media (max-width: 1330px) {
+  .mNave a {
+    font-size: 14px;
+  }
+  .mNave li {
+    margin: 0 14px;
+  }
+}
+@media (max-width: 1248px) {
+  .mState li {
+    padding: 0 12px;
+  }
+}
+@media (max-width: 1199px) {
+  .mNave a {
+    font-size: 12px;
+    padding-left: 30px;
+  }
+  .mState li {
+    padding: 0 8px;
+  }
+  .mHeadUser {
+    margin-left: 30px;
+    padding: 0 25px;
+    transition: all .3s;
+  }
+}
+@media (max-width: 1079px) {
+  .mWelMasonry .item {
+    width: 25%;
+  }
+  .mWelMasonry .item.n2 {
+    width: 50%;
+  }
+  .mNave li {
+    margin: 0 6px;
+  }
+  .mLogo {
+    margin-left: 30px;
+  }
+  .mState {
+    margin-top: 35px;
+  }
+  .mState li.pSer > a {
+    width: 18px;
+    height: 18px;
+  }
+  .mState li.pNot > a {
+    width: 18px;
+    height: 18px;
+  }
+  .mState li.pNew > a {
+    width: 25px;
+    height: 15px;
+  }
+  .mState .titNum {
+    top: -12px;
+    right: -15px;
+    width: 22px;
+    height: 22px;
+    background-size: 100%;
+    line-height: 25px;
+    font-size: 12px;
+  }
+  .modalAddHost .modal-dialog {
+    width: 100%;
+  }
+}
+@media (max-width: 930px) {
+  .mNave li {
+    margin: 0 4px;
+  }
+  .mNave a {
+    padding-left: 26px;
+  }
+  .mLogo img {
+    height: 34px;
+  }
+}
+@media (max-width: 900px) {
+  .mHeadUser .pHead {
+    padding-right: 20px;
+  }
+  .mHeadUser img {
+    width: 34px;
+    height: 34px;
+  }
+  .mHeadUser {
+    margin-left: 20px;
+    padding: 0 15px;
+  }
+  .mLogo {
+    margin-left: 20px;
+  }
+  .mNave {
+    margin-left: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .mWelMasonry .item {
+    width: 25%;
+  }
+  .mWelMasonry .item.n2 {
+    width: 50%;
+  }
+  .modalAddHost .modal-dialog {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .table-responsive {
+    border: 0;
+  }
+}

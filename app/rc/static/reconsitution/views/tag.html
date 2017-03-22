@@ -1,0 +1,316 @@
+<link ng-href="//static_url('plugin/bootstrap/css/bootstrap-slider.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/tag.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" >
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>管理</li>
+                    <li class="active">标签</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button name="refresh_tag" id="refresh_tag" class="table_button general_button" ><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                            <button name="add_tag" id="add_tag" class="table_button general_button" data-toggle="modal" data-target="#create_tag_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button name="edit_tag" id="edit_tag" class="table_button" data-toggle="modal" data-target="#edit_tag_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button name="delete_tag" id="delete_tag" class="table_button" data-toggle="modal" data-target="#delete_tag_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                        </div>
+                        <div class="search_div">
+                            <input type="text" id="search_tag_input" placeholder="搜索" class="table_search_input"/>
+                            <img id="search_tag_img" class="table_search_img" ng-src="//static_url('images/table_operate_button/search.png')//">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="tag_table" class="table-responsive table_container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox"> </th>
+                                    <th class="tds">名称</th>
+                                    <th class="tds">创建时间</th>
+                                    <th class="tds">更新时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tag_tbody" class="trs">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="tag_resource_pagination" class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+        <!--
+        <div class="operation_2 animate-block">
+            <div>
+                <div class="tabbable title_container">
+                    <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                        ×
+                    </button>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a ng-href="#telemetry" data-toggle="tab">标签</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="telemetry">
+                        <div class="interface_button_div">
+                            <span class="butn">
+                                <button name="delete_tag_resource" id="delete_tag_resource" class="table_button" data-toggle="modal" data-target="#delete_interface_modal">解除标签</button>
+                            </span>
+                        </div>
+                        <div  id="tag_resources">
+                            <table class="table" id="tag_resources_table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>资源类型</th>
+                                        <th>资源ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tag_resource_tbody">
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="tag_resource_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+
+    </div>
+</div>
+
+<div class="modal fade" id="delete_tag_modal" tabindex="-1" role="dialog" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行删除标签的动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button id="submit_delete_tag" closetype="close_button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="tag_life_circle" action="delete">
+               <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+            <button  class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="edit_tag_modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑标签信息</h4>
+            </div>
+            <div class="modal-body ">
+                <form id="edit_tag_form">
+                    <div class="Mirror_list_div">
+                        <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls">
+                                <input id="edit_name" name="name" class="machine-name" type="text"
+                                       required maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="control-group" style="display:none;">
+                            <label class="control-label">颜色</label>
+                            <div class="controls">
+                                <select id="edit_color" name="color" class="machine-name">
+                                    <!--
+                                    <option value="blue" class="blue_bg">蓝色</option>
+                                    <option value="red" class="red_bg">红色</option>
+                                    <option value="yellow" class="yellow_bg">黄色</option>
+                                    <option value="black" class="black_bg">黑色</option>
+                                    <option value="green" class="green_bg">绿色</option>
+                                    <option value="cyan" class="cyan_bg">青色</option>
+                                    <option value="indigo" class="indigo_bg">紫色</option>
+                                    <option value="orange" class="orange_bg">桔黄</option>
+                                    <option value="deeppink" class="deeppink_bg">粉红</option>
+                                    -->
+                                    <option value="c1" class="c1_bg"></option>
+                                    <option value="c2" class="c2_bg"></option>
+                                    <option value="c3" class="c3_bg"></option>
+                                    <option value="c4" class="c4_bg"></option>
+                                    <option value="c5" class="c5_bg"></option>
+                                    <option value="c6" class="c6_bg"></option>
+                                    <option value="c7" class="c7_bg"></option>
+                                    <option value="c8" class="c8_bg"></option>
+                                    <option value="c9" class="c9_bg"></option>
+                                    <option value="c10" class="c10_bg"></option>
+                                </select>
+                                <span class="help-block"></span>
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">颜色</label>
+                            <div class="controls">
+                                <div class="picker-container">
+                                    <!--
+                                    <div c="blue" class="color-picker blue_bg"></div>
+                                    <div c="red" class="color-picker red_bg"></div>
+                                    <div c="yellow" class="color-picker yellow_bg"></div>
+                                    <div c="black" class="color-picker black_bg"></div>
+                                    <div c="green" class="color-picker green_bg"></div>
+                                    <div c="cyan" class="color-picker cyan_bg"></div>
+                                    <div c="indigo" class="color-picker indigo_bg"></div>
+                                    <div c="orange" class="color-picker orange_bg"></div>
+                                    <div c="deeppink" class="color-picker deeppink_bg"></div>
+                                    -->
+                                    <div c="c1" class="color-picker c1_bg"></div>
+                                    <div c="c2" class="color-picker c2_bg"></div>
+                                    <div c="c3" class="color-picker c3_bg"></div>
+                                    <div c="c4" class="color-picker c4_bg"></div>
+                                    <div c="c5" class="color-picker c5_bg"></div>
+                                    <div c="c6" class="color-picker c6_bg"></div>
+                                    <div c="c7" class="color-picker c7_bg"></div>
+                                    <div c="c8" class="color-picker c8_bg"></div>
+                                    <div c="c9" class="color-picker c9_bg"></div>
+                                    <div c="c10" class="color-picker c10_bg"></div>
+                                    <div class="clear_both"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_edit_tag" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button id="edit_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="create_tag_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_tag_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="create_tag_modalLabel">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 创建标签
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="create_tag_form">
+                    <div class="Mirror_list_div">
+                        <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls">
+                                <input id="create_name" name="name" class="machine-name" type="text"
+                                       required maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="control-group" style="display:none;">
+                            <label class="control-label">颜色</label>
+                            <div class="controls">
+                                <select id="create_color" name="color" class="machine-name">
+                                    <!--
+                                    <option value="blue" class="blue_bg">蓝色</option>
+                                    <option value="red" class="red_bg">红色</option>
+                                    <option value="yellow" class="yellow_bg">黄色</option>
+                                    <option value="black" class="black_bg">黑色</option>
+                                    <option value="green" class="green_bg">绿色</option>
+                                    <option value="cyan" class="cyan_bg">青色</option>
+                                    <option value="indigo" class="indigo_bg">紫色</option>
+                                    <option value="orange" class="orange_bg">桔黄</option>
+                                    <option value="deeppink" class="deeppink_bg">粉红</option>
+                                    -->
+                                    <option value="c1" class="c1_bg"></option>
+                                    <option value="c2" class="c2_bg"></option>
+                                    <option value="c3" class="c3_bg"></option>
+                                    <option value="c4" class="c4_bg"></option>
+                                    <option value="c5" class="c5_bg"></option>
+                                    <option value="c6" class="c6_bg"></option>
+                                    <option value="c7" class="c7_bg"></option>
+                                    <option value="c8" class="c8_bg"></option>
+                                    <option value="c9" class="c9_bg"></option>
+                                    <option value="c10" class="c10_bg"></option>
+                                </select>
+                                <span class="help-block"></span>
+
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">颜色</label>
+                            <div class="controls">
+                                <div class="picker-container">
+                                    <!--
+                                    <div c="blue" class="color-picker blue_bg"></div>
+                                    <div c="red" class="color-picker red_bg"></div>
+                                    <div c="yellow" class="color-picker yellow_bg"></div>
+                                    <div c="black" class="color-picker black_bg"></div>
+                                    <div c="green" class="color-picker green_bg"></div>
+                                    <div c="cyan" class="color-picker cyan_bg"></div>
+                                    <div c="indigo" class="color-picker indigo_bg"></div>
+                                    <div c="orange" class="color-picker orange_bg"></div>
+                                    <div c="deeppink" class="color-picker deeppink_bg"></div>
+                                    -->
+                                    <div c="c1" class="color-picker c1_bg"></div>
+                                    <div c="c2" class="color-picker c2_bg"></div>
+                                    <div c="c3" class="color-picker c3_bg"></div>
+                                    <div c="c4" class="color-picker c4_bg"></div>
+                                    <div c="c5" class="color-picker c5_bg"></div>
+                                    <div c="c6" class="color-picker c6_bg"></div>
+                                    <div c="c7" class="color-picker c7_bg"></div>
+                                    <div c="c8" class="color-picker c8_bg"></div>
+                                    <div c="c9" class="color-picker c9_bg"></div>
+                                    <div c="c10" class="color-picker c10_bg"></div>
+                                    <div class="clear_both"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_create_tag" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button id="create_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>

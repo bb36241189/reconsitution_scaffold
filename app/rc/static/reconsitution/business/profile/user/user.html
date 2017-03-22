@@ -1,0 +1,328 @@
+<div class="pg pg-user">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="sim-fictiNave f-cb">
+                <div class="col-md-7 col-xs-12">
+                    <button ng-click="action.refresh()" type="button" class="btn btn-padding btn-status-blue">刷新</button>&nbsp;&nbsp;
+                </div>
+                <div class="col-md-5 col-xs-12 tar">
+                    <form class="form-inline">
+                        <button ng-click="action.create()" type="button" class="btn btn-padding btn-status-blueLake" id="openAddHost">添加</button>&nbsp;
+                        <button type="button" class="btn btn-padding btn-status-blueLake">更多</button>&nbsp;
+                        <div class="form-group form-search f-cb">
+                            <input type="text" ng-model="data.search_user_name" class="form-control fl" placeholder="搜索">
+                            <button type="submit" class="btn btn-submit fl" ng-click="action.refresh();"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        &nbsp;
+    </div>
+    <div class="col-md-12" ng-if="data.permitStatus.user_list">
+        <table ng-table="data.userTable" class="table" show-filter="false">
+            <tr ng-repeat="user in $data">
+                <!--<td data-title="'ID'" filter="{id : 'text'}" sortable="'id'">//user.id//</td>-->
+                <td data-title="'用户名'" filter="{user_name : 'text'}" sortable="'user_name'"><a ng-click="action.userDetail(user)" href="javascript:void(0)">//user.user_name//</a></td>
+                <!--<td data-title="'department_id'" filter="{department_id : 'text'}" sortable="'department_id'">//user.department_id//</td>-->
+                <td data-title="'部门名称'" filter="{department_name : 'text'}" sortable="'department_name'">//user.department_name//</td>
+                <!--<td data-title="'user_passwd'" filter="{user_passwd : 'text'}" sortable="'user_passwd'">//user.user_passwd//</td>-->
+                <td data-title="'email'" filter="{email : 'text'}" sortable="'email'">//user.email//</td>
+                <td data-title="'创建时间'" filter="{create_time : 'text'}" sortable="'create_time'">//user.create_time//</td>
+                <td data-title="'更新时间'" filter="{update_time : 'text'}" sortable="'update_time'">//user.update_time//</td>
+                <td data-title="'操作'" class="text-center">
+					<ul class="icons-list">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a ng-if="data.permitStatus.user_update && !user.is_system_admin" ng-click="action.edit(user,'lg');"><i class="icon-pencil7"></i>编辑</a></li>
+								<li><a ng-if="data.permitStatus.user_delete && !user.is_system_admin" ng-click="action.del(user)"><i class=" icon-trash"></i>删除</a></li>
+								<li><a ng-if="data.permitStatus.user_change_password" ng-click="action.changePwd(user)"><i class=" icon-pencil"></i>修改密码</a></li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+            </tr>
+        </table>
+    </div>
+    <div class=""></div>
+</div>
+
+
+<script type="text/ng-template" id="createUser.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;创建用户</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form ng-submit="action.save(myForm)" id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>用户名称:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="输入用户名" name="user_name"
+                                   ng-model="data.user_name"
+                                   required
+                                   ng-minlength="1">
+                            <!--<span class="help-block c-red" ng-show="myForm.user_name.$dirty && myForm.user_name.$invalid">请输入正确的用户名称</span>-->
+                            <help-block target="myForm.user_name" pattern-text="请输入正确的用户名称"></help-block>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>用户密码:</label>
+                            <input type="password" placeholder="请输入用户密码" class="form-control" name="user_passwd" ng-model="data.user_passwd"
+                                    required
+                                    ng-minlength="1"/>
+                            <span class="help-block c-red" ng-show="myForm.user_passwd.$dirty && myForm.user_passwd.$invalid">请输入正确的用户密码</span>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>email:</label>
+                            <input type="text" placeholder="请输入邮箱" class="form-control" name="email" ng-model="data.email"
+                                    required
+                                    ng-minlength="1"
+                                    ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/"
+                                    is-user-unique-with-field="myForm.user_name"/>
+                            <!--<span class="help-block c-red" ng-show="myForm.email.$dirty && myForm.email.$invalid">请输入正确的邮箱地址</span>-->
+                            <help-block target="myForm.email" pattern-text="请输入正确的邮箱地址"></help-block>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>选择部门:</label>
+                            <select ui-select2 ng-model="data.department_id" class="form-control" name="department_id" data-placeholder=""
+                                    required
+                                    ng-minlength="1">
+								<option ng-repeat="x in data.__departments" value="//x.id//" >//x.name//</option>
+                            </select>
+                            <span class="help-block c-red" ng-show="myForm.department_id.$dirty && myForm.department_id.$invalid">请选择所在部门</span>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>选择角色:</label>
+                            <select ui-select2 ng-model="data.role_id" class="form-control" name="role_id" data-placeholder=""
+                                    required
+                                    ng-minlength="1">
+								<option ng-repeat="x in data.__roles" value="//x.id//" >//x.name//</option>
+                            </select>
+                            <span class="help-block c-red" ng-show="myForm.role_id.$dirty && myForm.role_id.$invalid">请选择用户角色</span>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-if="myForm.$valid" class="btn btn-success" ng-click="action.save(myForm)"><i class="icon-check"></i>保存</button>
+        <button ng-if="myForm.$invalid" class="btn btn-success" ng-click="action.save(myForm)" disabled="disabled"><i class="icon-check"></i>保存</button>
+    </div>
+</script>
+<script type="text/ng-template" id="editUser.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;编辑用户</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form ng-submit="action.save(myForm)" id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>用户名称:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="输入用户名" name="user_name"
+                                   ng-model="data.user_name"
+                                   required
+                                   ng-minlength="1">
+                            <help-block target="myForm.user_name" pattern-text="请输入正确的用户名称"></help-block>
+                            <!--<span class="help-block c-red" ng-show="myForm.user_name.$dirty && myForm.user_name.$invalid">请输入正确的用户名称</span>-->
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>email:</label>
+                            <input type="text" placeholder="请输入邮箱" class="form-control" name="email" ng-model="data.email"
+                                    required
+                                    ng-minlength="1"
+                                    ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/"
+                                    is-user-unique-with-field="myForm.user_name"/>
+                            <!--<span class="help-block c-red" ng-show="myForm.email.$dirty && myForm.email.$invalid">请输入正确的邮箱地址</span>-->
+                            <help-block target="myForm.email" pattern-text="请输入正确的邮箱地址"></help-block>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>选择部门:</label>
+                            <select ui-select2 ng-model="data.department_id" class="form-control" name="department_id" data-placeholder=""
+                                    required
+                                    ng-minlength="1">
+								<option ng-repeat="x in data.__departments" value="//x.id//" >//x.name//</option>
+                            </select>
+                            <span class="help-block c-red" ng-show="myForm.department_id.$dirty && myForm.department_id.$invalid">请选择所在部门</span>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>选择角色:</label>
+                            <select ui-select2 ng-model="data.role_id" class="form-control" name="role_id" data-placeholder=""
+                                    required
+                                    ng-minlength="1">
+								<option ng-repeat="x in data.__roles" value="//x.id//" >//x.name//</option>
+                            </select>
+                            <span class="help-block c-red" ng-show="myForm.role_id.$dirty && myForm.role_id.$invalid">请选择用户角色</span>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button ng-if="myForm.$valid" class="btn btn-success" ng-click="action.save(myForm)"><i class="icon-check"></i>保存</button>
+        <button ng-if="myForm.$invalid" class="btn btn-success" ng-click="action.save(myForm)" disabled="disabled"><i class="icon-check"></i>保存</button>
+    </div>
+</script>
+<script type="text/ng-template" id="userDetail.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;用户详情</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form ng-submit="action.save(myForm)" id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>用户名称:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="输入用户名" name="user_name"
+                                   ng-model="data.user_name"
+                                   required
+                                   readonly
+                                   ng-minlength="1">
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>email:</label>
+                            <input type="text" placeholder="请输入邮箱" class="form-control" name="email" ng-model="data.email"
+                                    required
+                                    readonly
+                                    ng-minlength="1"
+                                    ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/"
+                                    is-user-unique-with-field="myForm.user_name"/>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>选择部门:</label>
+                            <select ui-select2 ng-model="data.department_id" class="form-control" name="department_id" data-placeholder=""
+                                    required
+                                    readonly
+                                    disabled
+                                    ng-minlength="1">
+								<option ng-repeat="x in data.__departments" value="//x.id//" >//x.name//</option>
+                            </select>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>选择角色:</label>
+                            <select ui-select2 ng-model="data.role_id" class="form-control" name="role_id" data-placeholder=""
+                                    required
+                                    disabled
+                                    ng-minlength="1">
+								<option ng-repeat="x in data.__roles" value="//x.id//" >//x.name//</option>
+                            </select>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="action.ok()"><i class="icon-check"></i>确定</button>
+    </div>
+</script>
+<script type="text/ng-template" id="changePwd.html">
+    <div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="action.cancel();">×</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;修改用户密码</h5>
+	</div>
+    <div class="modal-body">
+        <div class="panel-body">
+            <form ng-submit="action.save(myForm)" id="myForm" name="myForm" class="" style="">
+				<div class="panel">
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>用户名称:<span class="symbol required"></span></label>
+                            <input type="text" class="form-control" placeholder="输入用户名" name="user_name"
+                                   ng-model="data.user_name"
+                                   required
+                                   readonly
+                                   ng-minlength="1">
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>输入旧密码:<span class="symbol required"></span></label>
+                            <input type="password" class="form-control" placeholder="输入旧密码" name="original_passwd"
+                                   ng-model="data.original_passwd"
+                                   required
+                                   ng-minlength="1">
+                            <help-block target="myForm.original_passwd" pattern-text="密码输入格式不对"></help-block>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>输入新密码:<span class="symbol required"></span></label>
+                            <input type="password" class="form-control" placeholder="输入新密码" name="new_passwd"
+                                   ng-model="data.new_passwd"
+                                   required
+                                   ng-minlength="1">
+                            <help-block target="myForm.new_passwd" pattern-text="密码输入格式不对"></help-block>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group" ng-class="{'has-error':false,'has-success':false}">
+                            <label>重复新密码:<span class="symbol required"></span></label>
+                            <input type="password" class="form-control" placeholder="重复新密码" name="re_new_passwd"
+                                   ng-model="data.re_new_passwd"
+                                   required
+                                   ng-minlength="1"
+                                   my-pwd-match="myForm.new_passwd">
+                            <help-block target="myForm.re_new_passwd" pattern-text="密码输入格式不对"></help-block>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+			</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="action.save()"><i class="icon-check"></i>确定</button>
+    </div>
+</script>
+
+
+

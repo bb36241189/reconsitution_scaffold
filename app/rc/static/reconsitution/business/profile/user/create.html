@@ -1,0 +1,78 @@
+<div class="modal modalAddHost fade" id="modalAddHost" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"></span></button>
+                <h4 class="modal-title">创建虚拟机</h4>
+            </div>
+            <div class="scroll-x">
+                <div class="modal-body f-cb">
+                    <div class="m-tab fl">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#profile1" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">① 选择映像</a></li>
+                            <li role="presentation"><a href="#profile2" role="tab" data-toggle="tab" aria-controls="profile">② 配置选择</a></li>
+                        </ul>
+                        <div class="tab-content m-tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="profile1">
+                                <div class="form-AddHost">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</label>
+                                            <input type="text" class="form-control" placeholder="长度2-30 字符">
+                                        </div>
+                                    </div>
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label>镜像列表</label>
+                                            <div class="iso-list scroll fr">
+                                                <ul class="list">
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>buntu-14.04.2-server-amd64.iso</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                    <li><label><input type="radio" name="aa"><span class="form-control"><i class="glyphicon glyphicon-asterisk"></i>centos-iso (636MB)</span></label></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-inline tar">
+                                        <div class="h30"></div>
+                                        <button type="button" class="btn btn-padding radius btn-status-blueLake">下一步</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="profile2">
+                                <p>杭州博采网络科技股份有限公司是一家集策略咨询、创意创新、视觉设计、技术研发、内容制造、营销推广为一体的综合型数字化创新服务企业，其利用公司持续积累的核心技术和互联网思维，提供以互联网、移动互联网为核心的网络技术服务和互动整合营销服务，为传统企业实现“互联网+”升级提供整套解决方案。公司定位于中大型企业为核心客户群，可充分满足这一群体相比中小企业更为丰富、高端、多元的互联网数字综合需求。公司作为一家互联网数字服务综合商，其主营业务包括移动互联网应用开发服务、数字互动整合营销服务、互联网网站建设综合服务和电子商务综合服务。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-hostInfo fr">
+                        <div class="pCap">云主机 ／ 配置详情</div>
+                        <ul class="pList f-cb">
+                            <li><label>名称：</label><p>*请输入名称！*</p></li>
+                            <li><label>数量：</label><p></p></li>
+                            <li><label>映像：</label><p><span class="glyphicon glyphicon-asterisk">centos-iso (636MB)</span></p></li>
+                            <li><label>网络：</label><p></p></li>
+                            <li><label>CPU：</label><p></p></li>
+                            <li><label>内存：</label><p></p></li>
+                            <li><label>CPU内存计费：</label><p></p></li>
+                            <li><label>硬盘：</label><p>20GB</p></li>
+                            <li><label>硬盘计费：</label><p>2.000元/时</p></li>
+                            <li><div class="h20"></div><label>费用合计：</label><p></p></li>
+                        </ul>
+                    </div>
+                    <div class="h30 clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

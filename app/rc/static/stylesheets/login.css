@@ -1,0 +1,250 @@
+body {
+    background-image: url("../images/bg_logo1.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+
+.index_logo {
+    background-image: url("../images/navigation/icon/logo.png");
+    background-size: 100% 100%;
+    height: 75px;
+    margin: 10px auto 10px;
+    width: 75px;
+}
+
+.container{
+	width:100%;
+	height:100%;
+	margin:auto;
+}
+
+.page-home {
+    /*background: rgba(0, 0, 0, 0) radial-gradient(ellipse at center center , #3e3d49 0px, #353644 100%) repeat scroll 0 0;
+    min-height: 100%;
+    overflow: hidden;
+    position: relative;
+    */
+    height:350px;
+    top:50%;
+    margin-top:-175px;
+    position:absolute;
+    width:400px;
+    left:50%;
+    margin-left:-200px;
+}
+
+.content-wrapper{
+	margin:0px auto;
+	width:330px
+}
+
+.page-home .form-wrapper {
+    /*
+    background: #fff none repeat scroll 0 0;
+    */
+    border-radius: 5px;
+    /*
+    box-shadow: 0 0 3px #f1f1f1;
+    */
+    padding: 30px
+}
+
+.page-home .form-wrapper input[type="text"], .page-home .form-wrapper input[type="password"] {
+    font-size: 14px;
+    padding: 10px 30px 10px 35px;
+    width: 246px
+}
+
+.uneditable-input, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="tel"], input[type="color"], input[type="search"], textarea {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #cbcad8;
+    border-radius: 3px
+}
+
+.uneditable-input, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="tel"], input[type="color"], input[type="search"], textarea {
+    color: #555;
+    line-height: 16px;
+}
+
+
+input[type="text"]:hover {
+    border: 1px solid #5fb2ef;
+}
+input[type="text"]:focus {
+    border: 1px solid #5fb2ef;
+}
+
+input[type="password"]:hover {
+    border: 1px solid #5fb2ef;
+}
+input[type="password"]:focus {
+    border: 1px solid #5fb2ef;
+}
+
+
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+    cursor: pointer;
+}
+
+.page-home .btn-primary {
+    font-size: 16px;
+    margin-left: 5px;
+    padding: 10px 0;
+    width: 91%;
+}
+
+.page-home .btn-primary_style {
+    font-size: 16px;
+    margin-left: 2px;
+    padding: 10px 0;
+    width: 93%;
+}
+
+.btn-primary {
+    background: #5fb2ef none repeat scroll 0 0;
+	color: #fff;
+	border-bottom-color: #5fb2ef
+}
+
+.btn-primary_style {
+    background: #5fb2ef none repeat scroll 0 0;
+	color: #fff;
+	border-bottom-color: #5fb2ef
+}
+
+.btn-primary:hover {
+    background: #649fd8 none repeat scroll 0 0;
+    color: #fff;
+    border-bottom-color: #649fd8
+}
+
+.btn-primary_style:hover {
+    background: #5fb2ef none repeat scroll 0 0;
+    color: #fff;
+    cursor: wait;
+    border-bottom-color: #5fb2ef
+}
+
+.btn-primary:focus {
+    background: #649fd8 none repeat scroll 0 0;
+    color: #fff;
+    border-bottom-color: #649fd8
+}
+
+.btn-primary_style:focus {
+    background: #5fb2ef none repeat scroll 0 0;
+    color: #fff;
+    border-bottom-color: #5fb2ef
+}
+
+.btn {
+    border-radius: 3px;
+    border-style: none none solid
+}
+
+form {
+    margin: 0 0 10px
+}
+
+.content-wrapper h2 {
+    font-size: 18px;
+    line-height: 24px;
+    margin: 0 0 12px;
+}
+
+.content-wrapper h2, .content-wrapper h4 {
+    /*
+    color: #7a7c7f;
+    */
+    color:white;
+    font-weight: 700;
+    text-align: center;
+}
+
+fieldset {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.form .item {
+    margin: 12px 0;
+}
+
+.glyphicon img{
+    width:15px;
+    height:15px;
+}
+
+.glyphicon_style {
+    color: #f3f5f7;
+    margin-left: 20px;
+    margin-right: -33px;
+}
+
+.glyphicon_removes_signs_style{
+    color: #f3f5f7;
+    cursor: pointer;
+    float: right;
+    margin-right: 25px;
+    margin-top: -29px;
+    pointer-events: auto;
+}
+
+#login_button_style{
+    display: none;
+}
+
+.alert-danger{
+    height: 40px;
+    margin: -8px 0 -33px 2px;
+    padding: 8px 0 0 35px;
+    width: 93%;
+}
+
+
+@keyframes sinven {
+    from{transform: scale(0.2)}
+    to{transform: scale(1)}
+}
+
+.xinwen{
+    /*animation: sinven 1s 1 linear;*/
+}
+
+#user_name{
+    background-color:rgba(255,255,255,0.2);
+    border:none;
+    color:white;
+}
+
+#user_passwd{
+    background-color:rgba(255,255,255,0.2);
+    border:none;
+    color:white;
+}
+
+#reference{
+    text-align: center;
+    color:white;
+    bottom:20px;
+    position:absolute;
+    width:100%;
+}
+
+#reference a{
+    color:white;
+    margin:10px;
+}
+
+
+
+
+

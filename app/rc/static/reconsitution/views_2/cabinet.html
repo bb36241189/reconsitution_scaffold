@@ -1,0 +1,325 @@
+<link href="stylesheets/cabinet.css" rel="stylesheet"/>
+
+<div class=" page-content" type="out_container">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>基础设施</li>
+                    <li class="active">机柜管理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+</div>
+
+<div id="header">
+    <div class="operation">
+        <ul id="contextmenu" class="right_menu">
+            <li><a class="dropmenu_li" id="edit_cabinet" data-toggle="modal" data-target="#edit_cabinet_modal">编辑</a></li>
+            <li><a class="danger_li" id="delete_cabinet" data-toggle="modal" data-target="#delete_cabinet_modal">删除</a></li>
+        </ul>
+
+        <div id="toolbar">
+            <!--
+            <a id="tool_normalmode" class="up">
+                <img class="tool_enable" src="images/toolbar/icon_default.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_default_disable.png"/>
+                <span>默认</span>
+            </a>
+            <a id="tool_selectmode" class="down">
+                <img class="tool_enable" src="images/toolbar/icon_select.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_select_disable.png"/>
+                <span>框选</span>
+            </a>
+            <a class="down">
+                <img class="tool_enable" src="images/toolbar/icon_group.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_group_disable.png"/>
+                <span>群组*</span>
+            </a>
+            -->
+            <!--<a id="zoomCheckbox" class="up">
+                <img class="tool_enable" src="images/toolbar/icon_zoom.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_zoom_disable.png"/>
+                <span>鼠标缩放</span>
+            </a>-->
+            <a id="add_cabinet" class="up">
+                <img class="tool_enable" src="images/toolbar/icon_add.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_add_disable.png"/>
+                <span>添加</span>
+            </a>
+            <a id="tool_edit" class="down disabled">
+                <img class="tool_enable" src="images/toolbar/icon_edit.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_edit_disable.png"/>
+                <span>编辑</span>
+            </a>
+            <a id="tool_delete" class="down disabled">
+                <img class="tool_enable" src="images/toolbar/icon_del.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_del_disable.png"/>
+                <span>删除</span>
+            </a>
+            <a id="refresh" class="up">
+                <img class="tool_enable" src="images/toolbar/icon_fresh.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_fresh_disable.png"/>
+                <span>刷新</span>
+            </a>
+            <!--<a id="fullScreenButton" class="up">
+                <img class="tool_enable" src="images/toolbar/icon_full.png"/>
+                <img class="tool_disable" src="images/toolbar/icon_full_disable.png"/>
+                <span>全屏操作</span>
+            </a>-->
+        </div>
+
+        <div class="clear_both"></div>
+
+        <div id="content">
+            <canvas width="951" height="436" id="canvas"></canvas>
+            <ul style="" id="detail">
+                <table class="table" id="detail_table">
+                    <tbody id="tbody_tbody">
+                        <tr>
+                            <td>名称</td>
+                            <td id="cabinet_name"></td>
+                        </tr>
+                        <tr>
+                            <td>所在机房</td>
+                            <td id="cabinet_room"></td>
+                        </tr>
+                        <tr>
+                            <td>设备数量(台)</td>
+                            <td id="host_num"></td>
+                        </tr>
+                        <tr>
+                            <td>机柜高度(U)</td>
+                            <td id="cabinet_height"></td>
+                        </tr>
+                        <tr>
+                            <td>描述信息</td>
+                            <td id="cabinet_description"></td>
+                        </tr>
+                        <tr>
+                            <td>创建时间</td>
+                            <td id="create_time"></td>
+                        </tr>
+                        <tr>
+                            <td>更新时间</td>
+                            <td id="update_time"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ul>
+        </div>
+
+        <!--<textarea id="jtopo_textfield"
+                  style="display:none;width: 60px;position: absolute;"
+                  onkeydown="if(event.keyCode==13)this.blur();">
+        </textarea>-->
+
+    </div>
+
+    <div class="operation_2">
+        <div class="room_list">
+            <div class="title_div">机房列表</div>
+            <div class="room_div">
+                <table class="table" id="room_table">
+                    <tbody id="room_tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="create_cabinet_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_cabinet_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-plus-sign"></span> 添加机柜
+				 </h4>
+            </div>
+            <div class="modal-body">
+                <form id="create_cabinet_form">
+                     <div class="Mirror_list_div conf_style">
+						<div class="control-group">
+							<label class="control-label"><span class="red">*</span>机柜名称: </label>
+                            <div class="controls">
+                                <input name="name" id="create_name" class="machine-name" type="text"
+                                       required maxlength="20" minlength="2"
+                                       placeholder="长度2-20字符">
+                                <span class="help-block"></span>
+                            </div>
+						</div>
+                         <div class="control-group">
+                             <label class="control-label"><span class="red">*</span>所在机房:</label>
+                             <div class="controls">
+                                 <select required class="machine-name" name="room_id" id="room_id"></select>
+                                 <span class="help-block"></span>
+                             </div>
+                         </div>
+                         <div class="control-group">
+                             <label class="control-label"><span class="red">*</span>机柜高度(U): </label>
+                             <div class="controls">
+                                 <input required max="42" name="height" id="create_height" class="machine-name" type="number" max="42" min="1" placeholder="--请输入机柜高度--">
+                                 <span class="help-block"></span>
+                             </div>
+                         </div>
+                         <!--<div>
+                             <label for="create_manager"> 负&nbsp;责&nbsp;人&nbsp;: </label>
+                             <select name="manager" class="select select_styles" id="create_manager">
+                                 <option value="admin">admin</option>
+                             </select>
+                         </div>-->
+                         <div class="control-group textarea-group">
+                             <label class="control-label">描述</label>
+                             <div class="controls">
+                                 <textarea class="machine-name" name="description" id="create_description" cols ="20" rows = "7"
+                                          maxlength="100" placeholder="长度0-100字符"></textarea>
+                                <span class="help-block"></span>
+                             </div>
+                         </div>
+                     </div>
+                     <!--<label for="name">机柜名称</label><br>
+                     <input type="text" name="name" class="input-xlarge"><br>
+                     <label for="height">机柜高（U）</label><br>
+                     <input type="text" name="height" class="input-xlarge"><br>
+                     <label for="manager">负责人</label><br>
+                     <select class="selectpicker" name="manager">
+                     </select><br>
+                     <label for="room_id">所在机房</label><br>
+                     <select class="selectpicker" name="room_id">
+                       <option value="0">天玑科技C1机房</option>
+                       <option value="1">天机科技C2机房</option>
+                     </select><br>
+                     <label for="description">备注</label><br>
+                     <textarea name="description"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_create_cabinet"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit_cabinet_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_cabinet_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-edit"></span> 修改机柜信息
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_cabinet_form">
+                    <div class="Mirror_list_div conf_style">
+						<div class="control-group">
+							<label class="control-label"><span class="red">*</span>机柜名称: </label>
+                            <div class="controls">
+                                <input name="name" id="edit_name" class="machine-name" type="text"
+                                       required maxlength="20" minlength="2"
+                                       placeholder="长度2-20字符">
+                                <span class="help-block"></span>
+                            </div>
+						</div>
+                        <div class="control-group">
+                             <label class="control-label"><span class="red">*</span>所在机房:</label>
+                             <div class="controls">
+                                 <select required class="machine-name" name="room_id" id="edit_room_id"></select>
+                                 <span class="help-block"></span>
+                             </div>
+                         </div>
+                        <div class="control-group">
+                             <label class="control-label"><span class="red">*</span>机柜高度(U): </label>
+                             <div class="controls">
+                                 <input required max="42" name="height" id="edit_height" class="machine-name" type="number" max="42" min="1" placeholder="--请输入机柜高度--">
+                                 <span class="help-block"></span>
+                             </div>
+                         </div>
+                         <!--<div>
+                             <label for="edit_manager">负&nbsp;&nbsp;责&nbsp;人&nbsp;: </label>
+                             <select name="manager" class="select select_styles" id="edit_manager">
+                                 <option value="admin">admin</option>
+                             </select>
+                         </div>-->
+                        <div class="control-group textarea-group">
+                             <label class="control-label">描述</label>
+                             <div class="controls">
+                                 <textarea class="machine-name" name="description" id="edit_description" cols ="20" rows = "7"
+                                          maxlength="100" placeholder="长度0-100字符"></textarea>
+                                <span class="help-block"></span>
+                             </div>
+                         </div>
+                     </div>
+                    <!--
+                    <label for="name">机柜名称</label><br>
+                    <input type="text" name="name" class="input-xlarge"><br>
+                    <label for="height">机柜高（U）</label><br>
+                    <input type="text" name="height" class="input-xlarge"><br>
+                    <label for="manager">负责人</label><br>
+                    <select class="selectpicker" name="manager">
+                    </select><br>
+                    <label for="room_id">所在机房</label><br>
+                    <select class="selectpicker" name="room_id">
+                    </select><br>
+                    <label for="description">备注</label><br>
+                    <textarea name="description"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_cabinet"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete_cabinet_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_cabinet_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p>确定要删除该机柜？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_cabinet"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cabinet_topology_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_cabinet_modalLabel" aria-hidden="true">
+    <div class="modal-dialog cabinet_modal" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style" ><span id="current_cabinet_name"></span></h4>
+            </div>
+            <div class="modal-body" id="topology_modal_body">
+                <div class="cabinet_div" id="cabinet_hosts"></div>
+                <div class="server_status">
+                    <span>虚拟机状态</span>
+                    <div class="img_div"><img src="images/single/server_on.png"> 开机</div>
+                    <div class="img_div"><img src="images/single/server_off.png"> 关机</div>
+                    <div class="img_div"><img src="images/single/server_error.png"> 错误</div>
+                </div>
+                <div id="host_detail">
+                    <p>主机名:<span>dnt.com.cn</span></p>
+                    <p>IP地址:<span>192.168.10.22</span></p>
+                    <p>状态:<span>开机</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="javascripts/cabinet.js" type="text/javascript"></script>-->
+<script src="plugin/bootstrap/js/jqBootstrapValidation.js" type="text/javascript"></script>

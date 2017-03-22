@@ -1,0 +1,280 @@
+
+<link ng-href="//static_url('stylesheets/storage.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" type="out_container">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>存储资源</li>
+                    <li class="active">存储池管理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="storage_overview">
+                <div class="col-sm-4 storage_info">
+                    <div class="info_text">
+                        <div class="info_title">
+                            <p class="fontSize18">存储概况</p>
+                        </div>
+                        <div class="use_count">
+                            <p class="fontSize10">已用  <span id="used_storage"></span></p>
+                            <p class="fontSize10">总共  <span id="total_storage"></span></p>
+                        </div>
+                    </div>
+                    <div id="use_pie"></div>
+                </div>
+                <div class="col-sm-4 storage_info">
+                    <div class="info_text">
+                        <div class="info_title">
+                            <p class="fontSize18">硬件概况</p>
+                        </div>
+                        <div class="use_count">
+                            <p class="fontSize10">正常运行节点数  <span id="ok_nodes"></span></p>
+                            <p class="fontSize10">故障数  <span id="down_nodes"></span></p>
+                        </div>
+                    </div>
+                    <div class="info_count">
+                        <p class="fontSize30"><span id="total_nodes"></span></p>
+                        <p class="fontSize10">总节点数</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 storage_info">
+                    <div class="info_text">
+                        <div class="info_title">
+                            <p class="fontSize18">存储池概况</p>
+                        </div>
+                        <div class="use_count">
+                            <!--<p class="fontSize10">存储池数量  <span id="storage_num"></span></p>
+                            <p class="fontSize10">LUN数量  <span id="lun_num"></span></p>-->
+                        </div>
+                    </div>
+                    <div class="info_count">
+                        <p class="fontSize30"><span id="total_storages"></span></p>
+                        <p class="fontSize10">存储池数量</p>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-md-7">
+                <div id="toolbar_container">
+                    <div class="btn-group" role="group">
+                        <button class="table_button general_button"  name="refresh_pool" id="refresh_pool"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                        <button name="add_pool" id="add_pool" class="table_button general_button" data-toggle="modal" data-target="#create_pool_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                        <button name="edit_pool" id="edit_pool" class="table_button disabled_button" data-toggle="modal" data-target="#edit_pool_modal"><span class="glyphicon glyphicon-subtitles"></span> 重命名</button>
+                        <button name="delete_pool" id="delete_pool" class="table_button disabled_button" data-toggle="modal" data-target="#delete_pool_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                    </div>
+                    <div class="search_div" style="display: none">
+                        <input type="text" id="search_pool_input" placeholder="搜索" class="table_search_input"/>
+                        <img id="search_pool_img" class="table_search_img" ng-src="//static_url('images/table_operate_button/search.png')//">
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive table_container">
+                    <table id="pool_table" class="table">
+                        <thead>
+                            <tr>
+                                <th class="thead_checkbox"> </th>
+                                <th class="tds">名称</th>
+                                <!--<th class="tds">已用容量/总容量(GB)</th
+                                <th class="tds">状态</th>
+                                <th class="tds">描述</th>
+                                <th class="tds">创建时间</th>
+                                <th class="tds">更新时间</th>>-->
+                                <th class="tds">状态</th>
+                                <th class="tds">存储策略</th>
+                                <th class="tds">IOPS(IO/s)</th>
+                                <th class="tds">吞吐量(KB/s)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pool_list">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="pagination_div">
+                    <div id="storage_pagination" class="pagination"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <div class="animate-block" id="detail_div">
+        <div>
+            <div class="tabbable title_container">
+                <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                    ×
+                </button>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#telemetry" data-toggle="tab">存储池详情</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="telemetry">
+                    <div class="row" style="display: none">
+                        <div class="col-md-3">
+                            存储池 存储策略
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">IOPS</div>
+                                <div class="col-md-6 text-right"><span id="iops_num"></span>(IO/s)</div>
+                            </div>
+                            <div id="iops" class="detail_axis"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">吞吐量</div>
+                                <div class="col-md-6 text-right"><span id="mbps_num"></span>(KB/s)</div>
+                            </div>
+                            <div id="mbps" class="detail_axis"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--delete pool modal -->
+<div class="modal fade" id="delete_pool_modal" tabindex="-1" role="dialog" aria-labelledby="delete_pool_modalLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+         </div>
+         <div class="modal-body">
+            您确定要删除该存储池吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button  class="table_button btn_default_style form_danger_button" id="submit_delete_pool"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+            <button  class="table_button cancel_button" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 关闭</button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--edit pool modal-->
+<div id="edit_pool_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_pool_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-subtitles"></span> 重命名存储池</h4>
+            </div>
+            <div class="modal-body ">
+                <form id="edit_pool_form">
+                    <div style="/*position: relative*/">
+                        <div class="list_item">
+                            <div class="row_title"><span class="red">*</span>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称: </div>
+                            <div class="row_content" id="edit_pool_name_div">
+                                <input id="edit_pool_name" name="name" type="text" placeholder="3-60个小写字母或数字组成">
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>存储池名称不能为空</span></div>
+                            </div>
+                        </div>
+                        <div div_type="storage_description" class="list_item" style="display: none">
+                            <div  class="row_title">&nbsp;描 &nbsp; &nbsp; &nbsp;&nbsp;述:</div>
+                            <div class="row_content" id="edit_pool_description_div">
+                                <textarea id="edit_pool_description" name="description" placeholder="长度范围0-1000个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1000个字符</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_edit_pool" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button  class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--create pool modal-->
+<div id="create_pool_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_pool_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="create_pool_modalLabel">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 创建存储池
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="create_pool_form">
+                    <div>
+                        <div class="list_item">
+                            <div class="row_title"><span class="red">*</span>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称: </div>
+                            <div class="row_content" id="create_pool_name_div">
+                                <input id="create_pool_name" name="name" type="text" placeholder="3-60个小写字母或数字组成">
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>存储池名称不能为空</span></div>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title">存&nbsp;储策&nbsp;略: </div>
+                            <div class="row_content">
+                                <select id="policySelect">
+                                    <option value="replicated">副本策略</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title">副&nbsp;&nbsp;本&nbsp;&nbsp;&nbsp;数: </div>
+                            <div class="row_content">
+                                <select id="replicate_num">
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div div_type="storage_description" class="list_item" style="display: none">
+                            <div  class="row_title">&nbsp;描 &nbsp; &nbsp; &nbsp;&nbsp;述:</div>
+                            <div class="row_content" id="create_pool_description_div">
+                                <textarea id="create_pool_description" name="description" placeholder="长度范围0-1000个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1000个字符</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_create_pool" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>

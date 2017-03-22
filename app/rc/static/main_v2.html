@@ -1,0 +1,17 @@
+<div class="g-body" >
+    <!--<div class="mHeader on" ng-include="'/rc/static/bocweb/inc/header.html'"></div>-->
+    <div ng-include="'/rc/static/reconsitution/business/header.html'"></div>
+    <div class="g-Box">
+        <div class="m-elemHeadCap row n1 bgf animated fadeInUp">
+            <div class="col-xs-12">
+                <div class="m-elemTit">
+                    <!--<p><a href="">计算资源</a> 计算资源</p>-->
+                    <p><div ncy-breadcrumb class=""></div></p>
+                </div>
+            </div>
+        </div>
+        <div class="g-Main animated fadeInRight pd40 p-b" ui-view></div>
+    </div>
+</div>
+
+<div ng-include="'/rc/static/reconsitution/business/modal.html'" ng-if="data.showModal"></div>

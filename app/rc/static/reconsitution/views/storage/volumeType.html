@@ -1,0 +1,313 @@
+
+<link ng-href="//static_url('stylesheets/volumeType.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content">
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div class="page_tab">
+                <ul id="title_tabs" class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">云硬盘类型</a></li>
+                    <li><a href="#tab2" data-toggle="tab">云硬盘Qos</a></li>
+                </ul>
+                <div id="content_tabs" class="tab-content row">
+                    <div class="tab-pane active" id="tab1"  ng-controller="volumeTypeCtl">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="toolbar_container">
+                                        <button id="tool_create_pool" class="table_button general_button" ng-click="createVolumeType()"><span class="glyphicon glyphicon-plus-sign"></span> 创建</button>
+                                        <button id="tool_delete_pool" class="table_button //danger_status//" ng-click="clickDeleteVolumeType()"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                                        <button id="tool_link_pool" class="table_button //general_status//" ng-click="clickLinkQos()"><span class="glyphicon glyphicon-plus-sign"></span> 关联管理</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive table_container">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="thead_checkbox"> </th>
+                                                    <th class="tds">名称</th>
+                                                    <th class="tds">Qos</th>
+                                                    <th class="tds">描述</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="volumeTypes_list" class="trs">
+                                                <tr ng-repeat="x in volumeTypes" qos_id="//x.qos_specs_id//" type_id="//x.id//" ng-show="bool_volumeTypes" ng-click="clickTableTr($event)">
+                                                    <td><input type="checkbox"/></td>
+                                                    <td ng-bind="x.name"></td>
+                                                    <td ng-bind="x.qos_name"></td>
+                                                    <td ng-bind="x.description"></td>
+                                                </tr>
+                                                <tr ng-hide="bool_volumeTypes">
+                                                    <td colspan="4" ng-bind="loading_volumeTypes">正在加载...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pagination_div">
+                                    <div id="volumeTypes_pagination" class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2"  ng-controller="qosSpec">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="toolbar_container">
+                                        <button class="table_button general_button" ng-click="clickCreateItem()"><span class="glyphicon glyphicon-plus-sign"></span> 创建</button>
+                                        <button class="table_button //danger_status//" ng-click="clickDeleteItem()"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive table_container">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th class="thead_checkbox"> </th>
+                                                    <th class="tds">名称</th>
+                                                    <th class="tds">策略</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="qosSpec_list" class="trs">
+                                                <tr ng-repeat="x in list" qos_id="//x.id//" ng-show="bool_hasrow" ng-click="clickTableTr($event)">
+                                                    <td><input type="checkbox"/></td>
+                                                    <td ng-bind="x.name"></td>
+                                                    <td title="//x.detail//" ng-bind="x.detail"></td>
+                                                </tr>
+                                                <tr ng-hide="bool_hasrow">
+                                                    <td colspan="4" ng-bind="loading_rows">正在加载...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pagination_div">
+                                    <div id="qosSpec_pagination" class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="create_volumeType_modal" id="modal_create_volumeType" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 新增云盘类型</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_volumeType">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input name="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea name="description" type="text" class="machine-name"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_pool" ng-click="submitCreateVolumeType()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-controller="delete_volumeType" class="modal fade" id="delete_volumeType_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除云硬盘</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" ng-model="delete_type_id"/>
+                您确定要进行删除云硬盘类型的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitDelete()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div>
+
+    <div ng-controller="create_qosSpec_modal" id="modal_create_qosSpec" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 新增云硬盘Qos</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_qosSpec">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input name="name" ng-model="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">总吞吐(MB/s)</label>
+                                <div class="controls">
+                                    <input ng-disabled="bytes_1" ng-change="clickCheckbox()" type="checkbox" ng-model="set_total_bytes">
+                                    <input ng-disabled="bytes_1" type="number" min="0" ng-model="total_bytes_sec" class="machine-name">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">读吞吐(MB/s)</label>
+                                <div class="controls">
+                                    <input ng-disabled="bytes_2" ng-change="clickCheckbox()" type="checkbox" ng-model="set_read_bytes">
+                                    <input ng-disabled="bytes_2" type="number" min="0" ng-model="read_bytes_sec" class="machine-name">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">写吞吐(MB/s)</label>
+                                <div class="controls">
+                                    <input ng-disabled="bytes_2" ng-change="clickCheckbox()" type="checkbox" ng-model="set_write_bytes">
+                                    <input ng-disabled="bytes_2" type="number" min="0" ng-model="write_bytes_sec" class="machine-name">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">总IOPS</label>
+                                <div class="controls">
+                                    <input ng-disabled="iops_1" ng-change="clickCheckbox()" type="checkbox" ng-model="set_total_iops">
+                                    <input ng-disabled="iops_1" type="number" min="0" ng-model="total_iops_sec" class="machine-name">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">读IOPS</label>
+                                <div class="controls">
+                                    <input ng-disabled="iops_2" ng-change="clickCheckbox()" type="checkbox" ng-model="set_read_iops">
+                                    <input ng-disabled="iops_2" type="number" min="0" ng-model="read_iops_sec" class="machine-name">
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">写IOPS</label>
+                                <div class="controls">
+                                    <input ng-disabled="iops_2" ng-change="clickCheckbox()" type="checkbox" ng-model="set_write_iops">
+                                    <input ng-disabled="iops_2" type="number" min="0" ng-model="write_iops_sec" class="machine-name">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_qosSpec" ng-click="submitCreateItem()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="delete_QosSpec" class="modal fade" id="delete_QosSpec_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除Qos</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" ng-model="delete_type_id"/>
+                您确定要进行删除Qos的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitDelete()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div>
+
+    <div ng-controller="link_qos_modal" id="modal_link_qos" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 管理Qos关联</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_qosSpec">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label">要关联的Qos规格</label>
+                                <div class="controls">
+                                    <select class="machine-name" ng-model="qos_select">
+                                        <option ng-repeat="x in qos_list" value="//x.id//" ng-bind="x.name"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_qosSpec" ng-click="clickSubmitLink()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 关联</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

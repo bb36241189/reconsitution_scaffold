@@ -1,0 +1,371 @@
+
+<link ng-href="//static_url('plugin/bootstrap/css/bootstrap-slider.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/security.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" type="out_container">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>网络资源</li>
+                    <li class="active">安全组</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div role="group">
+                            <button class="btn btn-padding btn-status-blueLake"  name="refresh_security" id="refresh_security"><span class="glyphicon glyphicon-refresh"></span> 刷新
+                            </button>
+                            <button id="add_security" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_security_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button id="edit_security" class="table_button" data-toggle="modal" data-target="#edit_security_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button id="delete_security" class="table_button " data-toggle="modal" data-target="#delete_security_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                            <!--
+                            <input type="image" ng-src="//static_url('images/table_operate_button/add.png')//" id="add_security" data-placement="bottom" title="添加" data-toggle="modal" data-target="#create_security_modal"/>
+                            <input type="image" ng-src="//static_url('images/table_operate_button/edit.png')//" id="edit_security" data-placement="bottom" title="编辑" data-toggle="modal" data-target="#edit_security_modal"/>
+                            <input type="image" ng-src="//static_url('images/table_operate_button/refresh.png')//" id="refresh_security" data-placement="bottom" title="刷新"/>
+                            <span id="security_group_show_more" class="more dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  更多<img id="security_group_more_tag" ng-src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li><a id="delete_security" data-toggle="modal" data-target="#delete_security_modal">删除</a></li>
+                                <li><a ng-href="#">关闭</a></li>
+                            </ul>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div id="security_list_container" class="table-responsive table_container">
+                <table id="security_table" class="table">
+                    <thead>
+                        <tr>
+                            <th class="thead_checkbox"> </th>
+                            <th class="tds">名称</th>
+                            <th class="tds">所属部门</th>
+                            <th class="tds">描述</th>
+                        </tr>
+                    </thead>
+                    <tbody id="security_list" class="trs">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="pagination_div">
+                <div id="security_pagination" class="pagination"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="header">
+
+
+		<div class="operation_1 animate-block">
+            <div class="tabbable title_container">
+                <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                    ×
+                </button>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#telemetry" id="security_rule_title" class="operation_d_t" data-toggle="tab">管理安全组规则：</a></li>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="telemetry">
+                    <div class="interface_button_div">
+                        <span class="butn">
+                            <button class="btn btn-padding btn-status-blueLake"  name="refresh_security" id="refresh_rule"><span class="glyphicon glyphicon-refresh"></span> 刷新
+                            </button>
+                            <button id="create_rule" class="table_button" data-toggle="modal" data-target="#create_rule_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button id="delete_rule" class="table_button" data-toggle="modal" data-target="#delete_rule_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                            <!--
+                            <input type="image" ng-src="//static_url('images/table_operate_button/add.png')//" id="create_rule"
+                            data-placement="bottom" title="添加" data-toggle="modal" data-target="#create_rule_modal"/>
+                            <input type="image" ng-src="//static_url('images/table_operate_button/refresh.png')//" id="refresh_rule"
+                            data-placement="bottom" title="刷新"/>
+                            <span id="security_rule_show_more" class="more dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  更多<img id="security_rule_more_tag"ng-src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li><a id="delete_rule" data-toggle="modal" data-target="#delete_rule_modal">删除</a></li>
+                                <li><a href="#">关闭</a></li>
+                            </ul>-->
+                        </span>
+                        <div class="clear_both"></div>
+                    </div>
+
+
+                    <div class="operation_a_t">
+                        <div id="security_rule_container" class="table-responsive">
+                            <table id="rule_table" class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="thead_checkbox"> </th>
+                                        <th class="rules_table_thead">方向</th>
+                                        <th class="rules_table_thead">协议类型</th>
+                                        <th class="rules_table_thead">协议版本</th>
+                                        <th class="rules_table_thead">端口范围</th>
+                                        <th class="rules_table_thead">开放地址</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="security_rule_tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination_div">
+                        <div id="security_rule_pagination" class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+		</div>
+    </div>
+</div>
+
+<!--edit security modal-->
+<div id="edit_security_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_security_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="edit_security_modalLabel">
+                    <span class="glyphicon glyphicon-edit"></span> 编辑安全组信息
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="edit_security_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls" id="edit_security_name_div">
+                                <input id="security_name" class="machine-name" type="text" placeholder="--请输入安全组名称--">
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>安全组名称不能为空</span></div>
+                            </div>
+                        </div>
+                        <div class="control-group textarea-group">
+                            <label class="control-label">描述</label>
+                            <div class="controls" id="edit_security_description_div">
+                                <textarea class="machine-name" id="security_description" placeholder="长度范围0-1000个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1000个字符</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="edit_confirm_button" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button id="edit_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--create security modal-->
+<div id="create_security_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_security_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="create_security_modalLabel">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 创建安全组
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="create_security_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls" id="create_security_name_div">
+                                <input class="machine-name" id="security_name_in_create" type="text" placeholder="--请输入安全组名称(0-60个字符)--">
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>安全组名称不能为空</span></div>
+                            </div>
+                        </div>
+                        <div class="control-group textarea-group">
+                            <label class="control-label">描述</label>
+                            <div class="controls" id="create_security_description_div">
+                                <textarea class="machine-name" id="security_description_in_create" placeholder="长度范围0-1000个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1000个字符</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="create_confirm_button" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button id="create_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete security modal -->
+<div class="modal fade" id="delete_security_modal" tabindex="-1" role="dialog" aria-labelledby="deletesecurityLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="deletesecurityLabel">
+               <span class="glyphicon glyphicon-trash"></span> 删除安全组
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要删除选中的安全组吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button closetype="close_button" type="button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="security_life_circle" action="delete">
+               <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+            <button type="button" class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--create rule modal-->
+<div id="create_rule_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_rule_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="create_rule_modalLabel">
+                    <span class="glyphicon glyphicon-edit"></span> 编辑安全组规则信息
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="create_security_rule_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group">
+                            <div class="control-label">协议类型</div>
+                            <div class="controls">
+                                <select id="network_protocol_in_create" class="machine-name">
+                                    <option network_protocol="tcp">tcp</option>
+                                    <option network_protocol="udp">udp</option>
+                                    <option network_protocol="icmp">icmp</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="control-label">方向</div>
+                            <div class="controls">
+                                <select id="direction_in_create" class="machine-name">
+                                    <option direction="ingress">进入</option>
+                                    <option direction="egress">外出</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div id="ethertype_container" class="control-label">协议版本</div>
+                            <div class="controls">
+                                <select id="ethertype" class="machine-name">
+                                    <option ethertype="IPv4">IPv4</option>
+                                    <option ethertype="IPv6">IPv6</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div id="select_port_type" class="control-label">打开端口</div>
+                            <div class="controls">
+                                <select id="enable_port_in_create" class="machine-name">
+                                    <option selected="selected" enable_port="single_port">端口</option>
+                                    <option enable_port="port_group">端口范围</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group" port_type="single_port">
+                            <div class="control-label">端口</div>
+                            <div class="controls">
+                                <input id="port_in_create" class="machine-name" type="text" placeholder="端口范围1到65535">
+                            </div>
+                        </div>
+                        <div id="min_port" class="control-group" port_type="port_group">
+                            <div class="control-label">起始端口</div>
+                            <div class="controls">
+                                <input id="min_port_in_create" class="machine-name" type="text" placeholder="端口范围1到65535">
+                            </div>
+                        </div>
+                        <div id="max_port" class="control-group" port_type="port_group">
+                            <div class="control-label">终止端口</div>
+                            <div class="controls">
+                                <input id="max_port_in_create" class="machine-name" type="text" placeholder="端口范围1到65535，且大于起始端口">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="control-label">CIDR</div>
+                            <div class="controls">
+                                <input id="cidr" class="machine-name" type="text" placeholder="请输入合法的CIDR">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="create_confirm_button_in_rule" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 完成</button>
+                <button id="create_cancel_button_in_rule" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete rule modal -->
+<div class="modal fade" id="delete_rule_modal" tabindex="-1" role="dialog" aria-labelledby="delete_rule_modalLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style" id="deleteruleLabel">
+               <span class="glyphicon glyphicon-trash"></span> 删除安全组规则
+            </h4>
+         </div>
+         <div class="modal-body">
+            您确定要删除选中的安全组规则吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+
+            <button id="confirm_delete_rule" type="button" class="table_button form_danger_button" data-dismiss="modal" action-type="rule_life_circle" action="delete">
+               <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+             <button id="cancle_delete_rule" type="button" class="table_button btn_default_style cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,257 @@
+
+<link ng-href="//static_url('stylesheets/bill_policy.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" >
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>消费管理</li>
+                    <li class="active">计费策略</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div role="group">
+                            <button name="refresh_policy" id="refresh_policy" class="btn btn-padding btn-status-blueLake" ><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                            <button name="add_policy" id="add_policy" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_policy_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button name="edit_policy" id="edit_policy" class="table_button" data-toggle="modal" data-target="#edit_policy_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button name="delete_policy" id="delete_policy" class="table_button" data-toggle="modal" data-target="#delete_policy_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div  class="table-responsive table_container">
+                        <table class="table" id="policy_table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox"> </th>
+                                    <th class="tds">名称</th>
+                                    <th class="tds">状态</th>
+                                    <th class="tds">创建时间</th>
+                                    <th class="tds">更新时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="policy_tbody" class="trs">
+                            </tbody>
+                        </table>
+                         <div class="pagination_div">
+                             <div id="policy_pagination" class="pagination"></div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+        <div class="detail_div animate-block">
+            <div>
+                <div class="tabbable title_container">
+                    <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                        ×
+                    </button>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#telemetry" data-toggle="tab">价格详情</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="telemetry">
+                        <div class="price_button_div">
+                            <!--<button name="add_price" id="add_price" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#delete_price_modal">添加</button>-->
+                            <button name="edit_price" id="edit_price" class="table_button" data-toggle="modal" data-target="#edit_price_modal"><span class="glyphicon glyphicon-edit"></span> 修改单价</button>
+                            <!--<button name="delete_price" id="delete_price" class="table_button" data-toggle="modal" data-target="#delete_price_modal">删除</button>-->
+                        </div>
+                        <div class="table_div">
+                            <table class="table" id="price_table">
+                                <thead>
+                                    <tr>
+                                        <th class="thead_checkbox"> </th>
+                                        <th class="tds">资源类型</th>
+                                        <th class="tds">计费配置</th>
+                                        <th class="tds">单价</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="price_tbody">
+
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="price_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_policy_modal" tabindex="-1" role="dialog" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行删除策略的动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button id="submit_delete_policy" closetype="close_button" class="table_button btn_default_style form_danger_button" data-dismiss="modal" action-type="tag_life_circle" action="delete">
+               <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+            <button  class="table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="edit_policy_modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑策略</h4>
+            </div>
+            <div class="modal-body ">
+                <form id="edit_policy_form">
+                    <div class="Mirror_list_div">
+                        <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls">
+                                <input id="edit_name" name="name" class="machine-name" type="text"
+                                       required maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="edit_active">激活</label>
+                            <div class="controls">
+                                <input id="edit_active" name="active"  type="checkbox" class="form_checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_edit_policy" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button id="edit_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="create_policy_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_tag_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="create_policy_modalLabel">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 添加策略
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="create_policy_form">
+                    <div class="Mirror_list_div">
+                        <div class="control-group">
+                            <label class="control-label"><span class="red">*</span>名称</label>
+                            <div class="controls">
+                                <input id="create_name" name="name" class="machine-name" type="text"
+                                       required maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="price_conf">
+                                <div class="price_type">系统盘</div>
+                                <div class="price_num">
+                                    <input type="number" name="system" value="0" min="0" step="0.001" class="machine-name conf_input">
+                                    元/(G*H)
+                                </div>
+                            </div>
+                            <div class="price_conf">
+                                <div class="price_type">数据盘</div>
+                                <div class="price_num">
+                                    <input type="number" name="data" value="0" min="0" step="0.001" class="machine-name conf_input">
+                                    元/(G*H)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group" id="flavor_price">
+                        </div>
+                        <!--<div class="control-group">
+                            <label class="control-label" for="create_active">激活</label>
+                            <div class="controls">
+                                <input id="create_active" name="active"  type="checkbox" class="form_checkbox">
+                            </div>
+                        </div>-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="submit_create_policy" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button id="create_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit_price_modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 修改单价</h4>
+            </div>
+            <div class="modal-body ">
+                <form id="edit_price_form">
+                    <div class="Mirror_list_div">
+                        <div class="control-group">
+                            <label class="control-label">当前单价:</label>
+                            <div class="controls">
+                                <input id="current_price"  class="machine-name price_input" type="text" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">新单价:</label>
+                            <div class="controls">
+                                <input id="new_price" class="machine-name price_input" type="number" step="0.001" value="0" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_edit_price" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button  class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+

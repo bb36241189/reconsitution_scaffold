@@ -1,0 +1,116 @@
+<link ng-href="//static_url('plugin/datetimepicker/css/bootstrap-datetimepicker.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/bill_record.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" >
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>消费管理</li>
+                    <li class="active">消费记录</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-9">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <div style="display: inline-block" ng-if="user.role=='super_admin'">
+                                <select id="department_select" class="table_select">
+                                </select>
+                            </div>
+
+                            <div style="display: inline-block" ng-if="user.role=='dept_admin'">
+                                <select id="user_select" class="table_select">
+                                </select>
+                            </div>
+
+                            <select id="type_select" class="table_select">
+                                <option value="">所有资源</option>
+                                <option value="server">云主机</option>
+                                <option value="volume">云硬盘</option>
+                            </select>
+                            <div class="date_select">
+                                <span>从</span>
+                                <input type="text" readonly placeholder="起始日期" id="search_start_time" class="form_datetime">
+                                <span>到</span>
+                                <input type="text" readonly placeholder="终止日期" id="search_end_time" class="form_datetime">
+                            </div>
+                            <button class="table_button general_button"  id="search_record"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                            <a href="/export/record" id="export_record" class="table_button general_button"><span class="glyphicon glyphicon-cloud-download"></span> 导出记录</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="record_table" class="table-responsive table_container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox"></th>
+                                    <th class="tds">资源名称</th>
+                                    <th class="tds">消费金额(元)</th>
+                                    <th class="tds">资源类型</th>
+                                </tr>
+                            </thead>
+                            <tbody id="record_tbody" class="trs">
+                            </tbody>
+                        </table>
+                        <div class="pagination_div">
+                            <div id="record_pagination" class="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+        <div class="detail_div animate-block">
+            <div>
+                <div class="tabbable title_container">
+                    <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                        ×
+                    </button>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#telemetry" data-toggle="tab">消费明细</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="telemetry">
+                        <div  id="record_detail_div">
+                            <table class="table" id="record_detail_table">
+                                <thead>
+                                    <tr>
+                                        <th>计费开始时间</th>
+                                        <th>计费结束时间</th>
+                                        <th>计费金额(元)</th>
+                                        <th>计费单价(元/小时)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="record_detail_tbody">
+                                    <tr>
+                                        <td>2016-4-5</td>
+                                        <td>2016-4-6</td>
+                                        <td>50</td>
+                                        <td>1.5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="record_detail_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

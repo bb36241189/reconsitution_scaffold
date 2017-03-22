@@ -1,0 +1,425 @@
+<link ng-href="//static_url('plugin/file-uploader/css/jquery.fileupload.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/image.css')//" rel="stylesheet"/>
+<link ng-href="//static_url('plugin/font-awesome/css/font-awesome.css')//" rel="stylesheet">
+<link ng-href="//static_url('plugin/is-loading/style.css')//" rel="stylesheet">
+
+<div class="container-fluid page-content" type="out_container">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>计算资源</li>
+                    <li class="active">镜像管理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button class="table_button general_button"  name="refresh_image" id="refresh_image"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                            <div ng-if="user.role == 'super_admin'" style="display: inline-block;">
+                            <a id="export_record" class="table_button general_button"><span class="glyphicon glyphicon-cloud-download"></span> 导出记录</a>
+                            <button name="add_image" id="add_image" class="table_button general_button" data-toggle="modal" data-target="#create_image_modal"><span class="glyphicon glyphicon-cloud-upload"></span> 上传</button>
+                            <button name="download_image" id="download_image" class="table_button general_button" data-toggle="modal" data-target="#download_image_modal"><span class="glyphicon glyphicon-cloud-download"></span> 下载</button>
+                            <button name="edit_image" id="edit_image" class="table_button" data-toggle="modal" data-target="#edit_image_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button name="delete_image" id="delete_image" class="table_button" data-toggle="modal" data-target="#delete_image_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                            </div>
+                                <!-- TODO: show this modal-->
+                            <!--<input type="image" src="//static_url('images/table_operate_button/edit.png')//" name="edit_image" id="edit_image"
+                                   data-placement="bottom" title="编辑" data-toggle="modal" data-target="#edit_image_modal"/>
+                            <input type="image" src="//static_url('images/table_operate_button/refresh.png')//" name="refresh_image" id="refresh_image"
+                                   data-placement="bottom" title="刷新"/>
+                            <input type="image" src="//static_url('images/table_operate_button/delete.png')//" name="delete_image" id="delete_image"
+                                   data-placement="bottom" title="删除" data-toggle="modal" data-target="#delete_image_modal"/>-->
+                        </div>
+                        <div class="search_div">
+                            <input type="text" id="search_image_input" placeholder="搜索" class="table_search_input"/>
+                            <img id="search_image_img" class="table_search_img" src="//static_url('images/table_operate_button/search.png')//">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="image_table" class="table-responsive table_container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox"> </th>
+                                    <th class="tds">名称</th>
+                                    <!--<th class="tds">类型</th>-->
+                                    <th class="tds">状态</th>
+                                    <th class="tds">格式</th>
+                                    <th class="tds">大小(Mb)</th>
+                                    <th class="tds">操作系统</th>
+                                </tr>
+                            </thead>
+                            <tbody id="image_list" class="trs">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="image_pagination" class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+        <!--
+        <div class="operation">
+            <div class="operation_a">
+
+            </div>
+        </div>
+        -->
+            <div class="operation_2 animate-block">
+                <div>
+                    <div class="tabbable title_container">
+                        <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                            ×
+                        </button>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#telemetry" data-toggle="tab">镜像概况</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="telemetry">
+                            <div  id="image_details">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+
+<!--delete image modal -->
+<div class="modal fade" id="delete_image_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+   <div class="modal-dialog" style="margin:230px auto">
+      <div class="modal-content">
+         <div class="modal-header modal_danger_header_style">
+            <button type="button" class="close" data-dismiss="modal"
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+         </div>
+         <div class="modal-body">
+            您确定要进行删除镜像的动作吗？
+         </div>
+         <div class="modal-footer modal_footer_edit_style">
+            <button id="delete_image_button" closetype="close_button" class="btn btn-danger btn-sm table_button form_danger_button" action-type="image_life_circle" action="delete">
+               <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+            <button  class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+               <span class="glyphicon glyphicon-remove"></span> 取消
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--edit image modal-->
+<div id="edit_image_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_image_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑镜像信息</h4>
+                <!--
+                <div class="modal-title modal_title_style" id="edit_image_modalLabel">
+                    编辑镜像信息
+                </div>-->
+            </div>
+            <div class="modal-body ">
+                <form id="edit_image_form">
+                    <div style="position: relative" class="Mirror_list_div">
+                        <div class="control-group">
+                            <div class="control-label"><span class="red">*</span>名称</div>
+                            <div class="controls" id="edit_image_name_div">
+                                <input id="edit_image_name" name="name" class="machine-name" type="text" placeholder="--请输入镜像名称(0-60个字符)--">
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>镜像名称不能为空</span></div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">镜像格式</div>
+                            <div class="controls">
+                                <select id="edit_disk_format" name="disk_format" class="machine-name">
+                                    <option value="raw">raw</option>
+                                    <option value="vmdk">vmdk</option>
+                                    <option value="qcow2">qcow2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="list_item">-->
+                            <!--<div class="row_title"><label for="edit_disk_format">镜像格式:</label></div>-->
+                            <!--<div class="row_content">-->
+                                <!--<span>-->
+                                    <!--<input type="checkbox" name="is_public" id="edit_is_public">-->
+                                    <!--<label for="edit_is_public">共享的</label>-->
+                                <!--</span>-->
+                                <!--<span>-->
+                                    <!--<input type="checkbox" name="protected" id="edit_protected">-->
+                                    <!--<label for="edit_protected">受保护的</label>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="control-group">
+                            <div class="controls">
+                                <span>
+                                    <input type="checkbox" name="is_public" id="edit_is_public">
+                                    <label for="edit_is_public">共享的</label>
+                                </span>
+                                <span>
+                                    <input type="checkbox" name="protected" id="edit_protected">
+                                    <label for="edit_protected">受保护的</label>
+                                </span>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="list_item">
+                            <div class="row_title">公有镜像:</div>
+                            <div class="row_content">
+                                <select id="public_image">
+                                    <option selected="selected">请选择：</option>
+                                    <option public_image="true">是</option>
+                                    <option public_image="false">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title">镜像保护:</div>
+                            <div class="row_content">
+                                <select id="protect_image">
+                                    <option selected="selected">请选择：</option>
+                                    <option protect_image="true">是</option>
+                                    <option protect_image="false">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title">虚拟类型:</div>
+                            <div class="row_content">
+                                <select id="virtual_tech">
+                                    <option selected="selected">请选择：</option>
+                                    <option Virtual_tech="kvm">kvm</option>
+                                    <option Virtual_tech="vmware">vmware</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="list_item">
+                            <div class="row_title">系统类型:</div>
+                            <div class="row_content">
+                                <select id="os_type">
+                                    <option selected="selected">请选择：</option>
+                                    <option os_type="windows">windows</option>
+                                    <option os_type="linux">linux</option>
+                                    <option os_type="other">其他</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <div class="control-group">
+                            <div class="control-label">系统类型: </div>
+                            <div class="controls">
+                                <select name="type" class="machine-name">
+                                    <option value="linux">linux</option>
+                                    <option value="windows">windows</option>
+                                    <option value="other">其它</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group textarea-group" id="edit_desc">
+                            <div class="control-label">描述</div>
+                            <div class="controls" id="edit_image_description_div">
+                                <textarea class="machine-name" id="image_description"  name="description" placeholder="长度为0-1000个字符"></textarea>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>长度范围(0-1000字符)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="edit_confirm_button" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button id="edit_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--create image modal-->
+<div id="create_image_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_image_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style" style="margin:50px auto 0 auto">
+        <div id="image_content_container" class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <div class="modal-title modal_title_style" id="create_image_modalLabel">
+                    <span class="glyphicon glyphicon-cloud-upload"></span> 创建镜像
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="create_image_form">
+                    <div style="position: relative" class="Mirror_list_div">
+                        <div class="control-group">
+                            <div class="control-label">名称</div>
+                            <div class="controls">
+                                <input class="machine-name" id="image_name_in_create" name="image_name" type="text" placeholder="--请输入镜像名称--" with-function='clean_warnning'>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">镜像源</div>
+                            <div class="controls">
+                                <select class="machine-name" id="image_src_in_create" name="image_source" with-function='clean_warnning'>
+                                    <option selected="selected" image_src="file" value="image_file">镜像文件</option>
+                                    <option image_src="address" value="image_address">镜像地址</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="image_file_container">
+                            <div class="control-label">镜像文件</div>
+                            <div class="controls">
+
+
+                                    <input class="machine-name" id="upload_file_name_container" name="image_href" type="text" placeholder="请选择上传的镜像" disabled="disabled">
+
+                                    <span id="add_button" class="btn btn-default btn-delete btn-sm fileinput-button">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span with-function='clean_warnning'>选择</span>
+                                        <input id="fileupload" type="file" name="image_file">
+                                    </span>
+
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="image_address_container">
+                            <div class="control-label">镜像地址</div>
+                            <div class="controls">
+                                <input class="machine-name" id="image_address_in_create" name="image_href" type="text"
+                                       placeholder="http://example.com/image.iso">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">镜像格式</div>
+                            <div class="controls">
+                                <select class="machine-name" id="image_type_in_create" name="image_format">
+                                    <option selected="selected" value="raw">RAW</option>
+                                    <option value="vmdk">VMDK</option>
+                                    <option value="qcow2">QCOW2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="control-label">镜像系统</div>
+                            <div class="controls">
+                                <select class="machine-name" id="image_system_in_create" name="image_system">
+                                    <option selected="selected" value="linux">linux</option>
+                                    <option value="windows">windows</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <span>
+                                    <input type="checkbox" name="is_public" id="image_public_prop">
+                                    <label for="edit_is_public">共享的</label>
+                                </span>
+                                <span>
+                                    <input type="checkbox" name="protected" id="image_protected_prop">
+                                    <label for="edit_protected">受保护的</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--<div class="list_item">-->
+                            <!--<div class="row_title">最小磁盘:</div>-->
+                            <!--<div class="row_content">-->
+                                <!--<input id="min_disk" data-slider-id='min_diskSlider' type="text" data-slider-min="20" data-slider-max="1024" data-slider-step="1" data-slider-value="20"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="list_item">-->
+                            <!--<div class="row_title">最低内存:</div>-->
+                            <!--<div class="row_content">-->
+                                <!--<input id="min_ram" data-slider-id='min_ramSlider' type="text" data-slider-min="1" data-slider-max="48" data-slider-step="1" data-slider-value="1"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                        <div id="image_desc" class="control-group textarea-group">
+                            <div class="control-label">描述</div>
+                            <div class="controls">
+                                <textarea class="machine-name" id="image_description_in_create" name="image_description" rows="3" cols="40"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="image_warnning_container" class="list_item warnning_container">
+                            <div class="row_title">
+                            </div>
+                            <div class="row_content">
+                                <div class="alert alert-danger" role="alert">
+                                    <span id="image_warnning"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="create_confirm_button" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                <button id="create_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--download image modal-->
+<div id="download_image_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="download_image_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal_dialog_style download_modal-header" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-cloud-download"></span> 下载镜像</h4>
+            </div>
+            <div class="modal-body ">
+                确认下载该镜像吗？
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="download_confirm_button" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 下载</button>
+                <button id="download_cancel_button" class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>

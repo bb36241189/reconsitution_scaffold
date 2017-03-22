@@ -1,0 +1,206 @@
+
+<link ng-href="//static_url('stylesheets/network_qos.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content">
+    <div id="page-container" class="row" ng-controller="policies_list_ctl">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button ng-click="clickcCreateItem();" class="table_button general_button"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button ng-click="clickcEditItem();" class="table_button //general_status//"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button ng-click="clickDeleteItem();" class="table_button //danger_status//"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive table_container">
+                        <table class="table" id="network_table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox" >
+                                    <th class="tds">名称</th>
+                                    <th class="tds">共享</th>
+                                    <th class="tds">描述</th>
+                                    <th class="tds">最大带宽(Mbps)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="network_qos_tbody">
+                                <tr ng-repeat="x in policies" ng-show="bool_rows" ng-click="clickTableTr($event)"
+                                        policy_id="//x.id//" name="//x.name//" shared="//x.shared//" description="//x.description//"
+                                        max_kbps="//x.rules[0].max_kbps//" max_burst_kbps="//x.rules[0].max_burst_kbps//">
+                                    <td><input type="checkbox"></td>
+                                    <td ng-bind="x.name"></td>
+                                    <td ng-bind="x.shared"></td>
+                                    <td ng-bind="x.description"></td>
+                                    <td ng-bind="x.rules[0].max_kbps/1000"></td>
+                                </tr>
+                                <tr ng-hide="bool_rows">
+                                    <td colspan="6" ng-bind="loading_rows">正在加载...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="network_qos_pagination" class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="modal_create_network_qos" id="modal_create_network_qos" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 创建网络Qos</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_create_network_qos">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input ng-model="name" name="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>共享</label>
+                                <div class="controls">
+                                    <select ng-model="shared" name="shared" class="machine-name">
+                                        <option value="true">是</option>
+                                        <option value="false">否</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>最大带宽(Mbps)</label>
+                                <div class="controls">
+                                    <input ng-model="max_kbps" type="number" name="max_kbps" class="machine-name" min="0" max="100000">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea ng-model="description" name="description" type="text" class="machine-name"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_pool" ng-click="submitCreate()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 创建</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="modal_edit_network_qos" id="modal_edit_network_qos" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal_dialog_style edit_modal-header" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 编辑网络Qos</h4>
+                </div>
+                <div class="modal-body ">
+                    <form id="form_edit_network_qos">
+                        <div class="Mirror_list_div">
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>名称</label>
+                                <div class="controls">
+                                    <input ng-model="name" name="name" type="text" class="machine-name"
+                                            required maxlength="20" minlength="3"
+                                            placeholder="长度3-20字符"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>共享</label>
+                                <div class="controls">
+                                    <select ng-model="shared" name="shared" class="machine-name">
+                                        <option value="true">是</option>
+                                        <option value="false">否</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="red">*</span>最大带宽(Mbps)</label>
+                                <div class="controls">
+                                    <input ng-model="max_kbps" type="number" name="max_kbps" class="machine-name" min="0" max="100000">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group textarea-group">
+                                <label class="control-label">描述</label>
+                                <div class="controls">
+                                    <textarea ng-model="description" name="description" type="text" class="machine-name"
+                                            maxlength="100"
+                                            cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button id="submit_create_pool" ng-click="submitEdit()" class="table_button btn_default_style form_general_button"><span class="glyphicon glyphicon-ok"></span> 确认</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="delete_network_qos_modal" class="modal fade" id="delete_network_qos_modal" tabindex="-1" role="dialog" aria-labelledby="deleteImageLabel" aria-hidden="true">
+       <div class="modal-dialog" style="margin:230px auto">
+          <div class="modal-content">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal"
+                   aria-hidden="true">×
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除网络Qos</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" ng-model="delete_type_id"/>
+                您确定要进行删除网络Qos的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" ng-click="clickSubmitDelete()">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button class="btn btn-default btn-sm table_button cancel_button" data-dismiss="modal">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div>
+
+
+</div>
+
+
+

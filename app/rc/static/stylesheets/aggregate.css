@@ -1,0 +1,35 @@
+.pagination a, .pagination span {
+    padding:0 0;
+    margin-bottom:0;
+}
+
+.pagination span {
+    margin-right:0;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+    border-radius:0;
+}
+
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+    border-radius:0;
+}
+
+.ng-table-pager.ng-scope{
+    text-align: center;
+    margin-top:15px;
+}
+
+.more-dropdown-menu{
+    margin-left:390px;
+}
+
+.dropdown-menu li > label {
+    clear: both;
+    color: #353f4b;
+    font-weight: normal;
+    line-height: 18px;
+    padding: 6px 0 6px 13px;
+    text-decoration: none;
+    white-space: nowrap;
+}

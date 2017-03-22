@@ -1,0 +1,449 @@
+.col1 {
+  color: #67aaf9;
+}
+.bb {
+  border-bottom: 1px solid #f1f1f1;
+}
+.bgf {
+  background-color: #fff;
+}
+.h10 {
+  width: 100%;
+  height: 10px;
+}
+.h20 {
+  width: 100%;
+  height: 20px;
+}
+.h30 {
+  width: 100%;
+  height: 30px;
+}
+.h40 {
+  width: 100%;
+  height: 40px;
+}
+.h50 {
+  width: 100%;
+  height: 50px;
+}
+.h60 {
+  width: 100%;
+  height: 60px;
+}
+.pd20 {
+  padding: 20px !important;
+}
+.pd40 {
+  padding: 40px !important;
+}
+.m-l {
+  margin-left: 0 !important;
+}
+.m-r {
+  margin-right: 0 !important;
+}
+.m-t {
+  margin-top: 0 !important;
+}
+.m-b {
+  margin-bottom: 0 !important;
+}
+.p-l {
+  padding-left: 0 !important;
+}
+.p-r {
+  padding-right: 0 !important;
+}
+.p-t {
+  padding-top: 0 !important;
+}
+.p-b {
+  padding-bottom: 0 !important;
+}
+.m-c {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.m10 {
+  margin: 10px;
+}
+.m20 {
+  margin: 20px;
+}
+.m30 {
+  margin: 30px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.ml20 {
+  margin-left: 20px;
+}
+.ml30 {
+  margin-left: 30px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mr20 {
+  margin-right: 20px;
+}
+.mr30 {
+  margin-right: 30px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mt30 {
+  margin-top: 30px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.mb30 {
+  margin-bottom: 30px;
+}
+.p10 {
+  padding: 10px;
+}
+.p20 {
+  padding: 20px;
+}
+.p30 {
+  padding: 30px;
+}
+.pl10 {
+  padding-left: 10px;
+}
+.pl20 {
+  padding-left: 20px;
+}
+.pl30 {
+  padding-left: 30px;
+}
+.pr10 {
+  padding-right: 10px;
+}
+.pr20 {
+  padding-right: 20px;
+}
+.pr30 {
+  padding-right: 30px;
+}
+.pt10 {
+  padding-top: 10px;
+}
+.pt20 {
+  padding-top: 20px;
+}
+.pt30 {
+  padding-top: 30px;
+}
+.pb10 {
+  padding-bottom: 10px;
+}
+.pb20 {
+  padding-bottom: 20px;
+}
+.pb30 {
+  padding-bottom: 30px;
+}
+.mWelMasonry {
+  padding: 40px 0 20px 0;
+  overflow: hidden;
+}
+.mWelMasonry .item {
+  float: left;
+  width: 12.5%;
+  padding: 0 15px;
+  z-index: 2;
+}
+.mWelMasonry .item.is-positioning-post-drag,
+.mWelMasonry .item.item.is-dragging {
+  z-index: 3;
+}
+.mWelMasonry .item.is-positioning-post-drag .mWelMasonryBox,
+.mWelMasonry .item.item.is-dragging .mWelMasonryBox {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+.mWelMasonry .item.n2 {
+  width: 25%;
+}
+.mWelMasonry > .packery-drop-placeholder {
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  margin-top: -10px !important;
+  transition: all .3s;
+}
+.mWelMasonry .addBox {
+  height: 200px;
+  background: url("../img/ico_14.png") no-repeat center #f9f9fa;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.mWelMasonry .addBox .Tit {
+  height: 30px;
+  padding: 0;
+  cursor: all-scroll;
+}
+.mWelMasonry .addBox p {
+  height: 170px;
+  cursor: pointer;
+}
+.mWelMasonryBox {
+  height: 200px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+.mWelMasonryBox.row2 {
+  height: 420px;
+}
+.mWelMasonryBox.row3 {
+  height: 640px;
+}
+.mWelMasonryBox .Tit {
+  cursor: all-scroll;
+}
+.mWelMasonryBox .Tit.cursorAuto {
+  cursor: auto;
+}
+.mWelMasonryBox .Tit {
+  padding: 17px 20px;
+  height: 54px;
+  color: #666666;
+  position: relative;
+  z-index: 1;
+}
+.mWelMasonryBox .Tit.s {
+  padding: 17px 20px;
+}
+.mWelMasonryBox .Ico {
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 80px;
+}
+.mWelMasonryBox .Ico.n1 {
+  background-image: url('../img/ico_9.png');
+}
+.mWelMasonryBox .Ico.n2 {
+  background-image: url('../img/ico_10.png');
+}
+.mWelMasonryBox .Ico.n3 {
+  background-image: url('../img/ico_11.png');
+}
+.mWelMasonryBox .Ico.n4 {
+  background-image: url('../img/ico_12.png');
+}
+.mWelMasonryBox .Num {
+  color: #333333;
+  text-align: center;
+}
+.mWelMasonryBox .Num b {
+  font-size: 34px;
+  margin-right: 10px;
+}
+.mWelMasonryBox > .NumCap {
+  padding-top: 15px;
+}
+.mWelMasonryBox > .myStat {
+  margin-top: 9px;
+}
+.mWelMasonryBox .List li {
+  float: left;
+  height: 146px;
+}
+.mWelMasonryBox .List li.n1 {
+  width: 42%;
+  border-right: 1px solid #f1f1f1;
+  display: table;
+}
+.mWelMasonryBox .List li.n1 .middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+.mWelMasonryBox .List li.n2 {
+  width: 58%;
+}
+.mWelMasonryBox .List .NumInfo {
+  padding-top: 22px;
+}
+.mWelMasonryBox .List .NumInfo .pRow {
+  padding: 7px 14%;
+}
+.mWelMasonryBox .List .NumInfo .Cap {
+  color: #999999;
+  min-width: 45%;
+  padding-right: 5%;
+}
+.mWelMasonryBox .List .NumInfo.sta .Cap {
+  padding-left: 20px;
+  position: relative;
+}
+.mWelMasonryBox .List .NumInfo.sta .Cap:before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  left: 0;
+  top: 5px;
+}
+.mWelMasonryBox .List .NumInfo.sta .Cap.n1:before {
+  background-color: #64bb00;
+}
+.mWelMasonryBox .List .NumInfo.sta .Cap.n2:before {
+  background-color: #67aaf9;
+}
+.mWelMasonryBox .List .NumInfo.sta .Cap.n3:before {
+  background-color: #ef794a;
+}
+.mWelMasonryBox .NumCap {
+  text-align: center;
+}
+.mWelMasonryBox .NumCap p {
+  margin-top: 3px;
+}
+.mWelMasonryBox .myStat {
+  margin-left: auto;
+  margin-right: auto;
+}
+.mWelMasonryBox .TitNum {
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  margin-top: -3px;
+  background-color: #ffece5;
+  color: #ff8e42;
+  text-align: center;
+  border: 1px solid #ff8e42;
+  border-radius: 50%;
+}
+.mWelMasonryBox .NewInfo .HeadCap {
+  height: 130px;
+  background-color: #fbfbfb;
+  text-align: center;
+}
+.mWelMasonryBox .NewInfo .HeadCap .HText {
+  display: inline-block;
+  background: url("../img/ico_13.png") no-repeat;
+  height: 53px;
+  padding-left: 80px;
+  text-align: left;
+  margin-top: 38px;
+}
+.mWelMasonryBox .NewInfo .HeadCap .HCap {
+  color: #666666;
+  line-height: 1;
+}
+.mWelMasonryBox .NewInfo .HeadCap .HCap span {
+  color: #ff8e42;
+  font-size: 38px;
+  margin-right: 5px;
+}
+.mWelMasonryBox .NewInfo .HeadCap .HTit {
+  color: #999999;
+}
+.mWelMasonryBox .NewInfo .NList li {
+  border-top: 1px solid #f1f1f1;
+  padding: 20px 17px;
+}
+.mWelMasonryBox .NewInfo .NList .LTime {
+  color: #999999;
+}
+.mWelMasonryBox .NewInfo .NList .LCap {
+  max-width: 70%;
+  padding-right: 18px;
+}
+.mWelMasonryBox .NewInfo .NList .LCap.i {
+  position: relative;
+}
+.mWelMasonryBox .NewInfo .NList .LCap.i:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -4px;
+  width: 8px;
+  height: 8px;
+  background-color: #ef794a;
+  border-radius: 50%;
+}
+.mWelMasonryBox .NewInfo .NList .LTit {
+  padding-top: 10px;
+  color: #999999;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.mWelMasonryBox .cakeBox {
+  margin-top: 11px;
+  height: 355px;
+  width: 100%;
+  padding: 0 5%;
+  position: relative;
+}
+.mWelMasonryBox .cakeBox .NumCap {
+  position: absolute;
+  bottom: 35px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.mWelMasonryBox .lineBox {
+  height: 146px;
+  padding: 15px 5%;
+}
+.mWelMasonryBox .lineBox > div {
+  width: 125%;
+  height: 200px;
+  margin-top: -50px;
+  margin-left: -12.5%;
+}
+.mWelMasonryBox .cakeBoxM {
+  position: relative;
+  height: 347px;
+}
+.mWelMasonryBox .cakeBoxM .pList {
+  padding: 0 5%;
+}
+.mWelMasonryBox .cakeBoxM .pList li {
+  float: left;
+  width: 33.33%;
+  padding: 8px 0;
+  padding-right: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.mWelMasonryBox .cakeBoxM .pList li i {
+  float: left;
+  width: 10px;
+  height: 10px;
+  background-color: #2196f3;
+  border-radius: 50%;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+.mWelMasonryBox .cakeBoxM .NumCap {
+  position: absolute;
+  bottom: 3%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.mWelMasonryBox .cakeBoxM .svgBox {
+  display: inline-block;
+  position: absolute !important;
+  left: 50%;
+  bottom: 0;
+  width: 81.73%;
+  margin-left: -40.865%;
+}

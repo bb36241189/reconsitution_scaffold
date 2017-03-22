@@ -1,0 +1,118 @@
+<div class="pg pg-dm">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="sim-fictiNave f-cb">
+                <div class="col-md-7 col-xs-12">
+                    <button ng-click="action.refresh()" type="button" class="btn btn-padding btn-status-blue">刷新</button>&nbsp;&nbsp;
+                </div>
+                <div class="col-md-5 col-xs-12 tar">
+                    <form class="form-inline">
+                        <button ng-click="action.create()" type="button" class="btn btn-padding btn-status-blueLake" id="openAddHost">添加</button>&nbsp;
+                        <button type="button" class="btn btn-padding btn-status-blueLake">更多</button>&nbsp;
+                        <div class="form-group form-search f-cb">
+                            <input type="text" ng-model="data.search_role_name" class="form-control fl" placeholder="搜索">
+                            <button type="submit" class="btn btn-submit fl" ng-click="action.refresh()"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        &nbsp;
+    </div>
+    <div class="col-md-12">
+        <table class="table datatable-basic" ng-table="data.roleTable" show-filter="false">
+			<tr ng-repeat="x in $data">
+				<td data-title="'角色名称'" sortable="'name'" class="text-center">//x.name//</td>
+
+				<td  data-title="'创建时间'" sortable="'create_date'" class="text-center">//x.create_date//</td>
+				<td  data-title="'更新时间'" sortable="'update_date'" class="text-center">
+					//x.update_date//
+				</td>
+				<td data-title="'操作'" class="text-center">
+					<ul class="icons-list">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li ng-if="!x.is_system_admin"><a ng-click="action.edit(x.id,x.roleType,'lg');"><i class="icon-pencil7"></i>编辑</a></li>
+								<li ng-if="!x.is_system_admin"><a ng-click="action.del(x.id,x.roleName)"><i class=" icon-trash"></i>删除</a></li>
+							</ul>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+    </div>
+</div>
+
+
+<!--创建MODAL-->
+<script type="text/ng-template" id="createNewRoles.html">
+	<div class="modal-header">
+		<button type="button" class="close" style="color: inherit;" ng-click="cancel();">&times;</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;创建角色</h5>
+	</div>
+
+	<div class="modal-body">
+		<form ng-submit="create(myForm.$valid)" name="myForm">
+		<div class="col-md-6">
+			<fieldset>
+			<legend class="text-semibold"><i class="icon-user position-left"></i> 基础信息</legend>
+			<div class="form-group "  ng-class="{'has-error':myForm.roleName.$dirty && myForm.roleName.$invalid,'has-success':myForm.roleName.$valid}">
+				<label>角色名称:<span class="symbol required"></span></label>
+				<input type="text" class="form-control" placeholder="输入角色名称" name="roleName" ng-model="form.roleName"  autocomplete="off" required maxlength="16" ng-minlength="2" ng-pattern="/^[A-Za-z0-9\u4e00-\u9fa5\-_][\w-\u4e00-\u9fa5]*[A-Za-z0-9\u4e00-\u9fa5\-_]+$/">
+                <span class="help-block" ng-show="myForm.roleName.$dirty && myForm.roleName.$invalid">请输入2-16位字符,开头和结尾必须是数字 字母,中文或特殊字符"_-"</span>
+            </div>
+			<!--<div class="form-group">
+				//select.join(", ");//
+			</div>-->
+			</fieldset>
+		</div>
+		<div class="col-md-6">
+			<fieldset >
+			<legend class="text-semibold"><i class="icon-database position-left"></i> 设置权限</legend>
+				<div permenus-tree="tree" select="select"  class="well border-left-danger border-left-lg" selectMode="3" style="min-height:400px"></div>
+			</fieldset>
+		</div>
+		</form>
+	</div>
+	<div style="clear:both"></div>
+	<div class="modal-footer" style="margin-top:20px;">
+		<button class="btn btn-success"  ng-click="create(myForm)"><i class="icon-check"></i>保存</button>
+	</div>
+</script>
+
+<!--编辑MODAL-->
+<script type="text/ng-template" id="editRole.html">
+	<div class="modal-header">
+		<button type="button" class="close"  style="color: inherit;" ng-click="cancel();">&times;</button>
+		<h5 class="modal-title"><i class="icon-plus2"></i> &nbsp;编辑角色(//roleName//)</h5>
+	</div>
+
+	<div class="modal-body">
+		<form ng-submit="create(myForm.$valid)" name="myForm">
+		<div class="col-md-6">
+			<fieldset>
+			<legend class="text-semibold"><i class="icon-user position-left"></i> 基础信息</legend>
+			<div class="form-group "  ng-class="{'has-error':myForm.roleName.$dirty && myForm.roleName.$invalid,'has-success':myForm.roleName.$valid}">
+				<label>角色名称:<span class="symbol required"></span></label>
+				<input type="text" class="form-control" placeholder="输入角色名称" name="roleName" ng-model="form.roleName"  autocomplete="off" required maxlength="16" ng-minlength="2" ng-pattern="/^[A-Za-z0-9\u4e00-\u9fa5\-_][\w-\u4e00-\u9fa5]*[A-Za-z0-9\u4e00-\u9fa5\-_]+$/">
+                <span class="help-block" ng-show="myForm.roleName.$dirty && myForm.roleName.$invalid">请输入2-16位字符,开头和结尾必须是数字 字母,中文或特殊字符"_-"</span>
+            </div>
+			</fieldset>
+		</div>
+		<div class="col-md-6">
+			<fieldset >
+			<legend class="text-semibold"><i class="icon-database position-left"></i> 设置权限</legend>
+				<div permenus-tree="tree" select="select"  class="well border-left-danger border-left-lg" selectMode="3" style="min-height:400px"></div>
+			</fieldset>
+		</div>
+		</form>
+	</div>
+	<div style="clear:both"></div>
+	<div class="modal-footer" style="margin-top:20px;">
+		<button class="btn btn-success" id="savebtn"  ng-click="update(myForm)"><i class="icon-check"></i>保存</button>
+	</div>
+</script>

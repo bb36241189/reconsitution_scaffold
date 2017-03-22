@@ -1,0 +1,69 @@
+
+.operation {
+    background-color: #fff;
+    border-radius: 10px;
+    float: left;
+    margin-left: 40px;
+    margin-top: 48px;
+    width: 94%;
+    height: 490px;
+}
+
+
+.disabled-machine-name{
+    cursor: not-allowed !important;
+    border: 1px solid #ecf0f2;
+    border-radius: 4px;
+    height: 30px;
+    padding-left: 10px;
+	margin-left: 9px;
+    width: 65%;
+}
+
+
+.update_info{
+    padding: 10px 0 0 320px;
+}
+
+/*
+
+.machine-name{
+    border: 1px solid #ecf0f2;
+    border-radius: 4px;
+    height: 30px;
+    padding-left: 10px;
+	margin-left: 9px;
+    width: 65%;
+}
+
+.machine-name:hover, .machine-name:focus {
+    border: 1px solid #5fb2ef;
+}
+
+.describe_style {
+    margin: -60px 0 0 265px;
+    width: 95%;
+}
+.to_configure {
+    margin-left: 24%;
+    width: 12%;
+}
+.Mirror_list_div {
+    color: #5b6775;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: -15px;
+    margin-top: 20px;
+}
+
+.Mirror_list_div.conf_style {
+    margin-left: 20px;
+}
+.Mirror_list_div > div {
+    margin-bottom: 15px;
+}
+
+.Mirror_list_div > div .desc{
+    display: inline-block;
+}
+*/

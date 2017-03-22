@@ -1,0 +1,52 @@
+table thead tr th{
+	background-color: #5fb2ef;
+	color: #FFFFFF;
+	font-size: 15px;
+	height: 47px;
+	text-align: center;
+	vertical-align: middle !important;
+	border: 0;
+	border-bottom-width: 0px !important;
+}
+
+table tbody tr td{
+	color: #000;
+	font-size: 12px;
+	text-align: center;
+	vertical-align: middle !important;
+	border: 1px solid #f0f0f0 !important;
+}
+
+.thead_checkbox {
+	width: 13px;
+}
+
+.table_operate_div{
+	/*border: 2px solid #FF0000;*/
+	margin: 10px 10px;
+	overflow: hidden;
+}
+
+.table_title_div{
+	float: left;
+}
+
+.table_title_div span{
+	font-size: 15px;
+}
+
+.table_button_div{
+	float: right;
+}
+
+.table_button_div input{
+	outline: none;
+	margin-left: 8px;
+}
+
+
+.table_body_tr_change{
+	background-color: #e6f3fc;
+	color: #000000;
+	font-weight: bold;
+}

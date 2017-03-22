@@ -1,0 +1,602 @@
+
+<link href="//static_url('stylesheets/volume.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>存储资源</li>
+                    <li class="active">云盘管理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div class="page_tab">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">数据盘</a></li>
+                {% if role == "super_admin"%}
+                <li><a href="#tab2" data-toggle="tab" id="system_tab">系统盘</a></li>
+                {%end%}
+            </ul>
+            <div class="tab-content row">
+                <div class="tab-pane active" id="tab1">
+                    <div  class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div id="toolbar_container">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-padding btn-status-blueLake"  name="refresh_volume" id="refresh_volume"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                                        {%if handler.approval=="closed" or handler.approval=="testAll"  or role=="super_admin" %}
+                                        <button name="add_volume" id="add_volume" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_volume_modal"><span class="glyphicon glyphicon-plus-sign"></span> 创建云硬盘</button>
+                                        {% end %}
+                                        <button name="snapshot_volume" id="snapshot_volume" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#snapshot_volume_modal"><span class="glyphicon glyphicon-picture"></span> 创建快照</button>
+                                        <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                  更多<img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
+                                        </button>
+
+                                        <ul class="dropdown-menu more-dropdown-menu">
+                                            <li><a name="edit_volume" id="edit_volume" data-toggle="modal" data-target="#edit_volume_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</a></li>
+                                            {%if handler.approval=="closed" or handler.approval=="testAll" or role=="super_admin" %}
+                                            <li><a name="extend_volume" id="extend_volume" data-toggle="modal" data-target="#extend_volume_modal"><span class="glyphicon glyphicon-hdd"></span> 扩容云硬盘</a></li>
+                                            <li><a name="extend_volume" id="change_volume" data-toggle="modal" data-target="#change_volumeType_modal"><span class="glyphicon glyphicon-hdd"></span> 更改云硬盘类型</a></li>
+                                            {% end %}
+                                            <li><a name="load_volume" id="load_volume" data-toggle="modal" data-target="#load_volume_modal"><span class="glyphicon glyphicon-floppy-saved"></span> 挂载到云主机</a></li>
+                                            <li><a name="delete_volume" id="delete_volume" data-toggle="modal" data-target="#delete_volume_modal"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
+                                            <li><a name="unload_volume" id="unload_volume" data-toggle="modal" data-target="#unload_volume_modal"><span class="glyphicon glyphicon-floppy-remove"></span> 从云主机卸载</a></li>
+                                        </ul>
+                            <!--
+                            <input type="image" class="input-class" src="//static_url('images/table_operate_button/add.png')//" name="add_volume" id="add_volume" data-placement="bottom" title="添加" data-toggle="modal" data-target="#create_volume_modal"/>
+                            <input type="image" class="input-class" src="//static_url('images/table_operate_button/edit.png')//" id="edit_volume" data-placement="bottom" title="编辑" data-toggle="modal" data-target="#edit_volume_modal"/>
+                            <input type="image" class="input-class" src="//static_url('images/table_operate_button/refresh.png')//" name="refresh_volume" id="refresh_volume" data-placement="bottom" title="刷新"/>
+                            <span class="more dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  更多<img src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li><a name="snapshot_volume" id="snapshot_volume" data-toggle="modal" data-target="#snapshot_volume_modal">创建快照</a></li>
+                                <li><a name="load_volume" id="load_volume" data-toggle="modal" data-target="#load_volume_modal">挂载到云主机</a></li>
+                                <li><a name="delete_volume" id="delete_volume" data-toggle="modal" data-target="#delete_volume_modal">删除</a></li>
+                                <li><a name="unload_volume" id="unload_volume" data-toggle="modal" data-target="#unload_volume_modal">从云主机卸载</a></li>
+                            </ul>-->
+                                    </div>
+                                    <div class="search_div">
+                                        <input type="text" id="search_volume_input" placeholder="搜索" class="table_search_input"/>
+                                        <img id="search_volume_img" class="table_search_img" src="//static_url('images/table_operate_button/search.png')//">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive table_container">
+                                    <table class="table" id="volume_table">
+                                        <thead>
+                                            <tr>
+                                                <th class="thead_checkbox" >
+                                                <th class="tds" title="名称">名称</th>
+                                                <th class="tds" title="容量">容量(GB)</th>
+                                                <th class="tds" title="状态">状态</th>
+                                                <th class="tds" title="挂载虚拟机">所挂载虚拟机</th>
+                                                <th class="tds" >挂载点</th>
+                                                <th class="tds" title="可用域">可用域</th>
+                                                <th class="tds" title="类型">类型</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="volume_tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="pagination_div">
+                                    <div id="volume_pagination" class="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <div class="col-md-12">
+                        <div class="table-responsive table_container">
+                            <table class="table" id="system_volume_table">
+                                    <thead>
+                                <tr>
+                                    <th class="thead_checkbox" >
+                                    <th class="tds" title="名称">名称</th>
+                                    <th class="tds" title="容量">容量(GB)</th>
+                                    <th class="tds" title="状态">状态</th>
+                                    <th class="tds" title="挂载虚拟机">所挂载虚拟机</th>
+                                    <th class="tds" >挂载点</th>
+                                    <th class="tds" title="可用域">可用域</th>
+                                </tr>
+                            </thead>
+                                    <tbody id="system_volume_tbody">
+                                    </tbody>
+                                </table>
+                             <div class="pagination_div">
+                        <div id="system_volume_pagination" class="pagination"></div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <div id="header">
+
+        <div class="operation_2 animate-block">
+            <div id="volume_detail">
+                <div class="tabbable title_container">
+                    <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                        ×
+                    </button>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#telemetry" data-toggle="tab">云盘信息</a></li>
+                        <li><a href="#yunpan" data-toggle="tab">快照</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="telemetry">
+                        <div class="volume_detail_content">
+                            <!--
+                            <dl>
+                                <dt>云盘名称：<span name="name"></span></dt>
+                                <dt>云盘大小：<span name="size"></span></dt>
+                                <dt>状态：<span name="status"></span></dt>
+                                <dt>所在主机：<span name="host"></span></dt>
+                                <dt>所在zone：<span name="az"></span></dt>
+                                <dt>挂载的虚拟机：<span name="instance_name"></span></dt>
+                                <dt>挂载点：<span name="mountpoint"></span></dt>
+                                <dt>挂载状态：<span name="attach_status"></span></dt>
+                                <dt>挂载时间：<span name="attach_time"></span></dt>
+                                <dt>创建时间：<span name="created_at"></span></dt>
+                                <dt>描述： <span name="description"></span></dt>
+                            </dl>
+                            -->
+                            <table class="showTable">
+                                <tr><th>云盘名称</th><td name="name"></td></tr>
+                                <tr><th>云盘大小</th><td name="size"></td></tr>
+                                <tr><th>状态</th><td name="status"></td></tr>
+                                <tr><th>所在主机</th><td name="host"></td></tr>
+                                <tr><th>所在zone</th><td name="az"></td></tr>
+                                <tr><th>挂载的虚拟机</th><td name="instance_name"></td></tr>
+                                <tr><th>挂载点</th><td name="mountpoint"></td></tr>
+                                <tr><th>创建时间</th><td name="created_at"></td></tr>
+                                <tr><th>描述</th><td name="description"></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in" id="yunpan">
+                        <div class="interface_button_div">
+                            <div class="butn" style="">
+                                <button class="table_button" name="edit_snapshot" id="edit_snapshot" data-toggle="modal" data-target="#edit_snapshot_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                                <button class="table_button" name="delete_snapshot" id="delete_snapshot" data-toggle="modal" data-target="#delete_snapshot_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                                <!--
+                                <input type="button" class="snapshot_button" name="edit_snapshot" id="edit_snapshot" data-placement="bottom" title="编辑" data-toggle="modal" data-target="#edit_snapshot_modal" value="编辑"/>
+                                <input type="button" class="snapshot_button " name="delete_snapshot" id="delete_snapshot" data-placement="bottom" title="删除" data-toggle="modal" data-target="#delete_snapshot_modal" value="删除"/>
+                                 -->
+                            </div>
+                        </div>
+
+                        <div class="volume_snapshot_div" style="">
+                            <table class="table" id="volume_snapshot_table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="snapshot_td">名称</th>
+                                        <th class="snapshot_td">状态</th>
+                                        <th class="snapshot_td">快照方式</th>
+                                        <th class="snapshot_td">创建时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="volume_snapshot_tbody">
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="volume_snapshot_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--create volume modal-->
+<div id="create_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_volume_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-plus-sign"></span> 添加云盘
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="create_volume_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group" id="create_volume_name_div">
+                            <div class="control-label"><span class="red">*</span>名称</div>
+                            <div class="controls">
+                                <input id="create_volume_name" name="name" class="machine-name" type="text" placeholder="--请输入云盘名称(1-60个字符)--">
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>云盘名称不能为空</span></div>
+                            </div>
+                        </div>
+
+                        <div class="control-group textarea-group" id="create_volume_description_div">
+                            <div class="control-label">描述</div>
+                            <div class="controls">
+                                <textarea class="machine-name" id="create_description" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                 <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                 <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="create_volume_type_div">
+                            <div class="control-label">类型</div>
+                            <div class="controls">
+                                <select id="create_volume_type" name="volume_type" class="select in_put"></select>
+{#                                <input id="create_volume_type" name="volume_type" class="machine-name" type="select">#}
+{#                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>#}
+{#                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>#}
+{#                                <div class="desc error_info hide"><span>类型不能为空</span></div>#}
+                            </div>
+                        </div>
+
+                        <div class="control-group" id="create_size_div">
+                            <div class="control-label">容量</div>
+                            <div class="controls">
+                                <div style="margin-left:18px;">
+                                    <input id="create_volume_slider" data-slider-id='create_volume_sliderSlider'  data-slider-min="1" data-slider-max="2000" data-slider-step="1" data-slider-value="1"/>
+                                    <span class="slider_style">
+                                        <input type="number" name="size" max="2000" min="1" class="size_slider" value="1" id="create_size" title="1-2000" data-toggle="tooltip"/>&nbsp;GB
+                                    </span>
+                                    <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                    <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                    <div class="desc error_info hide"><span>不能小于当前容量</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <label for="name">云硬盘名称：</label>
+                    <input type="text" name="name" class="input-xlarge"><br>
+                    <label for="size">大小：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" name="size" class="input-xlarge"><br>
+                     <label for="availability_zone">所在域：</label>
+                        <select class="selectpicker" name="availability_zone">
+                               <!-- <option value selected="selected">任何可用域</option>
+                        </select><br>
+                    <label for="description">描述</label><br>
+                    <textarea name="description" class="input-xlarge"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_create_volume"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit volume modal-->
+<div id="edit_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_volume_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 编辑云盘
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_volume_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group" id="edit_volume_name_div">
+                            <div class="control-label"><span class="red">*</span>名称</div>
+                            <div class="controls">
+                                <input id="edit_volume_name" name="name" class="machine-name" type="text" placeholder="--请输入云盘名称(1-60个字符)--">
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>云盘名称不能为空</span></div>
+                            </div>
+                        </div>
+                        <div class="control-group textarea-group" id="edit_volume_name_div">
+                            <div class="control-label"><span class="red">*</span>描述</div>
+                            <div class="controls" id="edit_volume_description_div">
+                                <textarea id="edit_volume_description" class="machine-name" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                 <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                 <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <label for="name">云盘名称</label><br>
+                    <input type="text" name="name" class="input-xlarge"><br>
+                    <label for="description">描述</label><br>
+                    <textarea type="text" name="description" class="input-xlarge"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_volume"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete volume modal-->
+<div id="delete_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_user_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除该磁盘？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_volume"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--load volume modal-->
+<div id="load_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="load_volume_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-floppy-saved"></span> 挂载到云主机
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="load_volume_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group" id="load_volume_div">
+                            <div class="control-label"><span class="red">*</span>虚拟机列表</div>
+                            <div class="controls">
+                                <select class="form_select" name="servers" id="servers">
+                                </select>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>请选择一个挂载的虚拟机</span></div>
+                            </div>
+                        </div>
+                        <!--
+                        <div>
+                            <label for="volume_name">云盘名称：</label>
+                            <span name="volume_name" id="volume_name"></span>
+                        </div>-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_load_volume"><span class="glyphicon glyphicon-ok"></span> 挂载</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--unload volume modal-->
+<div id="unload_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="unload_volume_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-floppy-remove"></span> 卸载云硬盘
+                </h4>
+            </div>
+            <div class="modal-body">
+                <span id="server_id" style="display: none"></span><br>
+                <p>确定将磁盘从虚拟机<span id="server_name"></span>上卸载吗？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_unload_volume"><span class="glyphicon glyphicon-ok"></span> 卸载</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--snapshot volume modal-->
+<div id="snapshot_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="snapshot_volume_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-picture"></span> 创建快照
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="snapshot_volume_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group" id="create_snapshot_name_div">
+                            <div class="control-label"><span class="red">*</span>名称</div>
+                            <div class="controls">
+                                <input id="create_snapshot_name" name="name" class="machine-name" type="text" placeholder="--请输入快照名称(1-60个字符)--">
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>路由名称不能为空</span></div>
+                            </div>
+                        </div>
+
+                        <div class="control-group textarea-group">
+                            <div class="control-label">描述</div>
+                            <div class="controls" id="create_snapshot_description_div">
+                                <textarea class="machine-name" id="create_snapshot_description" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--
+                    <label for="name">快照名称：</label>
+                    <input type="text" name="name" class="input-xlarge"><br>
+                    <label for="description">描述</label><br>
+                    <textarea type="text" name="description" class="input-xlarge"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_snapshot_volume"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--update snapshot-->
+<div id="edit_snapshot_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_snapshot_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 修改快照信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_snapshot_form">
+                    <div class="Mirror_list_div conf_style">
+                        <div class="control-group" id="edit_snapshot_name_div">
+                            <div class="control-label"><span class="red">*</span>名称</div>
+                            <div class="controls">
+                                <input id="edit_snapshot_name" name="name" class="machine-name" type="text" placeholder="--请输入快照名称(1-60个字符)--">
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>路由名称不能为空</span></div>
+                            </div>
+                        </div>
+
+                        <div class="control-group textarea-group">
+                            <div class="control-label"><span class="red">*</span>描述</div>
+                            <div class="controls" id="edit_snapshot_description_div">
+                                <textarea id="edit_snapshot_description" class="machine-name" name="description" cols ="20" rows = "7" placeholder="长度为0-255个字符"></textarea>
+                                <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-255字符</span></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--
+                    <label for="name">快照名称：</label>
+                    <input type="text" name="name" class="input-xlarge"><br>
+                    <label for="description">描述</label><br>
+                    <textarea type="text" name="description" class="input-xlarge"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_snapshot"><span class="glyphicon glyphicon-ok"></span> 更改</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete snapshot modal-->
+<div id="delete_snapshot_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_snapshot_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除该快照吗？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_snapshot"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--extend volume-->
+<div id="extend_volume_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="extend_volume_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-hdd"></span> 扩展云盘
+                </h4>
+            </div>
+            <div class="modal-body">
+                    <div class="Mirror_list_div conf_style">
+                        <div>
+                            <label for="current_size">当前大小&nbsp; &nbsp;: </label>
+                            <span id="current_size"></span>GB
+                        </div>
+                        <div id="extend_size_div">
+                            <label for="extend_volume_slider">扩展后大小: </label>
+                            <input id="extend_volume_slider" data-slider-id='create_volume_sliderSlider'  data-slider-min="1" data-slider-max="2000" data-slider-step="1" data-slider-value="1"/>
+                            <span class="slider_style">
+                                <input type="number" max="2000" min="1" title="1-2000" data-toggle="tooltip" name="size" class="size_slider" value="1" id="extend_size"/>
+                                <span>GB</span>
+                            </span>
+                             <div class="desc success hide"><img src="//static_url('images/success.png')//"></div>
+                            <div class="desc error hide"><img src="//static_url('images/error.png')//"></div>
+                            <div class="desc error_info hide"><span>不能小于当前容量</span></div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_extend_volume"><span class="glyphicon glyphicon-ok"></span> 扩展</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="change_volumeType_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="extend_volume_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-hdd"></span> 更改云硬盘类型
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="Mirror_list_div conf_style">
+                    <input type="hidden" class="hide" id="input_change_volumeType">
+                    <div class="control-group">
+                        <label class="control-label">云硬盘类型: </label>
+                        <div class="controls">
+                            <select id="select_change_volumeType" class="machine-name">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_change_volumeType"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+

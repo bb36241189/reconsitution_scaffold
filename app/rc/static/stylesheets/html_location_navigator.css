@@ -1,0 +1,19 @@
+.html-navbar-inner {
+    background-color: #fff;
+    border-bottom: 1px solid #f3f4f6 !important;
+    font-size: 12px;
+    height: 41px;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1030;
+	color: #969dac;
+    margin-top: 71px;
+    margin-left: 130px;
+}
+
+
+.location {
+    padding: 12px 0 0 10px;
+}

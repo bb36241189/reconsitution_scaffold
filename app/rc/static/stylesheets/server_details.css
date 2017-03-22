@@ -1,0 +1,273 @@
+/* ±¾Ò³ÃæÅäÖÃ */
+#tab_details {
+    background-color: #ffffff;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    padding: 10px 10px 10px 10px;
+    left: 2%;
+    top: 2%;
+    z-index: 50;
+}
+
+div[type="out_container"] {
+    right:300px;
+    position: absolute;
+}
+
+
+/*
+Server details page define here
+*/
+
+.content {
+    padding-top: 41px;
+    width: 300px;
+    height: 280px;
+}
+
+#content-container {
+    padding-top: 15px;
+}
+
+.server-title{
+    width: 70px;
+}
+
+.server-body{
+    text-align: left;
+}
+
+.interface-title {
+    text-align: left;
+}
+
+.interface-body{
+    text-align: left;
+}
+
+.server-page-container {
+    min-height: 476px;
+    border-radius: 4px;
+    background-color: white;
+    padding: 5px 10px;
+}
+
+
+a[data-toggle="tab"] {
+    color: #337ab7;
+}
+
+ul.nav-tabs li{
+    width: 120px;
+}
+
+a[data-toggle="tab"] {
+    width: 77%;
+}
+
+#telemetry, #operation_log, #vm_log {
+    background-color: white;
+}
+
+.panel {
+    margin: 0px 5px 20px 20px;
+}
+
+.chart-header{
+    font-size: 18px;
+    height: 20px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.chart-title{
+    height: 16px;
+    margin: 10px 0 5px;
+}
+
+.chart-body{
+    height: 200px;
+}
+
+.chart-footer {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.chart-item {
+    margin: 5px 0;
+}
+
+.chart-toolbar {
+    float: right;
+    position: absolute;
+    right: 5%
+}
+
+.log_toolbar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.align_right {
+    float: right;
+}
+
+.table_container {
+    margin: 8px 0 0 0;
+}
+
+#operation_list tr:hover{
+    background-color:#e6f4ff;
+}
+
+
+
+.slider-panel-group{
+    width:300px;
+    right:0;
+    top:70px;
+    bottom:0px;
+
+    position: fixed;;
+    z-index:1000;
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    background-color:#f2f3f5;
+}
+
+.slider-panel-group:after{
+    content:"|||";
+    line-height:12px;
+    font-size:12px;
+    width:32px;
+    height:32px;
+    border:10px solid #f2f3f5;
+    border-radius:16px;
+    position:fixed;
+    top:50%;
+    right:284px;
+    z-index:1001;
+    cursor:pointer;
+    display:none;
+}
+
+.slider-panel{
+    margin:20px 10px 0 25px;
+
+}
+
+.slider-panel .slider-panel-title-container{
+    border-top:2px solid #007dbe;
+    text-align: center;
+}
+
+.slider-panel .slider-panel-title{
+    margin-left:auto;
+    margin-right:auto;
+    width:100px;
+    height:0px;
+    border-top:15px solid #007dbe;
+    border-left:15px solid transparent;
+    border-right:15px solid transparent;
+}
+.slider-panel .slider-panel-caret{
+    margin-top:-40px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #bababa;
+    display: inline-block;
+    height: 0;
+    margin-left: 3px;
+    vertical-align: middle;
+    width: 0;
+}
+.slider-panel-title-text{
+    margin-top:-20px;
+    color:white;
+    cursor:pointer;
+}
+.slider-panel-container{
+    margin-top:10px;
+    border:1px solid #007dbe;
+    box-shadow: 0 3px 3px #666666;
+    position:relative;
+    background-color: white;
+}
+.slider-panel-trangle-bg{
+    width:0;
+    height:0;
+    border-top:40px solid #007dbe;
+    border-right:40px solid transparent;
+    position:absolute;
+    top:0;
+    left:0px;
+}
+.slider-panel-trangle-wd {
+    transform:rotate(-45deg);
+    width:40px;
+    height:40px;
+    font-size:12px;
+    position:absolute;
+    top:0;
+    left:2px;
+    color:white;
+}
+.slider-panel-table{
+    margin:10px 0 0 5px;
+    width:100%;
+    table-layout: fixed;
+}
+.slider-panel-table th{
+    color:#afafaf;
+    width:30%;
+    font-size:12px;
+    text-align: right;
+    border:none !important;
+    line-height:30px;
+
+}
+.withHead tr:first-child>td{
+    color:#007dbe;
+    font-size:16px;
+}
+.tableHead thead td{
+    color:#afafaf;
+}
+.slider-panel-table td{
+    color:black;
+    min-width:50px;
+    text-align: left;
+    border:none !important;
+    padding-left:15px;
+    line-height:30px;
+}
+.blue-tick{
+    float:right;
+    width:22px;
+    height:22px;
+    background:rgba(0, 0, 0, 0) url("../images/navigation/blue-tick.png") no-repeat scroll -48px 0
+}
+
+/*
+
+.machine-name {
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    height: 30px;
+    margin-left: 9px;
+    padding-left: 10px;
+}
+
+.machine-name:hover,.machine-name:focus {
+    border: 1px solid #5fb2ef;
+}
+
+*/

@@ -1,0 +1,149 @@
+<link ng-href="//static_url('stylesheets/keypair.css')//" rel="stylesheet"/>
+
+
+<div id="load_content_text" type="out_container" class="container-fluid page-content">
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div role="group">
+                            <button name="add_keypair" id="add_keypair" class="table_button general_button" data-toggle="modal" data-target="#create_keypair_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button name="import_keypair" id="import_keypair" class="table_button general_button" data-toggle="modal" data-target="#import_keypair_modal"><span class="glyphicon glyphicon-import"></span> 导入</button>
+                            <button name="delete_keypair" id="delete_keypair" class="table_button //delete_btn_style//" ng-click="clickDeleteKeypair()"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive table_container">
+                        <table class="table" id="keypair_table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox" >
+                                    <th class="tds">名称</th>
+                                    <th class="tds">指纹</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keypair_tbody">
+                                <tr ng-repeat="x in keypair_list" ng-show="has_keypair"
+                                        ng-click="row_click($event)" keypair_name="//x.name//">
+                                    <td><input type="checkbox"></td>
+                                    <td ng-bind="x.name"></td>
+                                    <td ng-bind="x.fingerprint"></td>
+                                </tr>
+                                <tr ng-hide="has_keypair">
+                                    <td colspan="3" ng-bind="loading_keypair">加载中...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="keypair_pagination" class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--create keypair modal-->
+    <div ng-controller="create_keypair" id="create_keypair_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_keypair_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin:100px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title modal_title_style">
+                       <span class="glyphicon glyphicon-plus-sign"></span> 添加密钥
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="create_keypair_form">
+                        <div class="Mirror_list_div conf_style">
+                            <div class="control-group" id="create_name_div">
+                                <label class="control-label" for="create_name"><span class="red">*</span>密钥名称 : </label>
+                                <div class="controls">
+                                    <input ng-model="create_name" id="create_name" name="name" class="machine-name" type="text" placeholder="--请输入密钥名称(2-60个字符)--"
+                                        required maxlength="60" minlength="2">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button ng-click="submit_create_keypair()" class="table_button btn_default_style form_general_button" id="submit_create_keypair"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--import keypair modal-->
+    <div ng-controller="import_keypair" id="import_keypair_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="import_keypair_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin:80px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_header_style">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title modal_title_style">
+                       <span class="glyphicon glyphicon-import"></span> 导入密钥
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="import_keypair_form">
+                        <div class="Mirror_list_div conf_style">
+                            <div id="import_name_div" class="control-group">
+                                <label class="control-label" for="import_name"><span class="red">*</span>密钥名称 : </label>
+                                <div class="controls">
+                                    <input ng-model="import_name" id="import_name" name="name" class="machine-name" type="text" placeholder="--请输入密钥名称(3-60个字符)--"
+                                            required maxlength="60" minlength="2">
+                                    <div class="help-block"></div>
+                                </div>
+
+                            </div>
+                            <div class="control-group textarea-group">
+                                <label class="control-label" for="import_public_key"><span class="red">*</span>公钥:</label>
+                                <div class="controls">
+                                    <textarea ng-model="import_public_key" id="import_public_key" class="machine-name" placeholder="--请输入公钥--"
+                                            required></textarea>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button ng-click="submit_import_keypair()" class="table_button btn_default_style form_general_button" id="submit_import_keypair"><span class="glyphicon glyphicon-ok"></span> 导入</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--delete keypair modal-->
+    <div ng-controller="delete_keypair" id="delete_keypair_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_keypair_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin:230px auto">
+            <div class="modal-content">
+                <div class="modal-header modal_danger_header_style">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+                </div>
+                <div class="modal-body">
+                    <input ng-model = "delete_keypair_id" class="hide" id="delete_keypair_id" type="text">
+                    <p class="font_family">确定要删除该密钥？</p>
+                </div>
+                <div class="modal-footer modal_footer_edit_style">
+                    <button ng-click="submit_delete_keypair()" class="table_button btn_default_style form_danger_button" id="submit_delete_keypair"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                    <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

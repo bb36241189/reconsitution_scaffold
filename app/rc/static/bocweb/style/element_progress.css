@@ -1,0 +1,253 @@
+.progress {
+  border-radius: 100px;
+}
+.progress .progress-bar {
+  border-radius: 100px;
+}
+.m-progressTab {
+  height: 17px;
+  margin-top: 45px;
+  overflow: inherit;
+  background-color: #e1e1e1;
+}
+.m-progressTab .progress-bar {
+  text-align: right;
+  position: relative;
+}
+.m-progressTab .progress-bar .origin {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 4px 7px;
+  position: relative;
+}
+.m-progressTab .progress-bar span {
+  position: absolute;
+  left: 4px;
+  top: -49px;
+  height: 23px;
+  width: 45px;
+  line-height: 23px;
+  padding: 0 7px;
+  text-align: center;
+  background-color: #1476d1;
+  border-radius: 2px;
+}
+.m-progressTab .progress-bar span:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent #1476d1;
+}
+.m-progressTab .progress-bar[aria-valuenow='0'] .origin {
+  background-color: #b2b2b2;
+}
+.progress-blueLake .progress-bar {
+  background-color: #5a9aef;
+}
+.progress-blueColor .progress-bar {
+  background-color: #0074e2;
+}
+.progress-darkPurple .progress-bar {
+  background-color: #7264bd;
+}
+.progress-grassGreen .progress-bar {
+  background-color: #7ec963;
+}
+.progress-blackishGreen .progress-bar {
+  background-color: #5bbeaa;
+}
+.progress-peacock .progress-bar {
+  background-color: #23d3ed;
+}
+.progress-orange .progress-bar {
+  background-color: #ffbe3c;
+}
+.progress-watermelon .progress-bar {
+  background-color: #fe6b9d;
+}
+.progress-brightRed .progress-bar {
+  background-color: #f34e4b;
+}
+.m-progressRow .progress {
+  height: 17px;
+  background-color: #e1e1e1;
+}
+.m-progressRow .progress-tit {
+  line-height: 17px;
+  font-size: 16px;
+  color: #666666;
+}
+.progress {
+  margin-bottom: 0;
+}
+.radio label,
+.checkbox label {
+  line-height: 24px;
+  padding-left: 34px;
+  color: #666666;
+}
+.radio label > input[type="radio"],
+.checkbox label > input[type="radio"],
+.radio label > input[type="checkbox"],
+.checkbox label > input[type="checkbox"] {
+  display: none;
+}
+.radio label.label-input-default > i,
+.checkbox label.label-input-default > i {
+  border-color: #dfdfdf;
+}
+.radio label.label-input-default > i:after,
+.checkbox label.label-input-default > i:after {
+  background-color: #dfdfdf;
+}
+.radio label.label-input-blueLake > i,
+.checkbox label.label-input-blueLake > i {
+  border-color: #5a9aef;
+}
+.radio label.label-input-blueLake > i:after,
+.checkbox label.label-input-blueLake > i:after {
+  background-color: #5a9aef;
+}
+.radio label.label-input-blueColor > i,
+.checkbox label.label-input-blueColor > i {
+  border-color: #0074e2;
+}
+.radio label.label-input-blueColor > i:after,
+.checkbox label.label-input-blueColor > i:after {
+  background-color: #0074e2;
+}
+.radio label.label-input-darkPurple > i,
+.checkbox label.label-input-darkPurple > i {
+  border-color: #7264bd;
+}
+.radio label.label-input-darkPurple > i:after,
+.checkbox label.label-input-darkPurple > i:after {
+  background-color: #7264bd;
+}
+.radio label.label-input-grassGreen > i,
+.checkbox label.label-input-grassGreen > i {
+  border-color: #7ec963;
+}
+.radio label.label-input-grassGreen > i:after,
+.checkbox label.label-input-grassGreen > i:after {
+  background-color: #7ec963;
+}
+.radio label.label-input-blackishGreen > i,
+.checkbox label.label-input-blackishGreen > i {
+  border-color: #5bbeaa;
+}
+.radio label.label-input-blackishGreen > i:after,
+.checkbox label.label-input-blackishGreen > i:after {
+  background-color: #5bbeaa;
+}
+.radio label.label-input-peacock > i,
+.checkbox label.label-input-peacock > i {
+  border-color: #23d3ed;
+}
+.radio label.label-input-peacock > i:after,
+.checkbox label.label-input-peacock > i:after {
+  background-color: #23d3ed;
+}
+.radio label.label-input-orange > i,
+.checkbox label.label-input-orange > i {
+  border-color: #ffbe3c;
+}
+.radio label.label-input-orange > i:after,
+.checkbox label.label-input-orange > i:after {
+  background-color: #ffbe3c;
+}
+.radio label.label-input-watermelon > i,
+.checkbox label.label-input-watermelon > i {
+  border-color: #fe6b9d;
+}
+.radio label.label-input-watermelon > i:after,
+.checkbox label.label-input-watermelon > i:after {
+  background-color: #fe6b9d;
+}
+.radio label.label-input-brightRed > i,
+.checkbox label.label-input-brightRed > i {
+  border-color: #f34e4b;
+}
+.radio label.label-input-brightRed > i:after,
+.checkbox label.label-input-brightRed > i:after {
+  background-color: #f34e4b;
+}
+.radio label > input[type="radio"]:checked + i:after {
+  display: block;
+}
+.radio label > i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+}
+.radio label > i:after {
+  content: '';
+  display: none;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+.checkbox label > input[type="checkbox"]:checked + i > span {
+  display: inline;
+}
+.checkbox label > i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  text-align: center;
+  line-height: 24px;
+  color: #fff;
+}
+.checkbox label > i > span {
+  display: none;
+}
+.checkbox label.label-input-default > i > span {
+  color: #dfdfdf;
+}
+.checkbox label.label-input-blueLake > i {
+  background-color: #5a9aef;
+}
+.checkbox label.label-input-blueColor > i {
+  background: #0074e2;
+}
+.checkbox label.label-input-darkPurple > i {
+  background: #7264bd;
+}
+.checkbox label.label-input-grassGreen > i {
+  background-color: #7ec963;
+}
+.checkbox label.label-input-blackishGreen > i {
+  background-color: #5bbeaa;
+}
+.checkbox label.label-input-peacock > i {
+  background-color: #23d3ed;
+}
+.checkbox label.label-input-orange > i {
+  background-color: #ffbe3c;
+}
+.checkbox label.label-input-watermelon > i {
+  background-color: #fe6b9d;
+}
+.checkbox label.label-input-brightRed > i {
+  background-color: #f34e4b;
+}
+.checkbox.radius label > i {
+  border-radius: 50%;
+}

@@ -1,0 +1,424 @@
+<link ng-href="//static_url('stylesheets/router.css')//" rel="stylesheet"/>
+
+<div id="load_content_text" type="out_container" class="container-fluid page-content">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>网络资源</li>
+                    <li class="active">路由</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-padding btn-status-blueLake"  name="refresh_router" id="refresh_router"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                            <button name="add_router" id="add_router" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_router_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button name="edit_router" id="edit_router" class="table_button" data-toggle="modal" data-target="#edit_router_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                            <button name="delete_router" id="delete_router" class="table_button" data-toggle="modal" data-target="#delete_router_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                        </div>
+                        <div class="search_div">
+                            <input type="text" id="search_router_input" placeholder="搜索" class="table_search_input"/>
+                            <img id="search_router_img" class="table_search_img" ng-src="//static_url('images/table_operate_button/search.png')//">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive table_container">
+                        <table class="table" id="router_table">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox" >
+                                    <th class="tds">名称</th>
+                                    <th class="tds">状态</th>
+                                    <th class="tds">外部网络</th>
+                                    <th class="tds">部门</th>
+                                </tr>
+                            </thead>
+                            <tbody id="router_tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="router_pagination" class="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="header">
+
+        <div class="operation_2 animate-block">
+            <div id="router_detail">
+                <div class="tabbable title_container">
+                    <button aria-hidden="true" class="close-left" type="button" id="btn_close_detail">
+                        ×
+                    </button>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#telemetry" data-toggle="tab">详细信息</a></li>
+                        <li><a href="#t2" data-toggle="tab">接口</a></li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="telemetry">
+                        <div class="router_detail_content">
+                            <!--
+                            <dl>
+                                <dt>路由名称：<span name="name"></span></dt>
+                                <dt>状态：<span name="status"></span></dt>
+                                <dt>管理员状态：<span name="admin_state_up"></span></dt>
+                                <dt>外部网络名称：<span name="network_name"></span></dt>
+                                <dt>外部网络网关信息：<span name="external_gateway_info"></span></dt>
+                                <dt>创建时间：<span name="create_time"></span></dt>
+                                <dt>描述：<span name="description"></span></dt>
+                            </dl>
+                            -->
+                            <table class="showTable">
+                                <tr><th>路由名称</th><td name="name"></td></tr>
+                                <tr><th>状态</th><td name="status"></td></tr>
+                                <tr><th>管理员状态</th><td name="admin_state_up"></td></tr>
+                                <tr><th>外部网络网关信息</th><td name="external_gateway_info"></td></tr>
+                                <tr><th>创建时间</th><td name="create_time"></td></tr>
+                                <tr><th>描述</th><td name="description"></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in" id="t2">
+                        <div class="interface_button_div">
+                            <span class="butn">
+                                <button name="add_interface" id="add_interface" class="table_button" data-toggle="modal" data-target="#create_interface_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                                <button name="edit_interface" id="edit_interface" class="table_button" data-toggle="modal" data-target="#edit_interface_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+                                <button name="delete_interface" id="delete_interface" class="table_button" data-toggle="modal" data-target="#delete_interface_modal"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                            </span>
+                        </div>
+                        <div class="router_interface">
+                            <table class="table" id="router_interface_table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="interface_td">名称</th>
+                                        <th class="interface_td">固定IP</th>
+                                        <th class="interface_td">状态</th>
+                                        <th class="interface_td">类型</th>
+                                        <th class="interface_td">管理员状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="router_interface_tbody">
+                                </tbody>
+                            </table>
+                            <div class="pagination_div">
+                                <div id="router_interface_pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    <!--<div class="operation_1">
+            <fieldset class="operation_c_1">
+                <legend class="operation_d">接口信息</legend>
+            </fieldset>
+            <div class="interface_detail_content">
+                <dl>
+                    <dt>接口名称：<span name="name"></span></dt>
+                    <dt>状态：<span name="status"></span></dt>
+                    <dt>管理员状态：<span name="admin_state_up"></span></dt>
+                    <dt>设备属主：<span name="device_owner"></span></dt>
+                    <dt>MAC地址：<span name="mac_address"></span></dt>
+                    <dt>固定ip：<span name="fixed_ip"></span></dt>
+                </dl>
+            </div>
+    </div>-->
+</div>
+<!--create router modal-->
+<div id="create_router_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_router_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-plus-sign"></span> 添加路由
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="create_router_form">
+                    <div class="Mirror_list_div conf_style">
+						<div class="control-group" id="create_name_div">
+							<label class="control-label" for="create_name"><span class="red">*</span>路由名称 : </label>
+							<div class="controls">
+                                <input id="create_name" name="name" class="machine-name" type="text" placeholder="--请输入路由名称(3-60个字符)--">
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>路由名称不能为空</span></div>
+                            </div>
+						</div>
+                        <div ng-if="user.role=='super_admin'">
+                            <div class="control-group">
+                                <label class="control-label" for="router_external_network">外部网络: </label>
+                                <div class="controls">
+                                    <select class="machine-name"  name="network_id" id="router_external_network">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group textarea-group" id="create_description_div">
+                            <label class="control-label" for="create_description" class="description_lable">描述:</label>
+                            <div class="controls">
+                                <textarea  class="machine-name" name="description" id="create_description" placeholder="长度为0-1024个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1024字符</span></div>
+                            </div>
+                        </div>
+
+					</div>
+                   <!-- <label for="name">路由名称:</label><br>
+                    <input type="text" name="name"  class="input-xlarge"><br>
+                    <label for="name">外部网络:</label><br>
+                    <select class="selectpicker" name="network_id" id="router_external_network">
+                    </select><br>
+
+                    <label for="admin_state_up">管理员状态:</label>
+                    <select class="selectpicker" name="admin_state_up" id="admin_state_up">
+                            <option value="True">UP</option>
+                            <option value="False">DOWN</option>
+                    </select><br>
+                    <label for="description">描述:</label><br>
+                    <textarea  name="description"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_create_router"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--edit router modal-->
+<div id="edit_router_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_router_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:80px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-edit"></span> 修改路由
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_router_form">
+                    <div class="Mirror_list_div conf_style">
+						<div id="edit_name_div" class="control-group">
+							<label class="control-label" for="edit_name"><span class="red">*</span>路由名称 : </label>
+							<div class="controls">
+                                <input id="edit_name" name="name" class="machine-name" type="text" placeholder="--请输入路由名称(3-60个字符)--">
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>路由名称不能为空</span></div>
+                            </div>
+                        </div>
+
+                        <div ng-if="user.role=='super_admin'">
+                            <div class="control-group">
+                                <label class="control-label" for="edit_external_network">外部网络: </label>
+                                <div class="controls">
+                                    <select name="network_id" class="form_select"  name="network_id" id="edit_external_network">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+							<label class="control-label" for="edit_admin_state_up">管理员状态: </label>
+							<div class="controls">
+                                <select name="admin_state_up" class="form_select"  id="edit_admin_state_up">
+                                    <option value="True">UP</option>
+                                    <option value="False">DOWN</option>
+                                </select>
+                            </div>
+						</div>
+                        <div class="control-group textarea-group" id="edit_description_div">
+                            <label for="edit_description" class="control-label">描述:</label>
+                            <div class="controls">
+                                <textarea  class="machine-name" name="description" id="edit_description" placeholder="长度为0-1024个字符"></textarea>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>范围0-1024字符</span></div>
+                            </div>
+                        </div>
+
+					</div>
+                    <!--
+                    <label for="name">路由名称:</label><br>
+                    <input type="text" name="name"  class="input-xlarge"><br>
+                    <label for="name">外部网络:</label><br>
+                    <select class="selectpicker" name="network_id" id="edit_external_network">
+
+                    </select><br>
+
+                    <label for="admin_state_up">管理员状态:</label><br>
+                    <select class="selectpicker" name="admin_state_up">
+                            <option value="True">UP</option>
+                            <option value="False">DOWN</option>
+                    </select><br>
+                    <label for="description">描述:</label><br>
+                    <textarea  name="description"></textarea><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_router"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--delete router modal-->
+<div id="delete_router_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_router_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除该路由？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_router"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--add interface-->
+<div id="create_interface_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_interface_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-plus-sign"></span> 添加接口
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="create_interface_form">
+                    <div class="Mirror_list_div conf_style">
+						<div class="control-group" id="subnets_div">
+							<label class="control-label" for="subnet_id"><span class="red">*</span>子网: </label>
+							<div class="controls">
+                                <select  class="interface_form_select machine-name"  name="subnet_id" id="subnet_id">
+                                </select>
+                                <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                <div class="desc error_info hide"><span>请选择一个子网</span></div>
+                            </div>
+						</div>
+					</div>
+                    <!--
+                     <label for="subnet_id">网络：</label>
+                    <select class="selectpicker" name="subnet_id" id="subnet_id">
+                    </select><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_create_interface"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete interface modal-->
+<div id="delete_interface_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_interface_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除接口？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_interface"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- update interface-->
+<div id="edit_interface_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_interface_modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style">
+				   <span class="glyphicon glyphicon-edit"></span> 更新接口
+				</h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_interface_form">
+                    <div class="Mirror_list_div conf_style">
+						<div id="interface_name_div" class="control-group">
+                                <label class="control-label" for="edit_interface_name"><span class="red"></span>接口名称 : </label>
+                                <div class="controls">
+                                    <input id="edit_interface_name" name="name" class="machine-name" type="text" placeholder="--请输入接口名称(3-60个字符)--">
+                                    <div class="desc success hide"><img ng-src="//static_url('images/success.png')//"></div>
+                                    <div class="desc error hide"><img ng-src="//static_url('images/error.png')//"></div>
+                                    <div class="desc error_info hide"><span>接口名称</span></div>
+                                </div>
+						</div>
+                        <div class="control-group">
+							<label class="control-label" for="interface_admin_state_up">管理员状态: </label>
+                            <div class="controls">
+                                <select name="admin_state_up" class="machine-name"  id="interface_admin_state_up">
+                                    <option value="True">UP</option>
+                                    <option value="False">DOWN</option>
+                                </select>
+                            </div>
+						</div>
+					</div>
+                    <!--
+                    <label for="name">接口名称:</label><br>
+                    <input type="text" name="name"  class="input-xlarge"><br>
+                    <label for="admin_state_up">管理员状态:</label><br>
+                    <select class="selectpicker" name="admin_state_up">
+                            <option value="True">UP</option>
+                            <option value="False">DOWN</option>
+                    </select><br>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_interface"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+

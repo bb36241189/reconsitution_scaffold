@@ -1,0 +1,174 @@
+<link ng-href="//static_url('plugin/bootstrap/css/bootstrap-slider.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('plugin/datetimepicker/css/bootstrap-datetimepicker.min.css')//" rel="stylesheet">
+<link ng-href="//static_url('stylesheets/alarm.css')//" rel="stylesheet"/>
+
+<div class="container-fluid page-content" >
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>管理</li>
+                    <li class="active">告警</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-tab">
+                        <ul id="title_tabs" class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">存储池</a></li>
+                            <li><a href="#tab2" data-toggle="tab">物理机</a></li>
+                            <li><a href="#tab3" data-toggle="tab">虚拟机</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="content_tabs" class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <div id="page_volume" class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="image_table" class="table-responsive table_container">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="thead_checkbox"> </th>
+                                            <th class="tds">级别</th>
+                                            <th class="tds">状态</th>
+                                            <th class="tds">告警对象</th>
+                                            <th class="tds">对象索引</th>
+                                            <th class="tds">产生时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="volume_list" class="trs">
+                                        <tr>
+                                            <td colspan="6">加载中...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="pagination_div">
+                            <div id="volume_pagination" class="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                <div id="page_server" class="col-md-12" >
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="toolbar_container">
+                        <div class="btn-group">
+                             开始时间:
+                            <input data-date-format="yyyy-mm-dd" data-date-format="yyyy-mm-dd" type="text" id="search_start_time" name="start" readonly class="form_datetime machine-name"/>
+                             结束时间:
+                             <input type="text" id="search_end_time" name="end" readonly class="form_datetime machine-name"/>
+                             <button class="btn btn-padding btn-status-blueLake"  id="refresh_event"><span class="glyphicon glyphicon-search"></span> 筛选</button>
+                            <!-- TODO: show this modal-->
+                            <!--<input type="image" src="//static_url('images/table_operate_button/add.png')//" name="add_image" id="add_image"-->
+                                   <!--data-placement="bottom" title="添加" data-toggle="modal" data-target="#create_image_modal"/>
+                            <input type="image" src="//static_url('images/table_operate_button/edit.png')//" name="edit_image" id="edit_image"
+                                   data-placement="bottom" title="编辑" data-toggle="modal" data-target="#edit_image_modal"/>
+                            <input type="image" src="//static_url('images/table_operate_button/refresh.png')//" name="refresh_image" id="refresh_image"
+                                   data-placement="bottom" title="刷新"/>
+                            <input type="image" src="//static_url('images/table_operate_button/delete.png')//" name="delete_image" id="delete_image"
+                                   data-placement="bottom" title="删除" data-toggle="modal" data-target="#delete_image_modal"/>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-md-12">
+                    <div id="image_table" class="table-responsive table_container">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="thead_checkbox"></th>
+                                    <th class="tds">严重性</th>
+                                    <th class="tds">状态</th>
+                                    <th class="tds">主机</th>
+                                    <th class="tds">描述</th>
+                                    <th class="tds">时间</th>
+                                    <th class="tds">确认</th>
+                                </tr>
+                            </thead>
+                            <tbody id="event_list" class="trs">
+                                <tr>
+                                    <td colspan="7">加载中...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pagination_div">
+                    <div id="host_pagination" class="pagination"></div>
+                </div>
+            </div>
+        </div>
+            </div>
+                    <div class="tab-pane" id="tab3">
+                <div id="page_server" class="col-md-12" >
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="toolbar_container">
+                                <div class="btn-group">
+                                     开始时间:
+                                    <input data-date-format="yyyy-mm-dd" data-date-format="yyyy-mm-dd" type="text" id="vm_start_time" name="start" readonly class="form_datetime machine-name"/>
+                                     结束时间:
+                                     <input type="text" id="vm_end_time" name="end" readonly class="form_datetime machine-name"/>
+                                     <button class="btn btn-padding btn-status-blueLake"  id="vm_refresh_event"><span class="glyphicon glyphicon-search"></span> 筛选</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div id="image_table" class="table-responsive table_container">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="thead_checkbox"></th>
+                                            <th class="tds">严重性</th>
+                                            <th class="tds">状态</th>
+                                            <th class="tds">主机</th>
+                                            <th class="tds">描述</th>
+                                            <th class="tds">时间</th>
+                                            <th class="tds">确认</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="vm_event_list" class="trs">
+                                        <tr>
+                                            <td colspan="7">加载中...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="pagination_div">
+                            <div id="vm_pagination" class="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="header">
+
+    </div>
+</div>
+

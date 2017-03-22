@@ -1,0 +1,52 @@
+.table_select {
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    height: 30px;
+    margin-left: 9px;
+    padding-left: 7px;
+}
+
+.date_select{
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    display: inline-block;
+    margin-left: 9px;
+    height: 30px;
+}
+
+.date_select input {
+    border: none;
+    height: 100%;
+    width: 90px;
+}
+
+.date_select span {
+    padding-left: 5px;
+}
+
+.tab-content .tab-pane {
+    background:rgba(0,0,0,0);
+}
+
+.title_container {
+    background:#edf0f5;
+    padding-top:5px;
+}
+
+.title_container li a {
+    padding-bottom:3px;
+    padding-top:3px;
+}
+
+.detail_div {
+    width: 600px !important;
+    height: 580px !important;
+}
+
+#record_detail_div {
+    margin: 10px;
+}
+
+.tds{
+    width:34%;
+}

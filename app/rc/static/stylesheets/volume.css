@@ -1,0 +1,363 @@
+.tab-content{
+    margin-top: 15px;
+}
+
+.interface_button_div{
+    margin: 27px 10px 13px 21px;
+}
+
+.volume_snapshot_div{
+    margin: 0 21px 0 21px;
+}
+
+#volume_snapshot_table thead tr th {
+    background-color: #FFFFFF;
+    border-bottom-width: 0 !important;
+    color: #5fb2ef;
+    height: 12px;
+    text-align: center;
+    vertical-align: middle !important;
+    padding: 5px !important;
+}
+
+#volume_snapshot_table tbody tr td{
+    font-size: 10px;
+    border-right: none !important;
+    border-left: none !important;
+    padding: 3px;
+}
+
+#volume_snapshot_table tbody tr td:nth-child(3){
+    width:27%;
+}
+
+#volume_snapshot_table thead tr th:nth-child(3){
+    width:27%;
+}
+
+.snapshot_td{
+    width: 25%;
+}
+
+.volume_detail_content{
+	color: #8c8d90;
+    margin: 10px 0;
+    overflow: auto;
+    padding-left: 20px;
+    width: 100%;
+    word-break: break-all;
+}
+
+.size_slider{
+    border: 1px solid #ecf0f2;
+    height: 30px;
+	width: 60px;
+	text-align: center;
+}
+
+.snapshot_table_tr{
+    color: #000000;
+	font-weight: bold;
+}
+
+.more-dropdown-menu {
+    margin: 2px 236px 0;
+    min-width: 130px;
+}
+
+/*
+.operation {
+    background-color: #fff;
+    border: 1px solid #fff;
+    float: left;
+    height: 540px;
+    margin: 50px 0 20px;
+    width: 100%;
+}
+
+.operation_img {
+    width: 100%;
+}
+
+
+
+
+
+.operation_2 {
+
+}
+
+
+.operation_c {
+    border-style: outset none none;
+    border-width: 1px 0 0;
+    color: #969dac;
+    margin: 30px 0 -10px 20px;
+    width: 40%;
+}
+
+
+.operation_d {
+    border-style: none none solid;
+    border-width: 0;
+    font-size: 14px;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+
+
+
+.more {
+    color: #5fb1ef;
+    cursor: pointer;
+    float: right;
+    font-size: 15px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+
+.operation_a {
+    border: 1px solid #ddd;
+    margin: 15px 0 10px 10px;
+    text-align: center;
+    width: 97%;
+}
+
+
+
+.volume_form_input {
+    overflow: hidden;
+}
+
+
+
+#volume_snapshot_table th {
+    height: 40px;
+    background-color:#fff;
+    color:#5fb2ef;
+}
+
+#volume_snapshot_tbody td {
+    border-left: medium none !important;
+    border-right: medium none !important;
+}
+
+
+
+#volume_detail {
+    width: 100%;
+    overflow: hidden;
+}
+
+
+
+
+.operation_d_1{
+	border: 1px solid #ddd;
+    margin: 25px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 85%;
+}
+
+.operation_e{
+	border: 0 none;
+    margin: 10px 20px;
+    padding: 10px 30px 10px 10px;
+    width: 98.3%;
+}
+
+.input-class{
+    margin-left: 10px;
+    outline: none;
+}
+
+.volume_snapshot_button {
+    margin: 27px 10px 13px 21px;
+}
+
+.volume_snapshot_div{
+    margin: 10px 0 0 10px;
+}
+
+.volume_snapshot{
+    width: 95%;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.volume_snapshot_button span{
+}
+
+.volume_snapshot_button button{
+    float: right;
+    margin-right: 5%;
+}
+
+.snapshot_detail_content{
+    color: #8c8d90;
+    font-size: 12px;
+    height: 100px;
+    margin: 10px 0;
+    overflow: auto;
+    padding-left: 20px;
+    width: 104%;
+}
+
+.button_control .btn-group button{
+    margin-left: 10px;
+}
+
+.to_configure {
+    margin-left: 0%;
+    width: 19%;
+}
+
+.describe_style {
+	margin-left: 102px;
+    margin-top: -50px;
+    width: 53%;
+}
+
+.btn_primary_style {
+    background-color: #5fb2ef;
+    border-color: #5fb2ef;
+    color: #fff;
+}
+
+
+.size_slider{
+    border: 1px solid #ecf0f2;
+    height: 30px;
+	width: 60px;
+	text-align: center;
+}
+
+.slider.slider-horizontal{
+	margin-left: 10px;
+	width:170px !important;
+}
+
+
+
+label {
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.volume_form_input{
+    border: 1px solid #ecf0f2;
+    height: 30px;
+    margin-left: 9px;
+    padding-left: 10px;
+    width: 44%;
+}
+
+.volume_form_input:hover{
+    border: 1px solid #5fb2ef;
+}
+
+.volume_form_input:focus{
+    border: 1px solid #5fb2ef;
+}
+
+.slider.slider-horizontal{
+	margin-left: 18px;
+	width:170px !important;
+}
+
+.operation_text {
+    border: 0 none;
+    height: 120px;
+    padding: 10px 30px 10px 10px;
+    width: 106.6%;
+}
+
+.operation_description {
+    border: 1px solid #ddd;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 130px;
+    width: 85%;
+    margin-top: 29px;
+    margin-left: -11px;
+}
+
+.from-select {
+    height: 30px;
+    width: 224px;
+    margin-left: 9px;
+}
+
+
+.operation > p {
+    float: left;
+}
+
+
+.form_select{
+    height: 30px;
+}
+
+.tds {
+    width: 21%;
+}
+
+.snapshot_td{
+    width: 34%;
+}
+
+
+
+
+.dropdown-menu.sub_menu_style {
+    margin: 0;
+    min-width: 100px;
+}
+
+.red {
+    margin-right: -12px;
+}
+
+.describe_style .desc{
+    display: inline-block;
+}
+
+.desc_check{
+    position: absolute;
+    top: 89px;
+    left: 65%;
+}
+
+body
+  {
+    width:100%;
+  }
+
+
+
+.tab-content .tab-pane
+{
+    background:rgba(0,0,0,0);
+}
+
+.title_container{
+    background:#edf0f5;
+    padding-top:5px;
+}
+
+.title_container li a {
+    padding-bottom:3px;
+    padding-top:3px;
+}
+
+#volume_details .label{
+    color:white;
+}
+
+#create_volume_sliderSlider{
+    width: 330px !important;
+}
+*/

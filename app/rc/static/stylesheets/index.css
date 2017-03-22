@@ -1,0 +1,52 @@
+/*
+
+
+.col-md-4, .col-md-8 {
+    padding: 0;
+}
+
+#load_content {
+    z-index: 50;
+}
+
+#mapChart {
+    padding: 0 20px;
+    position: relative;
+    min-height: 523px;
+    color: #2b2b2b;
+}
+
+.navbar_inner {
+    margin-top: 0;
+}
+
+.map_tool_bar button{
+    margin: 10px 5px;
+}
+
+.btn_info, .btn_info:hover {
+    color: #55ACEE;
+    background-color: white;
+    border-color: #55ACEE;
+    border-width: 1px;
+    padding: 4px 12px;
+}
+
+.btn_danger, .btn_danger:hover {
+    color: #C9302C;
+    background-color: white;
+    border-color: #C9302C;
+    border-width: 1px;
+    padding: 4px 12px;
+}
+
+.echarts-tooltip{
+    max-width:200px;
+    white-space: normal !important;
+}
+
+.btn{
+    border-radius:0;
+}
+
+*/

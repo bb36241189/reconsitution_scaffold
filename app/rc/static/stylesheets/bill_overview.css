@@ -1,0 +1,102 @@
+.overview_pie_div{
+    /*border: solid 1px #5bc0de;*/
+    height: 260px;
+    margin-bottom: 10px;
+}
+
+.overview_table_div{
+    margin-top: 10px;
+}
+
+.table_select {
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    height: 30px;
+    /*margin-left: 9px;*/
+    padding-left: 7px;
+}
+
+.date_select{
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    display: inline-block;
+    margin-left: 9px;
+    height: 30px;
+}
+
+.date_select input{
+    border: none;
+    height: 100%;
+    width: 90px;
+}
+
+.date_select span{
+    padding-left: 5px;
+}
+
+.total_tr{
+    font-weight: 700;
+}
+
+#overview_pie{
+    border: 1px solid #ccd6e0;
+    width: 100%;
+    height: 250px;
+}
+
+#overview_trend{
+
+    width: 100%;
+    height: 210px;
+}
+
+.no_data{
+    text-align: center;
+    font-size: 18px;
+    line-height:250px;
+}
+
+.overview{
+    border: 1px solid #ccd6e0;
+    height: 250px;
+}
+
+.overview_font{
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.trend_info{
+    margin-top: 2px;
+    margin-bottom: 5px;
+    height: 30px;
+}
+
+.overview_select_div{
+    margin-bottom: 10px;
+}
+
+.trend_button{
+    padding: 3px 12px !important;
+    background-color: #FFFFFF;
+    display: inline-block;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 4px;
+    outline: none;
+    height: 30px;
+
+    border: 1px solid #ccd6e0;
+    cursor: pointer !important;
+}
+
+.trend_active{
+    color: #5bc0de;
+    background: #e4f0ff;
+    border: 1px solid #5bc0de;
+}

@@ -1,0 +1,809 @@
+<link href="stylesheets/admin_host.css" rel="stylesheet" type="text/css"/>
+
+<div class="container-fluid page-content">
+    <!--
+    <div class="row">
+        <div class="col-md-12">
+            <div id="breadcrumb" class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>计算资源</li>
+                    <li class="active">物理服务器</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    -->
+    <div id="page-container" class="row">
+        <div  class="col-md-12">
+            <div class="row">
+                <!--
+                <div class="col-md-5">
+                    <div>
+                        <p>物理服务器</p>
+                    </div>
+                </div>
+                -->
+                <div class="col-md-12">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button class="table_button general_button" name="refresh_host" id="refresh_host"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                            <a id="export_record" class="table_button general_button" >
+                                <span class="glyphicon glyphicon-cloud-download"></span> 导出记录
+                            </a>
+                            <button id="restart_host" class="table_button general_button" data-toggle="modal"
+                                    data-target="#restart_host_modal"><span class="glyphicon glyphicon-repeat"></span> 重启
+                            </button>
+                            <button id="add_host" class="table_button general_button" data-toggle="modal"
+                                    data-target="#create_host_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加
+                            </button>
+                            <button class="table_button general_button" data-toggle="modal" data-target="#sync_host_modal">
+                                <span class="glyphicon glyphicon-globe"></span> 发现
+                            </button>
+                            <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                更多<img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </button>
+                            <ul class="dropdown-menu more-dropdown-menu">
+                                <li><a name="edit_host" id="edit_host" data-toggle="modal"
+                                       data-target="#edit_host_modal"><span class="glyphicon glyphicon-edit"></span> 编辑</a></li>
+                                <li><a name="stop_host" id="stop_host" data-toggle="modal"
+                                       data-target="#stop_host_modal"><span class="glyphicon glyphicon-stop"></span> 关闭</a></li>
+                                <li><a name="start_host" id="start_host" data-toggle="modal"
+                                       data-target="#start_host_modal"><span class="glyphicon glyphicon-off"></span> 启动</a></li>
+                                <li><a name="delete_host" id="delete_host" data-toggle="modal"
+                                       data-target="#delete_host_modal"><span class="glyphicon glyphicon-trash"></span> 删除</a></li>
+                            </ul>
+                        </div>
+                        <div class="search_div">
+                            <input type="text" id="search_host_input" placeholder="搜索" class="table_search_input"/>
+                            <img id="search_host_img" class="table_search_img" src="//static_url('images/table_operate_button/search.png')//">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="table_container" class="table-responsive">
+                        <table class="table" id="host_table">
+                            <thead>
+                            <tr>
+                                <th><input type="checkbox" name="checkItem" style="display: none"/></th>
+                                <th class="tds" title="服务器名称">服务器名称</th>
+                                <th class="tds" title="IP地址">IP地址</th>
+                                <th class="tds" title="CPU数量">CPU数量</th>
+                                <th class="tds" title="内存容量">内存容量</th>
+                                <th class="tds" title="虚拟化类型">虚拟化类型</th>
+                                <th class="tds" title="运行情况">运行情况</th>
+                                <th class="tds" title="硬件事件">硬件事件</th>
+                                <th class="tds" title="硬件信息">硬件信息</th>
+                            </tr>
+                            </thead>
+                            <tbody class="trs" id="host_tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="pagination_div">
+                        <div id="Pagination" class="pagination"></div>
+                    </div>
+                    <!--{#<p id="table_num">当前页<span id="current_num"></span>条记录/共<span id="total_num"></span>条记录</p>#}-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--create host modal-->
+<div id="create_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="create_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content host-modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style" id="myModalLabel"><span class="glyphicon glyphicon-plus-sign"></span> 添加物理服务器</h4>
+            </div>
+            <div class="modal-body host-form-body">
+                <form id="create_host_form" >
+                    <div class="mirror_list_div conf_style">
+                        <!--
+                        <table>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_hostname">主 机 名 : </label>
+                                </td>
+                                <td>
+                                    <input id="create_hostname" name="hostname" class="machine-name" type="text" placeholder="--请输入主机名称--">
+                                </td>
+                                <td>
+                                    <label for="create_cpu">C P U : </label>
+                                </td>
+                                <td class="right_style">
+                                    <input id="create_cpu" name="cpu" type="number" value="1" min="1" class="machine-name-style" type="text" />
+                                    <span class="unit_style">单位(核)
+                                    </span>
+                                </td>
+                                <td>
+                                    <label for="create_mem">内    存 : </label>
+                                </td>
+                                <td class="right_style">
+                                    <input id="create_mem" name="mem"  type="number" value="1" min="1" class="machine-name-style" type="text">
+                                    <span class="unit_style">单位(G)
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_os_info">操作系统: </label>
+                                </td>
+                                <td>
+                                    <input id="create_os_info" name="os_info" class="machine-name" type="text" placeholder="--请输入操作系统--">
+                                </td>
+                                <td>
+                                    <label for="create_height">高度: </label>
+                                </td>
+                                <td class="right_style">
+                                    <input id="create_height" name="height" type="number" value="1" min="1" class="machine-name-style" type="text">
+                                    <span class="unit_style">单位(U)
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_manage_ip">管理IP: </label>
+                                </td>
+                                <td>
+                                    <input id="create_manage_ip" name="manage_ip" class="machine-name" type="text" placeholder="--请输入管理IP--">
+                                </td>
+                                <td>
+                                    <label for="create_room_id">所在机房: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="create_room_id" class="selectpicker from-select" name="room_id"></select>
+                                </td>
+                                <td>
+                                    <label for="create_cabinet_id">所在机柜: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="create_cabinet_id" class="select from-select" name="cabinet_id"></select>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_storage_ip">存储网IP: </label>
+                                </td>
+                                <td>
+                                    <input id="create_storage_ip" name="storage_ip" class="machine-name" type="text" placeholder="--请输入存储网IP--">
+                                </td>
+                                <td>
+                                    <label for="create_manager">负责人: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="create_manager" class="selectpicker from-select" name="manager">
+                                        <option value="admin">admin</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label for="create_type">虚拟化类型: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="create_type" class="selectpicker from-select" name="type">
+                                        <option value="KVM">KVM</option>
+                                        <option value="VMware">VMware</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_data_ip">数据网IP: </label>
+                                </td>
+                                <td>
+                                    <input id="create_data_ip" name="data_ip" class="machine-name" type="text" placeholder="--请输入数据网IP--">
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_ipmi_ip">IPMI IP: </label>
+                                </td>
+                                <td>
+                                    <input id="create_ipmi_ip" name="ipmi_ip" class="machine-name" type="text" placeholder="--请输入IPMI IP--">
+                                </td>
+
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_ipmi_user">IPMI 用户: </label>
+                                </td>
+                                <td>
+                                    <input id="create_ipmi_user" name="ipmi_user" class="machine-name" type="text" placeholder="--请输入IPMI 用户--">
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="create_ipmi_passwd">IPMI 密码: </label>
+                                </td>
+                                <td>
+                                    <input id="create_ipmi_passwd" name="ipmi_passwd" class="machine-name" type="text" placeholder="--请输入IPMI 密码--">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="configure_style">
+                          <div class="to_configure"><label for="create_description">描述: </label></div>
+                          <div class="describe_style">
+                              <div class="operation_d_1">
+                                  <textarea id="create_description" class="operation_e" name="description" cols ="20" rows = "7"></textarea>
+                              </div>
+                          </div>
+                        </div>
+                        -->
+                        <div class="control-group">
+                            <span class="red">*</span>
+                            <label for="create_manage_ip">IP地址 : </label>
+                            <input id="create_manage_ip" name="manage_ip" class="machine-name" type="text"
+                                   required data-validation-regex-regex="((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" data-validation-regex-message="不符合地址段格式"
+                                   check-name-exist='{"url":"/hosts","attr":"manage_ip"}'
+                                   placeholder="--请输入管理IP--">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="control-group">
+                            <a class="more-toggle" href="#" onclick="$('#create_more_slider').slideToggle();">更多选项</a>
+                        </div>
+                        <div id="create_more_slider" style="display:none;">
+                            <div class="control-group">
+                                <!-- new -->
+                                <span class="red">&nbsp;</span>
+                                <label for="create_user">用户名 : </label>
+                                <input id="create_user" name="user" class="machine-name" type="text"
+                                       maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group">
+                                <!-- new -->
+                                <span class="red">&nbsp;</span>
+                                <label for="create_password">密&nbsp; &nbsp;码 : </label>
+                                <input id="create_password" name="passwd" class="machine-name" type="password"
+                                       maxlength="20" minlength="4"
+                                       placeholder="长度4-20字符">
+                                <span class="help-block"></span>
+                            </div>
+
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="create_room_id">所在机房</label>
+                                <select id="create_room_id" class="machine-name" name="room_id"></select>
+                                <span class="help-block"></span>
+                            </div>
+
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="create_cabinet_id">所在机柜</label>
+                                <select id="create_cabinet_id" class="machine-name" name="cabinet_id">
+                                    <option value=""></option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+
+                            <div class="control-group">
+                                    <!-- new -->
+                                <span class="red">&nbsp;</span>
+                                <label for="create_location_from">所在位置: 从</label>
+                                <input id="create_location_from" name="start" class="machine-name input-mini" type="number"
+                                   min="0" max = "42"
+                                    check-diff="create_location_to" max-diff="10" min-diff="0">
+                                <label for="create_location_to">到</label>
+                                <input id="create_location_to" name="end" class="machine-name input-mini" type="number"
+                                   min="0" max = "42"
+                                    check-diff="create_location_from" min-diff="-10" max-diff="0">
+                                <span class="help-block"></span>
+                                <span class="help-block2"></span>
+                            </div>
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="create_ipmi_ip">IPMI IP: </label>
+                                <input id="create_ipmi_ip" name="ipmi_ip" class="machine-name" type="text"
+                                       data-validation-regex-regex="((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" data-validation-regex-message="不符合ip格式"
+                                       placeholder="--请输入IPMI IP--">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="create_ipmi_user">IPMI 用户: </label>
+                                <input id="create_ipmi_user" name="ipmi_user" class="machine-name" type="text"
+                                   maxlength="20" minlength="6"
+                                   placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="create_ipmi_passwd">IPMI 密码: </label>
+                                <input id="create_ipmi_passwd" name="ipmi_passwd" class="machine-name" type="password"
+                                   maxlength="20" minlength="4"
+                                   placeholder="长度4-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group textarea-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="create_description">描述:</label>
+                                <textarea maxlength="100" class="machine-name" name="description" id="create_description" cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </div>
+      <!--
+      <div class="host-form-left">
+          <label for="hostname">服务器名称:</label>
+          <input type="text" name="hostname" class="form-input"><br>
+          <label for="os_info">操作系统：</label>
+          <input type="text" name="os_info" class="form-input"><br>
+          <label for="manage_ip">管理网IP地址:</label>
+          <input type="text" name="manage_ip" class="form-input"><br>
+          <label for="storage_ip">存储网IP地址:</label>
+          <input type="text" name="storage_ip" class="form-input"><br>
+          <label for="data_ip">数据网IP地址:</label>
+          <input type="text" name="data_ip" class="form-input"><br>
+          <label for="ipmi_ip">IPMI IP地址:</label>
+          <input type="text" name="ipmi_ip" class="form-input"><br>
+          <label for="ipmi_user">IPMI 用户名:</label>
+          <input type="text" name="ipmi_user" class="form-input"><br>
+          <label for="ipmi_passd">IPMI 密码:</label>
+          <input type="text" name="ipmi_passwd" class="form-input"><br>
+      </div>
+      <div class="host-form-right">
+          <label for="cpu">CPU:</label>
+          <input type="text" name="cpu" class="small-input form-input">
+          <label for="mem">内存：</label>
+          <input type="text" name="mem" class="small-input form-input">
+          <label for="height">高度：</label>
+          <input type="text" name="height" class="small-input form-input"><br>
+          <label for="type">虚拟化类型:</label>
+          <select class="selectpicker from-select" name="type">
+              <option value="kvm">kvm</option>
+              <option value="vmware">vmware</option>
+          </select><br>
+          <label for="room_id">所属机房:</label>
+          <select class="selectpicker from-select" name="room_id" id="room_id">
+          </select><br>
+          <label for="cabinet_id">所属机柜：</label>
+            <select class="selectpicker from-select" name="cabinet_id" id="cabinet_id">
+          </select><br>
+          <label for="manager">负责人:</label>
+          <select class="selectpicker from-select" name="manager">
+              <option value="admin">admin</option>
+          </select><br>
+          <label for="description">描述：</label><br>
+          <textarea type="text" name="description" class=""></textarea>
+      </div>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_create_host"><span class="glyphicon glyphicon-ok"></span> 添加</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--edit host modal-->
+<div id="edit_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content host-modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-edit"></span> 修改物理机信息</h4>
+            </div>
+            <div class="modal-body host-form-body">
+                <form id="edit_host_form">
+                    <div class="mirror_list_div">
+                        <!--
+                        <table>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_hostname">主 机 名 : </label>
+                                </td>
+                                <td>
+                                    <input id="edit_hostname" name="hostname" class="machine-name" type="text" placeholder="--请输入主机名称--">
+                                </td>
+                                <td>
+                                    <label for="edit_cpu">C P U : </label>
+                                </td>
+                                <td class="right_style">
+                                    <input id="edit_cpu" name="cpu" type="number" value="1" min="1" class="machine-name-style" type="text" />
+                                    <span class="unit_style">单位(核)
+                                    </span>
+                                </td>
+                                <td>
+                                    <label for="edit_mem">内    存 : </label>
+                                </td>
+                                <td class="right_style">
+                                    <input id="edit_mem" name="mem"  type="number" value="1" min="1" class="machine-name-style" type="text">
+                                    <span class="unit_style">单位(G)
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_os_info">操作系统: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_os_info" name="os_info" class="machine-name" type="text" placeholder="--请输入操作系统--">
+                                </td>
+                                <td >
+                                    <label for="edit_height">高度: </label>
+                                </td>
+                                <td class="right_style">
+                                    <input id="edit_height" name="height" type="number" value="1" min="1" class="machine-name-style" type="text">
+                                    <span class="unit_style">单位(U)
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_manage_ip">管理IP: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_manage_ip" name="manage_ip" class="machine-name" type="text" placeholder="--请输入管理IP--">
+                                </td>
+                                <td>
+                                    <label for="edit_room_id">所在机房: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="edit_room_id" class="selectpicker from-select" name="room_id"></select>
+                                </td>
+                                <td>
+                                    <label for="edit_cabinet_id">所在机柜: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="edit_cabinet_id" class="select from-select" name="cabinet_id"></select>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_storage_ip">存储网IP: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_storage_ip" name="storage_ip" class="machine-name" type="text" placeholder="--请输入存储网IP--">
+                                </td>
+                                <td>
+                                    <label for="edit_manager">负责人: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="edit_manager" class="selectpicker from-select" name="manager">
+                                        <option value="admin">admin</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label for="create_type">虚拟化类型: </label>
+                                </td>
+                                <td class="right_style">
+                                    <select id="edit_type" class="selectpicker from-select" name="type">
+                                        <option value="kvm">kvm</option>
+                                        <option value="vmware">vmware</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_data_ip">数据网IP: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_data_ip" name="data_ip" class="machine-name" type="text" placeholder="--请输入数据网IP--">
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_ipmi_ip">IPMI IP: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_ipmi_ip" name="ipmi_ip" class="machine-name" type="text" placeholder="--请输入IPMI IP--">
+                                </td>
+
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_ipmi_user">IPMI 用户: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_ipmi_user" name="ipmi_user" class="machine-name" type="text" placeholder="--请输入IPMI 用户--">
+                                </td>
+                            </tr>
+                            <tr class="tr_style">
+                                <td>
+                                    <label for="edit_ipmi_passwd">IPMI 密码: </label>
+                                </td>
+                                <td>
+                                    <input id="edit_ipmi_passwd" name="ipmi_passwd" class="machine-name" type="text" placeholder="--请输入IPMI 密码--">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="configure_style">
+                            <div class="to_configure"><label for="edit_description">描述: </label></div>
+                            <div class="describe_style">
+                                <div class="operation_d_1">
+                                    <textarea id="edit_description" class="operation_e" name="description" cols ="20" rows = "7"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                        <div class="control-group">
+                            <span class="red">*</span>
+                            <label for="edit_manage_ip">IP地址 : </label>
+                            <input id="edit_manage_ip" name="manage_ip" class="machine-name" type="text"
+                                   disabled="disabled" required data-validation-regex-regex="((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" data-validation-regex-message="不符合ip格式"
+                                   placeholder="--请输入管理IP--">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="control-group">
+                            <a class="more-toggle" href="#" onclick="$('#edit_more_slider').slideToggle();">更多选项</a>
+                        </div>
+                        <div id="edit_more_slider" style="display:none;">
+                            <div class="control-group">
+                                <!-- new -->
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_user">用户名 : </label>
+                                <input id="edit_user" name="user" class="machine-name" type="text"
+                                       maxlength="20" minlength="3"
+                                       placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group">
+                                <!-- new -->
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_password">密&nbsp; &nbsp;码 : </label>
+                                <input id="edit_password" name="passwd" class="machine-name" type="password"
+                                       maxlength="20" minlength="4"
+                                       placeholder="长度4-20字符">
+                                <span class="help-block"></span>
+                            </div>
+
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_room_id">所在机房</label>
+                                <select id="edit_room_id" class="machine-name" name="room_id"></select>
+                                <span class="help-block"></span>
+                            </div>
+
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_cabinet_id">所在机柜</label>
+                                <select id="edit_cabinet_id" class="machine-name" name="cabinet_id">
+                                    <option value=""></option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+
+                            <div class="control-group">
+                                    <!-- new -->
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_location_from">所在位置: 从</label>
+                                <input id="edit_location_from" name="start" class="machine-name input-mini" type="number"
+                                   min="0" max = "42"
+                                    check-diff="edit_location_to" max-diff="10" min-diff="0">
+                                <label for="edit_location_to">到</label>
+                                <input id="edit_location_to" name="end" class="machine-name input-mini" type="number"
+                                   min="0" max = "42"
+                                    check-diff="edit_location_from" min-diff="-10" max-diff="0">
+                                <span class="help-block"></span>
+                                <span class="help-block2"></span>
+                            </div>
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_ipmi_ip">IPMI IP: </label>
+                                <input id="edit_ipmi_ip" name="ipmi_ip" class="machine-name" type="text"
+                                       data-validation-regex-regex="((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" data-validation-regex-message="不符合ip格式"
+                                       placeholder="--请输入IPMI IP--">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_ipmi_user">IPMI 用户: </label>
+                                <input id="edit_ipmi_user" name="ipmi_user" class="machine-name" type="text"
+                                   maxlength="20" minlength="3"
+                                   placeholder="长度3-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_ipmi_passwd">IPMI 密码: </label>
+                                <input id="edit_ipmi_passwd" name="ipmi_passwd" class="machine-name" type="password"
+                                   maxlength="20" minlength="4"
+                                   placeholder="长度4-20字符">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="control-group textarea-group">
+                                <span class="red">&nbsp;</span>
+                                <label for="edit_description">描述</label>
+                                <textarea maxlength="100" class="machine-name" name="description" id="edit_description" cols ="20" rows = "7" placeholder="长度0-100字符"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </div>
+       <!--<div class="host-form-left">
+          <label for="hostname">服务器名称:</label>
+          <input type="text" name="hostname" class="form-input"><br>
+          <label for="os_info">操作系统：</label>
+          <input type="text" name="os_info" class="form-input"><br>
+          <label for="manage_ip">管理网IP地址:</label>
+          <input type="text" name="manage_ip" class="form-input"><br>
+          <label for="storage_ip">存储网IP地址:</label>
+          <input type="text" name="storage_ip" class="form-input"><br>
+          <label for="data_ip">数据网IP地址:</label>
+          <input type="text" name="data_ip" class="form-input"><br>
+          <label for="ipmi_ip">IPMI IP地址:</label>
+          <input type="text" name="ipmi_ip" class="form-input"><br>
+          <label for="ipmi_user">IPMI 用户名:</label>
+          <input type="text" name="ipmi_user" class="form-input"><br>
+          <label for="ipmi_passwd">IPMI 密码:</label>
+          <input type="text" name="ipmi_passwd" class="form-input"><br>
+      </div>
+      <div class="host-form-right">
+          <label for="cpu">CPU:</label>
+          <input type="text" name="cpu" class="small-input form-input">
+          <label for="mem">内存：</label>
+          <input type="text" name="mem" class="small-input form-input">
+          <label for="height">高度：</label>
+          <input type="text" name="height" class="small-input form-input"><br>
+          <label for="type">虚拟化类型:</label>
+          <select class="selectpicker from-select" name="type">
+              <option value="kvm">kvm</option>
+              <option value="vmware">vmware</option>
+          </select><br>
+          <label for="room_id">所属机房:</label>
+          <select class="selectpicker from-select" name="room_id" >
+          </select><br>
+          <label for="cabinet_id">所属机柜：</label>
+            <select class="selectpicker from-select" name="cabinet_id">
+          </select><br>
+          <label for="manager">负责人:</label>
+          <select class="selectpicker from-select" name="manager">
+              <option value="admin">admin</option>
+          </select><br>
+          <label for="description">描述：</label><br>
+          <textarea type="text" name="description" class=""></textarea>
+      </div>-->
+                </form>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_general_button" id="submit_edit_host"><span class="glyphicon glyphicon-ok"></span> 更新</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete host modal-->
+<div id="delete_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要删除该机器吗？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_delete_host"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--</div>-->
+
+<!--sync host modal-->
+<div id="sync_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sync_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:230px auto">
+        <div class="modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-globe"></span> 同步</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确认要同步集群内主机，将还未在当前主机列表中的主机添加到当前主机列表？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_sync_host" class="table_button btn_default_style form_general_button" ><span class="glyphicon glyphicon-ok"></span> 同步</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--start host modal-->
+<div id="start_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="start_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-off"></span> 启动</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要启动该机器吗？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_start_host"><span class="glyphicon glyphicon-ok"></span> 启动</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- restart host  modal-->
+<div id="restart_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="restart_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-repeat"></span> 重启</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要重启该机器吗？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_restart_host"><span class="glyphicon glyphicon-ok"></span> 重启</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- stop host modal-->
+<div id="stop_host_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="stop_host_modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-stop"></span> 关闭</h4>
+            </div>
+            <div class="modal-body">
+                <p class="font_family">确定要关闭该机器吗？</p>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button btn_default_style form_danger_button" id="submit_stop_host"><span class="glyphicon glyphicon-ok"></span> 关闭</button>
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--create host modal-->
+<div id="show_host_hardware" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="show_host_hardwareLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin:100px auto">
+        <div class="modal-content host-modal-content">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h4 class="modal-title modal_title_style" ><span class="glyphicon glyphicon-plus-sign"></span> 硬件信息</h4>
+            </div>
+            <div class="modal-body host-form-body">
+                <div class="row">
+                    <div  class="col-md-5"><span id="hardware_hostName">主机名：</span></div>
+                    <div  class="col-md-7"><span id="hardware_updateTime">更新时间：</span></div>
+                </div>
+                <div class="row">
+                    <table class="table" id="hardware_table">
+                        <thead>
+                        <tr>
+                            <th class="tds" title="指标">指标</th>
+                            <th class="tds" title="数值">数值</th>
+                            <th class="tds" title="单位">单位</th>
+                            <th class="tds" title="状态">状态</th>
+                        </tr>
+                        </thead>
+                        <tbody class="trs" id="hardware_tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button class="table_button cancel_button" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> 关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="javascripts/admin_host.js" type="text/javascript"></script>-->
+<script src="plugin/bootstrap/js/jqBootstrapValidation.js" type="text/javascript"></script>

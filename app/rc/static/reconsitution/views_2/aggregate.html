@@ -1,0 +1,208 @@
+<div class="container-fluid page-content">
+    <div id="page-container" class="row" ng-controller="main_list as vm">
+        <div  class="col-md-12">
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="toolbar_container">
+                        <div class="btn-group" role="group">
+                            <button ng-click="clickOperateItem('myModalCreate.html','modal_create');" class="btn btn-padding btn-status-blueLake">
+                                <span class="glyphicon glyphicon-plus-sign"></span> 添加
+                            </button>
+                            <button ng-click="clickOperateItem('myModalEdit.html','modal_edit');" ng-disabled="!btn.edit" class="table_button //btn.edit | btn_status:'general_button':'disabled_button'//">
+                                <span class="glyphicon glyphicon-edit"></span> 编辑
+                            </button>
+                            <button ng-click="clickOperateItem('myModalDelete.html','modal_delete');" ng-disabled="!btn.delete" class="table_button //btn.delete | btn_status:'danger_button':'disabled_button'//">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </button>
+                            <button ng-click="clickOperateItem('myModalBind.html','modal_bind');" ng-disabled="!btn.edit" class="table_button //btn.edit | btn_status:'general_button':'disabled_button'//">
+                                <span class="glyphicon glyphicon-edit"></span> 管理主机
+                            </button>
+                            <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      自定义列<img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
+                            </button>
+                            <ul class="dropdown-menu more-dropdown-menu">
+                                <li ng-repeat="col in vm.cols">
+                                    <label>
+                                        <input ng-click="colSet($event,col.title())" type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show"/><span ng-bind="col.title()"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive table_container">
+                        <table ng-table="vm.tableParams" class="table" ng-table-columns-binding="vm.cols">
+                            <tr ng-repeat="x in $data" ng-show="bool_rows" ng-click="clickTableTr($event,x)" ng-class='{table_body_tr_change:x.id==selectedRow.id}'
+                                    name="//x.name//" availability_zone="//x.availability_zone//" tid="//x.id//">
+                                <td ng-if="false" title="'check'"><input type="checkbox"></td>
+                                <td ng-if="true" title="'名称'" sortable="'name'" ng-bind="x.name"></td>
+                                <td ng-if="true" title="'可用域'" sortable="'availability_zone'" ng-bind="x.availability_zone"></td>
+                                <td ng-if="true" title="'主机'" sortable="'hosts'" ng-bind="x.hosts"></td>
+                            </tr>
+                            <tr ng-hide="bool_rows">
+                                <td colspan="//loading.cols//" ng-bind="loading.span">正在加载...</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="myModalCreate.html">
+        <form name="myForm" ng-submit="submitCreate(myForm.$valid)" novalidate>
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" ng-click="cancel()">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 创建主机聚合
+                </h4>
+            </div>
+            <div class="modal-body ">
+                <div class="Mirror_list_div">
+                    <div class="control-group">
+                        <label class="control-label"><span class="red">*</span>名称</label>
+                        <div class="controls">
+                            <input ng-model="name" name="name" type="text" class="machine-name"
+                                    required ng-maxlength="20" maxlength="20" ng-minlength="3" createdistinct="" nova=""
+                                   placeholder="长度3-20字符"/>
+                            <span class="red" ng-show="myForm.name.$error.minlength">不能少于3个字符</span>
+                            <span class="red" ng-show="myForm.name.$error.required">不能为空</span>
+                            <span class="red" ng-show="myForm.name.$error.checkasync">命名重复</span>
+                            <span class="red" ng-show="myForm.name.$error.nova">不能命名为nova</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button type="submit" class="table_button btn_default_style form_general_button">
+                    <span class="glyphicon glyphicon-ok"></span> 创建
+                </button>
+                <button class="table_button cancel_button"  ng-click="cancel()">
+                    <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="myModalEdit.html">
+        <form name="myForm" ng-submit="submitEdit(myForm.$valid)">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" ng-click="cancel()">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style">
+                    <span class="glyphicon glyphicon-plus-sign"></span> 编辑主机聚合
+                </h4>
+            </div>
+            <div class="modal-body ">
+                <div class="Mirror_list_div">
+                    <div class="control-group">
+                        <label class="control-label"><span class="red">*</span>名称</label>
+                        <div class="controls">
+                            <input ng-model="name" name="name" type="text" class="machine-name"
+                                    required ng-maxlength="20" maxlength="20" ng-minlength="3" editdistinct="" nova=""
+                                    placeholder="长度3-20字符"/>
+                            <span class="red" ng-show="myForm.name.$error.minlength">不能少于3个字符</span>
+                            <span class="red" ng-show="myForm.name.$error.required">不能为空</span>
+                            <span class="red" ng-show="myForm.name.$error.checkasync">命名重复</span>
+                            <span class="red" ng-show="myForm.name.$error.nova">不能命名为nova</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"><span class="red">*</span>可用域</label>
+                        <div class="controls">
+                            <input ng-model="availability_zone" name="availability_zone" type="text" class="machine-name"
+                                    required ng-maxlength="20" maxlength="20" ng-minlength="3"
+                                    placeholder="长度3-20字符"/>
+                            <span class="red" ng-show="myForm.availability_zone.$error.minlength">不能少于3个字符</span>
+                            <span class="red" ng-show="myForm.availability_zone.$error.required">不能为空</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_create_pool" type="submit" class="table_button btn_default_style form_general_button">
+                    <span class="glyphicon glyphicon-ok"></span> 确认
+                </button>
+                <button class="table_button cancel_button"  ng-click="cancel()">
+                    <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="myModalDelete.html">
+        <form name="myForm" ng-submit="clickSubmitDelete(myForm.$valid)">
+             <div class="modal-header modal_danger_header_style">
+                <button type="button" class="close" ng-click="cancel()">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 删除主机聚合</h4>
+             </div>
+             <div class="modal-body">
+                 <input type="hidden" ng-model="delete_type_id"/>
+                您确定要进行删除主机聚合的动作吗？
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button class="btn btn-danger btn-sm table_button form_danger_button" type="submit">
+                   <span class="glyphicon glyphicon-trash"></span> 删除
+                </button>
+                <button class="btn btn-default btn-sm table_button cancel_button" ng-click="cancel()">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="myModalBind.html">
+        <form name="myForm" ng-submit="clickSubmitBind(myForm.$valid)">
+            <div class="modal-header modal_header_style">
+                <button type="button" class="close" ng-click="cancel()">
+                    &times;
+                </button>
+                <h4 class="modal-title modal_title_style"><span class="glyphicon glyphicon-trash"></span> 管理物理主机</h4>
+             </div>
+             <div class="modal-body">
+                 <div style="width:40%;float:left;display:inline-block;height:300px;overflow:auto;margin:0 7%;border:1px solid #eaeaea;">
+                     <table class="table">
+                         <tr>
+                             <td colspan="2">所有主机</td>
+                         </tr>
+                         <tr ng-repeat="x in hosts_pool">
+                             <td>//x.host_name + "(" + x.zone + ")"//</td>
+                             <td style="text-align: right;"><input type="button" class="btn btn-primary" value="+" ng-click="toRight(x.host_name)"></td>
+                         </tr>
+                     </table>
+                 </div>
+
+                 <div style="width:40%;float:left;display:inline-block;height:300px;overflow:auto;border:1px solid #eaeaea;">
+                     <table class="table">
+                         <tr>
+                             <td colspan="2">选中的主机</td>
+                         </tr>
+                         <tr ng-repeat="x in hosts_add">
+                             <td ng-bind="x.host_name"></td>
+                             <td style="text-align: right;"><input type="button" class="btn btn-primary" value="-" ng-click="toLeft(x.host_name)"></td>
+                         </tr>
+                     </table>
+                 </div>
+                 <div class="clear_both"></div>
+
+             </div>
+             <div class="modal-footer modal_footer_edit_style">
+                <button id="submit_create_pool" type="submit" class="table_button btn_default_style form_general_button">
+                    <span class="glyphicon glyphicon-ok"></span> 确认
+                </button>
+                <button class="btn btn-default btn-sm table_button cancel_button" ng-click="cancel()">
+                   <span class="glyphicon glyphicon-remove"></span> 取消
+                </button>
+             </div>
+        </form>
+    </script>
+</div>

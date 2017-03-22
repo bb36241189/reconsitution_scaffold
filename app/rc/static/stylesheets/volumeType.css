@@ -1,0 +1,11 @@
+.nav-tabs > li > a {
+    white-space: nowrap;
+}
+
+.tab-content {
+    margin-top: 15px;
+}
+
+.tds{
+    width:100%;
+}
