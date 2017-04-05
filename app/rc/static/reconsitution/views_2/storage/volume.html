@@ -30,11 +30,11 @@
                             <div class="col-md-7">
                                 <div id="toolbar_container">
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-padding btn-status-blueLake"  name="refresh_volume" id="refresh_volume"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+                                        <button class="table_button general_button"  name="refresh_volume" id="refresh_volume"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
                                         {%if handler.approval=="closed" or handler.approval=="testAll"  or role=="super_admin" %}
-                                        <button name="add_volume" id="add_volume" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_volume_modal"><span class="glyphicon glyphicon-plus-sign"></span> 创建云硬盘</button>
+                                        <button name="add_volume" id="add_volume" class="table_button general_button" data-toggle="modal" data-target="#create_volume_modal"><span class="glyphicon glyphicon-plus-sign"></span> 创建云硬盘</button>
                                         {% end %}
-                                        <button name="snapshot_volume" id="snapshot_volume" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#snapshot_volume_modal"><span class="glyphicon glyphicon-picture"></span> 创建快照</button>
+                                        <button name="snapshot_volume" id="snapshot_volume" class="table_button general_button" data-toggle="modal" data-target="#snapshot_volume_modal"><span class="glyphicon glyphicon-picture"></span> 创建快照</button>
                                         <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                   更多<img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
                                         </button>

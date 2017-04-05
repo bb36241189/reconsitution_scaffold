@@ -30,7 +30,7 @@
                 <div class="col-md-9">
                     <div id="toolbar_container">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-padding btn-status-blueLake"  name="refresh_web" id="refresh_web" action-type="web_action" action="refresh"><span class="glyphicon glyphicon-refresh"></span> 刷新
+                            <button class="table_button general_button"  name="refresh_web" id="refresh_web" action-type="web_action" action="refresh"><span class="glyphicon glyphicon-refresh"></span> 刷新
                             </button>
                             <button id="startup_server" class="table_button" data-toggle="modal" data-target="#startup_server_modal"><span class="glyphicon glyphicon-off"></span> 启动</button>
                             <a id="vnc_console_display">
@@ -38,7 +38,7 @@
                             </a>
                             <a ng-if="role == 'super_admin'" id="export_record" class="table_button general_button"><span class="glyphicon glyphicon-cloud-download"></span> 导出记录</a>
                             {%if handler.approval=="closed" or handler.approval=="testAll" or role=="super_admin" %}
-                            <button id="create_server" class="btn btn-padding btn-status-blueLake" data-toggle="modal" data-target="#create_server_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
+                            <button id="create_server" class="table_button general_button" data-toggle="modal" data-target="#create_server_modal"><span class="glyphicon glyphicon-plus-sign"></span> 添加</button>
                             {%end%}
                             <button class="table_button general_button dropdown-toggle-group" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       更多<img class="more_img" src="//static_url('images/navigation/pullblue.gif')//"/>
