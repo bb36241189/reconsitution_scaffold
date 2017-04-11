@@ -11,6 +11,8 @@ var promise = require("gulp-promise");
 var wiredep = require('wiredep').stream;
 var runSequence = require('run-sequence');
 var replace = require('gulp-replace');
+var gulpFunction = require('gulp-function');
+var Q = require("q");
 
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
@@ -286,16 +288,17 @@ gulp.task( 'jquery_ajax_getting_iterator', function() {
                                   '    return {',
                                   '        changeUserPwd : project_url + \'/user/{user_id}/password\'',
                                   '    }',
-                                  '}]);'];
-        var contentUrl = jquery_url_getting(filePath);
-        var result = insertArray(factoryUrlStrArray,contentUrl);
-        console.log(result.join(""));
+                                  '}]);'],result;
+        var contentUrl = jquery_url_getting(filePath, function (){
+          result = insertArray(factoryUrlStrArray,contentUrl);
+          console.log(result.join(""));
+        });
       //next( null, file );
     }) );
 });
 
 function insertArray(array1,array2){
-  var index = 1;
+  var index = 2;
   array2.unshift(index, 0);Array.prototype.splice.apply(array1, array2);
   return array1;
 }
@@ -304,8 +307,9 @@ function jquery_url_getting(filePath,callback){
   var urlArray = [],myProm = new promise(callback);
   gulp.src(filePath)
     .pipe(replace(/(\$.ajax[\s]*[\(][\s]*)([\{]((?!}[\s]*\))[\s\S])*})/g, function (str,m1,m2,m3,m4,m5,m6,m7,m8,m9) {
-        var AjaxConfig = m2,url = getValueFromFadeJson('url',AjaxConfig);
-        urlArray.push('        bb : '+url+'');
+        var AjaxConfig = m2,url = getValueFromFadeJson('url',AjaxConfig),type = getValueFromFadeJson('type',AjaxConfig);
+        type = type.substring(2,type.length - 1).toLowerCase();
+        urlArray.push('        '+type+'bb : '+url+'');
         console.log('m1:'+ m1);
         //console.log('m2:'+ m2);
         //console.log('m3:'+ m3);
@@ -317,18 +321,13 @@ function jquery_url_getting(filePath,callback){
 
         return str;
     }))
+    .pipe(gulpFunction.atEnd(function () {
+        myProm.deliverPromise();
+      }))
     .pipe(gulp.dest(yeoman.app+'/rc/static/reconsitution/controller_2'))
   return urlArray
 }
 
-function get_sb_url(filePath){
-  gulp.src(filePath)
-    .pipe(replace(/(var[\s]*path[\s]*=[^\;]*)/g, function (str,m1,m2,m3,m4,m5,m6,m7,m8,m9) {
-         console.log(str);
-          return str;
-      }))
-    .pipe(gulp.dest(yeoman.app+'/rc/static/reconsitution/controller_2'));
-}
 
 function getValueFromFadeJson(key,json){
   var reg = new RegExp('('+key+')[\s]*[\:][^,]*','g'),ret;
