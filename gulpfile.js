@@ -250,6 +250,7 @@ gulp.task('angular_scope_data', function(){
       }))
     .pipe(gulp.dest(yeoman.app+'/rc/static/reconsitution/controller_2'));
 });
+
 gulp.task('angular_controller_inject', function(){
   gulp.src([yeoman.app+'/rc/static/reconsitution/controller/**/*.js'])
     .pipe(replace(/((app.controller)[\s]*[\(][\s]*[\'"][\w]*[\'"][\s]*[\,][\s]*[\[]((?!function)[\s\S])*)/g, function (str,m1,m2,m3,m4,m5,m6,m7,m8,m9) {
@@ -303,13 +304,29 @@ function insertArray(array1,array2){
   return array1;
 }
 
+//首字母大写
+function capitalizeTheFirstLetter(str){ // 正则法
+ str = str.toLowerCase();
+ var reg = /\b(\w)|\s(\w)/g; //  \b判断边界\s判断空格
+ return str.replace(reg,function(m){
+  return m.toUpperCase()
+ });
+}
+
+function analysisUrl(url){
+  var reg = new RegExp('([\'"]/([\\w]*)[/]?[\'"]([\\s]*[\\+][\\s]*([\\w]*))*([\\s]*[\\+][\\s]*[\'"][?]([\\w]*)[=][\'"][\\s]*[\\+][\\s]*[\\w]*)*)','g'),ret;
+  ret = reg.exec(url);
+  return ret;
+}
+
 function jquery_url_getting(filePath,callback){
   var urlArray = [],myProm = new promise(callback);
   gulp.src(filePath)
     .pipe(replace(/(\$.ajax[\s]*[\(][\s]*)([\{]((?!}[\s]*\))[\s\S])*})/g, function (str,m1,m2,m3,m4,m5,m6,m7,m8,m9) {
-        var AjaxConfig = m2,url = getValueFromFadeJson('url',AjaxConfig),type = getValueFromFadeJson('type',AjaxConfig);
+        var AjaxConfig = m2,url = getValueFromFadeJson('url',AjaxConfig),type = getValueFromFadeJson('type',AjaxConfig),mainBusiness;
         type = type.substring(2,type.length - 1).toLowerCase();
-        urlArray.push('        '+type+'bb : '+url+'');
+        mainBusiness = capitalizeTheFirstLetter(analysisUrl(url)[2]);
+        urlArray.push('        '+type+mainBusiness+': '+url+'');
         console.log('m1:'+ m1);
         //console.log('m2:'+ m2);
         //console.log('m3:'+ m3);
